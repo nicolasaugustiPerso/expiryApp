@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		019BA8485B7B2341B5693C93 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1A55F4E39F3FD285DFC0D8 /* ProductCategory.swift */; };
+		03F48070D712620842F1DB42 /* ProductRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE81B521B9D0FFE881AFA26 /* ProductRowView.swift */; };
+		0DB38B60A2E8D1FD0C0B9739 /* RecipeSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCF3B4676DE73BB28FD9B8B /* RecipeSuggestionsView.swift */; };
+		279E2BC6DD3B0A046104AA03 /* SeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70A2FCB24E7226A83D4BFD /* SeedService.swift */; };
+		34CD976AE1234B2E943CE9C4 /* ExpiryAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E791885DDBF5686E9133424C /* ExpiryAppApp.swift */; };
+		35CE7809A1FE6D45EB2B5D68 /* CategoryRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD8EBE85FAEF26F80B8B2AC /* CategoryRule.swift */; };
+		49C917E641E8723EFB5E035F /* AddEditProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8938BE2F4FCD3E39ABE88E /* AddEditProductView.swift */; };
+		78235271976A6C4738321188 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DF6507A7A411307753AAE7 /* SettingsView.swift */; };
+		9340718A8180CC14C000F210 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF18D5768263AC030ECA5EE /* ProductListView.swift */; };
+		95890366D120FF9FA1AFFC67 /* CategoryDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A723BC781686CDF7B006C359 /* CategoryDefaults.swift */; };
+		A51DE61A2EF1DE9EDB45C16B /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB541A8EB5D7ADBC5A41E0A3 /* Product.swift */; };
+		A968B942E6C0A915490F9350 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31529E060EA89CAB31B3F79F /* UserSettings.swift */; };
+		DAA5C21423FB131FC4D7791B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B45D5E00D73989AA01E9E /* Localizable.strings */; };
+		F1B6E81DA8A3F9F986C15767 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BEA603CF7EA21EE0EB063D /* NotificationService.swift */; };
+		F3E79FDC9DCF499A9B93F9F0 /* ExpiryCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */; };
+		F81B5D91B9280A94DA227F6A /* CalendarExpiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3D368A1930C24FEDA6FBD6 /* CalendarExpiryView.swift */; };
+		FED31015D009FA0F0D068C6C /* MainRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F029F14402B183CCF09670 /* MainRootView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0B3D368A1930C24FEDA6FBD6 /* CalendarExpiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExpiryView.swift; sourceTree = "<group>"; };
+		19EEB8D7976ACECECA94F47D /* ExpiryApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ExpiryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		25DF6507A7A411307753AAE7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryCalculator.swift; sourceTree = "<group>"; };
+		31529E060EA89CAB31B3F79F /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		3E8938BE2F4FCD3E39ABE88E /* AddEditProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditProductView.swift; sourceTree = "<group>"; };
+		47BEA603CF7EA21EE0EB063D /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		60BEA3F5AD01D5F7ED8392BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7BCF3B4676DE73BB28FD9B8B /* RecipeSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSuggestionsView.swift; sourceTree = "<group>"; };
+		8C70A2FCB24E7226A83D4BFD /* SeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedService.swift; sourceTree = "<group>"; };
+		A723BC781686CDF7B006C359 /* CategoryDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDefaults.swift; sourceTree = "<group>"; };
+		B2618E41674B95512E2F0280 /* ExpiryApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExpiryApp.entitlements; sourceTree = "<group>"; };
+		B4DE5660B0F66001B2DD76F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BFE81B521B9D0FFE881AFA26 /* ProductRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRowView.swift; sourceTree = "<group>"; };
+		DDD8EBE85FAEF26F80B8B2AC /* CategoryRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRule.swift; sourceTree = "<group>"; };
+		E6B60D12306A380EEFD22D45 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E791885DDBF5686E9133424C /* ExpiryAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryAppApp.swift; sourceTree = "<group>"; };
+		EBF18D5768263AC030ECA5EE /* ProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
+		ED1A55F4E39F3FD285DFC0D8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
+		F8F029F14402B183CCF09670 /* MainRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRootView.swift; sourceTree = "<group>"; };
+		FB541A8EB5D7ADBC5A41E0A3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		022BDE83E6F4DA4FC1872CB6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B2618E41674B95512E2F0280 /* ExpiryApp.entitlements */,
+				E791885DDBF5686E9133424C /* ExpiryAppApp.swift */,
+				60BEA3F5AD01D5F7ED8392BD /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0D23163DB0E0E1CFC0C1A7E1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3E8938BE2F4FCD3E39ABE88E /* AddEditProductView.swift */,
+				0B3D368A1930C24FEDA6FBD6 /* CalendarExpiryView.swift */,
+				F8F029F14402B183CCF09670 /* MainRootView.swift */,
+				EBF18D5768263AC030ECA5EE /* ProductListView.swift */,
+				BFE81B521B9D0FFE881AFA26 /* ProductRowView.swift */,
+				7BCF3B4676DE73BB28FD9B8B /* RecipeSuggestionsView.swift */,
+				25DF6507A7A411307753AAE7 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		47B7DE2825B8BF674E9A3749 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				19EEB8D7976ACECECA94F47D /* ExpiryApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A73D76558C358A4E9C96D75C = {
+			isa = PBXGroup;
+			children = (
+				D26B9BD6D50A65914AA41162 /* ExpiryApp */,
+				47B7DE2825B8BF674E9A3749 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDBCC76C3CAFC17E8D9E3391 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9F2B45D5E00D73989AA01E9E /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D26B9BD6D50A65914AA41162 /* ExpiryApp */ = {
+			isa = PBXGroup;
+			children = (
+				022BDE83E6F4DA4FC1872CB6 /* App */,
+				DA2922C63986A586F0874F8E /* Models */,
+				BDBCC76C3CAFC17E8D9E3391 /* Resources */,
+				D3CC0A1291B4EAB6B4BEC0A6 /* Services */,
+				0D23163DB0E0E1CFC0C1A7E1 /* Views */,
+			);
+			path = ExpiryApp;
+			sourceTree = "<group>";
+		};
+		D3CC0A1291B4EAB6B4BEC0A6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A723BC781686CDF7B006C359 /* CategoryDefaults.swift */,
+				2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */,
+				47BEA603CF7EA21EE0EB063D /* NotificationService.swift */,
+				8C70A2FCB24E7226A83D4BFD /* SeedService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DA2922C63986A586F0874F8E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DDD8EBE85FAEF26F80B8B2AC /* CategoryRule.swift */,
+				FB541A8EB5D7ADBC5A41E0A3 /* Product.swift */,
+				ED1A55F4E39F3FD285DFC0D8 /* ProductCategory.swift */,
+				31529E060EA89CAB31B3F79F /* UserSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		98B78C2B2D059508F1AA4145 /* ExpiryApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 74E837EF966F7CC0F53496B3 /* Build configuration list for PBXNativeTarget "ExpiryApp" */;
+			buildPhases = (
+				ADD2D0A373DB3C593A4391F1 /* Sources */,
+				EF3BE7780256A0030F5B775D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ExpiryApp;
+			packageProductDependencies = (
+			);
+			productName = ExpiryApp;
+			productReference = 19EEB8D7976ACECECA94F47D /* ExpiryApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		70D31E35A53C0D37038768C1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					98B78C2B2D059508F1AA4145 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 6D2A5374C9EA30A1FEF2CAEC /* Build configuration list for PBXProject "ExpiryApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				fr,
+			);
+			mainGroup = A73D76558C358A4E9C96D75C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				98B78C2B2D059508F1AA4145 /* ExpiryApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EF3BE7780256A0030F5B775D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAA5C21423FB131FC4D7791B /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ADD2D0A373DB3C593A4391F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49C917E641E8723EFB5E035F /* AddEditProductView.swift in Sources */,
+				F81B5D91B9280A94DA227F6A /* CalendarExpiryView.swift in Sources */,
+				95890366D120FF9FA1AFFC67 /* CategoryDefaults.swift in Sources */,
+				35CE7809A1FE6D45EB2B5D68 /* CategoryRule.swift in Sources */,
+				34CD976AE1234B2E943CE9C4 /* ExpiryAppApp.swift in Sources */,
+				F3E79FDC9DCF499A9B93F9F0 /* ExpiryCalculator.swift in Sources */,
+				FED31015D009FA0F0D068C6C /* MainRootView.swift in Sources */,
+				F1B6E81DA8A3F9F986C15767 /* NotificationService.swift in Sources */,
+				A51DE61A2EF1DE9EDB45C16B /* Product.swift in Sources */,
+				019BA8485B7B2341B5693C93 /* ProductCategory.swift in Sources */,
+				9340718A8180CC14C000F210 /* ProductListView.swift in Sources */,
+				03F48070D712620842F1DB42 /* ProductRowView.swift in Sources */,
+				0DB38B60A2E8D1FD0C0B9739 /* RecipeSuggestionsView.swift in Sources */,
+				279E2BC6DD3B0A046104AA03 /* SeedService.swift in Sources */,
+				78235271976A6C4738321188 /* SettingsView.swift in Sources */,
+				A968B942E6C0A915490F9350 /* UserSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9F2B45D5E00D73989AA01E9E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B4DE5660B0F66001B2DD76F1 /* en */,
+				E6B60D12306A380EEFD22D45 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		06742E2E9C25F5FD79CF7B71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ExpiryApp/App/ExpiryApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_NOTIFICATIONS = YES;
+				INFOPLIST_FILE = ExpiryApp/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nicolasaugusti.expiryapp;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AE58C5CCB8F654D145C3076A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ExpiryApp/App/ExpiryApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_NOTIFICATIONS = YES;
+				INFOPLIST_FILE = ExpiryApp/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nicolasaugusti.expiryapp;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		B0E8FCC3677E052F25D2AAB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F4A5EF2EABEEAD6A4F6E58E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6D2A5374C9EA30A1FEF2CAEC /* Build configuration list for PBXProject "ExpiryApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0E8FCC3677E052F25D2AAB2 /* Debug */,
+				F4A5EF2EABEEAD6A4F6E58E7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		74E837EF966F7CC0F53496B3 /* Build configuration list for PBXNativeTarget "ExpiryApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06742E2E9C25F5FD79CF7B71 /* Debug */,
+				AE58C5CCB8F654D145C3076A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 70D31E35A53C0D37038768C1 /* Project object */;
+}

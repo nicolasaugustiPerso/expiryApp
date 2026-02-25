@@ -1,0 +1,99 @@
+"app.title" = "Suivi des Dates";
+"list.empty" = "Aucun produit pour le moment. Touchez + pour en ajouter.";
+
+"common.cancel" = "Annuler";
+"common.save" = "Enregistrer";
+"common.done" = "OK";
+"common.delete" = "Supprimer";
+
+"product.add" = "Ajouter un produit";
+"product.edit" = "Modifier le produit";
+"product.name" = "Nom";
+"product.category" = "Catégorie";
+"product.expiry_date" = "Date d'expiration";
+"product.open" = "Ouvert";
+"product.section.main" = "Produit";
+"product.section.open_rule" = "Après ouverture";
+"product.custom_rule_enabled" = "Règle personnalisée après ouverture";
+"product.after_opening_days" = "%d jour(s) après ouverture";
+
+"settings.title" = "Réglages";
+"settings.section.reminders" = "Rappels";
+"settings.section.rules" = "Règles par catégorie";
+"settings.lookahead_days" = "Fenêtre: %d jour(s)";
+"settings.digest_time" = "Heure du digest quotidien";
+
+"status.expired" = "Expiré";
+"status.today" = "Aujourd'hui";
+"status.in_days" = "Dans %d j";
+
+"notification.title" = "%d produit(s) expirent bientôt";
+"notification.body" = "À vérifier: %@";
+
+"category.fruit" = "Fruit";
+"category.vegetable" = "Légume";
+"category.bread" = "Pain";
+"category.milk" = "Lait";
+"category.cheese" = "Fromage";
+"category.yogurt" = "Yaourt";
+"category.meat" = "Viande";
+"category.fish" = "Poisson";
+"category.frozen" = "Surgelé";
+"category.pantry" = "Épicerie";
+"category.other" = "Autre";
+
+"calendar.title" = "Calendrier";
+"calendar.mode.day" = "Jour";
+"calendar.mode.week" = "Semaine";
+"calendar.mode.month" = "Mois";
+"calendar.today" = "Aujourd'hui";
+"calendar.tomorrow" = "Demain";
+"calendar.empty_day" = "Aucun produit n'expire ce jour-là.";
+"calendar.week_title" = "7 prochains jours";
+"calendar.month_title" = "30 prochains jours";
+"calendar.count" = "%d produit(s)";
+"calendar.quick_with_count" = "%@ (%d)";
+
+"recipe.title" = "Recettes";
+"recipe.empty" = "Aucun produit n'expire bientôt. Bien joué.";
+"recipe.expiring_section" = "Expire bientôt";
+"recipe.suggestions_section" = "Suggestions";
+"recipe.no_match" = "Aucune recette trouvée pour le moment. Ajoutez plus de produits ou adaptez les noms.";
+"recipe.use" = "Utiliser : %@";
+
+"recipe.omelet.title" = "Omelette au fromage";
+"recipe.omelet.subtitle" = "Omelette rapide à la poêle avec des produits laitiers.";
+"recipe.toast.title" = "Tartine salée";
+"recipe.toast.subtitle" = "Pain, légumes et fromage fondu.";
+"recipe.soup.title" = "Soupe de légumes";
+"recipe.soup.subtitle" = "Soupe simple pour utiliser les légumes frais.";
+"recipe.smoothie.title" = "Smoothie aux fruits";
+"recipe.smoothie.subtitle" = "Mixez des fruits avec du yaourt ou du lait.";
+"recipe.pasta.title" = "Pâtes crémeuses";
+"recipe.pasta.subtitle" = "Pâtes rapides avec épicerie et fromage.";
+
+"product.unopen_confirm_title" = "Retirer le statut ouvert ?";
+"product.unopen_confirm_message" = "Ce produit sera marqué comme non ouvert.";
+"product.unopen_confirm_action" = "Retirer";
+
+"product.quantity" = "Quantité : %d";
+"product.consume_one" = "Retirer une unité";
+
+"common.next" = "Suivant";
+"common.back" = "Retour";
+
+"product.search_placeholder" = "Rechercher un produit";
+"product.use_custom" = "Utiliser \"%@\"";
+"product.quantity_one" = "1 unité";
+
+"suggestion.milk" = "Lait";
+"suggestion.bread" = "Pain";
+"suggestion.yogurt" = "Yaourt";
+"suggestion.cheese" = "Fromage";
+"suggestion.eggs" = "Oeufs";
+"suggestion.apples" = "Pommes";
+"suggestion.bananas" = "Bananes";
+"suggestion.tomatoes" = "Tomates";
+"suggestion.chicken" = "Poulet";
+"suggestion.fish" = "Poisson";
+"product.category_hint" = "Choisissez une catégorie (Autre par défaut).";

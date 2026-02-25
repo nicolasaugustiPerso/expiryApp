@@ -1,0 +1,99 @@
+"app.title" = "Expiry Tracker";
+"list.empty" = "No products yet. Tap + to add one.";
+
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.done" = "Done";
+"common.delete" = "Delete";
+
+"product.add" = "Add Product";
+"product.edit" = "Edit Product";
+"product.name" = "Name";
+"product.category" = "Category";
+"product.expiry_date" = "Expiry Date";
+"product.open" = "Opened";
+"product.section.main" = "Product";
+"product.section.open_rule" = "After Opening";
+"product.custom_rule_enabled" = "Custom after-opening rule";
+"product.after_opening_days" = "%d day(s) after opening";
+
+"settings.title" = "Settings";
+"settings.section.reminders" = "Reminders";
+"settings.section.rules" = "Category Rules";
+"settings.lookahead_days" = "Look ahead: %d day(s)";
+"settings.digest_time" = "Daily digest time";
+
+"status.expired" = "Expired";
+"status.today" = "Today";
+"status.in_days" = "In %d d";
+
+"notification.title" = "%d product(s) expiring soon";
+"notification.body" = "Check: %@";
+
+"category.fruit" = "Fruit";
+"category.vegetable" = "Vegetable";
+"category.bread" = "Bread";
+"category.milk" = "Milk";
+"category.cheese" = "Cheese";
+"category.yogurt" = "Yogurt";
+"category.meat" = "Meat";
+"category.fish" = "Fish";
+"category.frozen" = "Frozen";
+"category.pantry" = "Pantry";
+"category.other" = "Other";
+
+"calendar.title" = "Calendar";
+"calendar.mode.day" = "Day";
+"calendar.mode.week" = "Week";
+"calendar.mode.month" = "Month";
+"calendar.today" = "Today";
+"calendar.tomorrow" = "Tomorrow";
+"calendar.empty_day" = "No products expiring on this day.";
+"calendar.week_title" = "Next 7 days";
+"calendar.month_title" = "Next 30 days";
+"calendar.count" = "%d product(s)";
+"calendar.quick_with_count" = "%@ (%d)";
+
+"recipe.title" = "Recipes";
+"recipe.empty" = "No products expiring soon. Great job.";
+"recipe.expiring_section" = "Expiring Soon";
+"recipe.suggestions_section" = "Suggestions";
+"recipe.no_match" = "No recipe match yet. Add more products or adjust names.";
+"recipe.use" = "Use: %@";
+
+"recipe.omelet.title" = "Cheese Omelet";
+"recipe.omelet.subtitle" = "Quick pan omelet with dairy products.";
+"recipe.toast.title" = "Savory Toast";
+"recipe.toast.subtitle" = "Bread with vegetables and melted cheese.";
+"recipe.soup.title" = "Vegetable Soup";
+"recipe.soup.subtitle" = "Simple soup to use fresh vegetables.";
+"recipe.smoothie.title" = "Fruit Smoothie";
+"recipe.smoothie.subtitle" = "Blend fruit with yogurt or milk.";
+"recipe.pasta.title" = "Creamy Pasta";
+"recipe.pasta.subtitle" = "Fast pasta with pantry and cheese products.";
+
+"product.unopen_confirm_title" = "Remove opened status?";
+"product.unopen_confirm_message" = "This product will be marked as unopened.";
+"product.unopen_confirm_action" = "Remove";
+
+"product.quantity" = "Quantity: %d";
+"product.consume_one" = "Consume one";
+
+"common.next" = "Next";
+"common.back" = "Back";
+
+"product.search_placeholder" = "Search a product";
+"product.use_custom" = "Use \"%@\"";
+"product.quantity_one" = "1 item";
+
+"suggestion.milk" = "Milk";
+"suggestion.bread" = "Bread";
+"suggestion.yogurt" = "Yogurt";
+"suggestion.cheese" = "Cheese";
+"suggestion.eggs" = "Eggs";
+"suggestion.apples" = "Apples";
+"suggestion.bananas" = "Bananas";
+"suggestion.tomatoes" = "Tomatoes";
+"suggestion.chicken" = "Chicken";
+"suggestion.fish" = "Fish";
+"product.category_hint" = "Select a category (default is Other).";
