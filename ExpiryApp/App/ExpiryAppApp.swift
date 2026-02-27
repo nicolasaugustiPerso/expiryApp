@@ -4,12 +4,26 @@ import SwiftData
 @main
 struct ExpiryAppApp: App {
     @AppStorage("app.preferred_language_code") private var preferredLanguageCode = "system"
+    private let sharedModelContainer: ModelContainer = {
+        let schema = Schema(versionedSchema: AppSchemaV2.self)
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        do {
+            return try ModelContainer(
+                for: schema,
+                migrationPlan: AppMigrationPlan.self,
+                configurations: [configuration]
+            )
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
 
     var body: some Scene {
         WindowGroup {
             MainRootView()
                 .id(preferredLanguageCode)
-                .modelContainer(for: [Product.self, CategoryRule.self, UserSettings.self])
+                .modelContainer(sharedModelContainer)
         }
     }
 }
