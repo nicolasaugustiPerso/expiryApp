@@ -1,6 +1,12 @@
 import SwiftUI
 import SwiftData
 
+private struct ProductDateGroup: Identifiable {
+    let date: Date
+    let products: [Product]
+    var id: Date { date }
+}
+
 struct ProductListView: View {
     @Environment(\.modelContext) private var modelContext
 
@@ -14,32 +20,57 @@ struct ProductListView: View {
     @State private var productPendingUnopen: Product?
     @State private var showUnopenConfirmation = false
 
+    let focusedDate: Date?
+    let onFocusedDateConsumed: (() -> Void)?
+
+    init(focusedDate: Date? = nil, onFocusedDateConsumed: (() -> Void)? = nil) {
+        self.focusedDate = focusedDate
+        self.onFocusedDateConsumed = onFocusedDateConsumed
+    }
+
     var body: some View {
         NavigationStack {
-            List {
-                if products.isEmpty {
-                    Text(L("list.empty"))
-                        .foregroundStyle(.secondary)
-                } else {
-                    ForEach(products) { product in
-                        let effectiveExpiry = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
-                        ProductRowView(
-                            product: product,
-                            effectiveExpiry: effectiveExpiry,
-                            onToggleOpened: { toggleOpened(product) },
-                            onConsumeOne: { consumeOne(product) }
-                        )
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                editingProduct = product
-                            }
-                            .swipeActions {
-                                Button(L("common.delete"), role: .destructive) {
-                                    modelContext.delete(product)
-                                    try? modelContext.save()
+            ScrollViewReader { proxy in
+                List {
+                    if products.isEmpty {
+                        Text(L("list.empty"))
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(dateGroups) { group in
+                            Section {
+                                ForEach(group.products) { product in
+                                    let effectiveExpiry = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
+                                    ProductRowView(
+                                        product: product,
+                                        effectiveExpiry: effectiveExpiry,
+                                        subtitleStyle: .openedStatus,
+                                        onToggleOpened: { toggleOpened(product) },
+                                        onConsumeOne: { consumeOne(product) }
+                                    )
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        editingProduct = product
+                                    }
+                                    .swipeActions {
+                                        Button(L("common.delete"), role: .destructive) {
+                                            modelContext.delete(product)
+                                            try? modelContext.save()
+                                        }
+                                    }
                                 }
+                            } header: {
+                                Text(group.date.formatted(date: .complete, time: .omitted))
+                                    .textCase(nil)
                             }
+                            .id(group.date)
+                        }
                     }
+                }
+                .onAppear {
+                    scrollToFocusedDateIfNeeded(proxy: proxy)
+                }
+                .onChange(of: focusedDate) { _, _ in
+                    scrollToFocusedDateIfNeeded(proxy: proxy)
                 }
             }
             .navigationTitle(L("app.title"))
@@ -141,6 +172,42 @@ struct ProductListView: View {
             $0.categoryRawValue == product.categoryRawValue &&
             Calendar.current.isDate($0.expiryDate, inSameDayAs: product.expiryDate) &&
             $0.customAfterOpeningDays == product.customAfterOpeningDays
+        }
+    }
+
+    private var dateGroups: [ProductDateGroup] {
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: products) { product in
+            let effective = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
+            return calendar.startOfDay(for: effective)
+        }
+
+        let sortedDates = grouped.keys.sorted()
+        return sortedDates.compactMap { date in
+            guard let items = grouped[date] else { return nil }
+            let sortedItems = items.sorted {
+                let left = ExpiryCalculator.effectiveExpiryDate(product: $0, rules: rules)
+                let right = ExpiryCalculator.effectiveExpiryDate(product: $1, rules: rules)
+                if left != right { return left < right }
+                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
+            return ProductDateGroup(date: date, products: sortedItems)
+        }
+    }
+
+    private func scrollToFocusedDateIfNeeded(proxy: ScrollViewProxy) {
+        guard let focusedDate else { return }
+        let key = Calendar.current.startOfDay(for: focusedDate)
+        guard dateGroups.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: key) }) else {
+            onFocusedDateConsumed?()
+            return
+        }
+
+        DispatchQueue.main.async {
+            withAnimation {
+                proxy.scrollTo(key, anchor: .top)
+            }
+            onFocusedDateConsumed?()
         }
     }
 }

@@ -111,3 +111,13 @@
 "settings.section.language" = "Language";
 "settings.language" = "App language";
 "settings.language_restart_hint" = "Language updates instantly.";
+"product.not_opened" = "Not opened";
+"product.opened_on" = "Opened %@";
+"settings.section.categories" = "Categories";
+"settings.manage_categories" = "Modify categories";
+"settings.manage_category_rules" = "Modify post-opening duration per category";
+"settings.no_categories" = "No categories.";
+"settings.delete_category_title" = "Delete category?";
+"settings.delete_category_message" = "Delete \"%@\" from categories?";
+"settings.add_category" = "Add category";
+"settings.no_category_to_add" = "No category available to add.";

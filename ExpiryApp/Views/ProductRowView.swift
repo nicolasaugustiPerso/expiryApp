@@ -1,19 +1,27 @@
 import SwiftUI
 
+enum ProductRowSubtitleStyle {
+    case expiryDate
+    case openedStatus
+}
+
 struct ProductRowView: View {
     let product: Product
     let effectiveExpiry: Date
+    let subtitleStyle: ProductRowSubtitleStyle
     let onToggleOpened: (() -> Void)?
     let onConsumeOne: (() -> Void)?
 
     init(
         product: Product,
         effectiveExpiry: Date,
+        subtitleStyle: ProductRowSubtitleStyle = .expiryDate,
         onToggleOpened: (() -> Void)? = nil,
         onConsumeOne: (() -> Void)? = nil
     ) {
         self.product = product
         self.effectiveExpiry = effectiveExpiry
+        self.subtitleStyle = subtitleStyle
         self.onToggleOpened = onToggleOpened
         self.onConsumeOne = onConsumeOne
     }
@@ -52,9 +60,24 @@ struct ProductRowView: View {
                         .clipShape(Capsule())
                 }
 
-                Text(effectiveExpiry, style: .date)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    if onToggleOpened != nil {
+                        Button {
+                            onToggleOpened?()
+                        } label: {
+                            Image(systemName: isOpened ? "checkmark.square.fill" : "square")
+                                .foregroundStyle(isOpened ? .green : .secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(L("product.open"))
+                    }
+
+                    Text(subtitleText)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.9)
+                }
             }
 
             Spacer()
@@ -78,17 +101,6 @@ struct ProductRowView: View {
                 .accessibilityLabel(L("product.consume_one"))
             }
 
-            if onToggleOpened != nil {
-                Button {
-                    onToggleOpened?()
-                } label: {
-                    Image(systemName: isOpened ? "checkmark.circle.fill" : "circle")
-                        .font(.title3)
-                        .foregroundStyle(isOpened ? .green : .blue)
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(L("product.open"))
-            }
         }
     }
 
@@ -103,5 +115,19 @@ struct ProductRowView: View {
 
         let format = L("status.in_days")
         return String(format: format, days)
+    }
+
+    private var subtitleText: String {
+        switch subtitleStyle {
+        case .expiryDate:
+            return effectiveExpiry.formatted(date: .long, time: .omitted)
+        case .openedStatus:
+            guard let openedAt = product.openedAt else {
+                return L("product.not_opened")
+            }
+            let format = L("product.opened_on")
+            let shortDate = openedAt.formatted(.dateTime.day().month(.abbreviated))
+            return String(format: format, shortDate)
+        }
     }
 }

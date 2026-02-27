@@ -5,12 +5,11 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
-    @Query(sort: \CategoryRule.categoryRawValue) private var rules: [CategoryRule]
     @Query private var settingsList: [UserSettings]
 
     @State private var notificationsAuthorized = false
     @State private var settingsInitFailed = false
-    
+
     private let languageOptions: [(code: String, label: String)] = [
         ("system", "🌐 System"),
         ("en", "🇬🇧 English"),
@@ -112,7 +111,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            
+
             Section(L("settings.section.language")) {
                 HStack {
                     Text(L("settings.language"))
@@ -138,40 +137,17 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
-            Section(L("settings.section.rules")) {
-                ForEach(rules) { rule in
-                    HStack {
-                        Text(rule.category.displayName)
-                        Spacer()
-
-                        HStack(spacing: 8) {
-                            Button {
-                                rule.defaultAfterOpeningDays = max(1, rule.defaultAfterOpeningDays - 1)
-                                try? modelContext.save()
-                            } label: {
-                                Image(systemName: "minus")
-                            }
-                            .buttonStyle(.bordered)
-
-                            Text("\(rule.defaultAfterOpeningDays)d")
-                                .font(.subheadline.weight(.semibold))
-                                .monospacedDigit()
-                                .frame(minWidth: 44)
-
-                            Button {
-                                rule.defaultAfterOpeningDays = min(90, rule.defaultAfterOpeningDays + 1)
-                                try? modelContext.save()
-                            } label: {
-                                Image(systemName: "plus")
-                            }
-                            .buttonStyle(.bordered)
-                        }
-                    }
+            Section(L("settings.section.categories")) {
+                NavigationLink(L("settings.manage_categories")) {
+                    CategoryManagementView()
+                }
+                NavigationLink(L("settings.manage_category_rules")) {
+                    CategoryRuleDurationView()
                 }
             }
         }
     }
-    
+
     private func toggleNotifications(settings: UserSettings) {
         Task {
             if settings.notificationsEnabled {
@@ -185,11 +161,11 @@ struct SettingsView: View {
             try? modelContext.save()
         }
     }
-    
+
     private func languageLabel(for code: String) -> String {
         languageOptions.first(where: { $0.code == code })?.label ?? "🌐 System"
     }
-    
+
     private func applyLanguagePreference(code: String) {
         UserDefaults.standard.set(code, forKey: "app.preferred_language_code")
         UserDefaults.standard.synchronize()
@@ -209,9 +185,141 @@ struct SettingsView: View {
             print("Settings init failed: \(error)")
             return
         }
-        
+
         if settingsList.first == nil {
             settingsInitFailed = true
         }
+    }
+}
+
+private struct CategoryManagementView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \CategoryRule.categoryRawValue) private var rules: [CategoryRule]
+
+    @State private var ruleToDelete: CategoryRule?
+    @State private var showDeleteConfirm = false
+    @State private var showAddSheet = false
+
+    var body: some View {
+        List {
+            if rules.isEmpty {
+                Text(L("settings.no_categories"))
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(rules) { rule in
+                    HStack {
+                        Text(rule.category.displayName)
+                        Spacer()
+                        Button(role: .destructive) {
+                            ruleToDelete = rule
+                            showDeleteConfirm = true
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                    }
+                }
+            }
+        }
+        .navigationTitle(L("settings.manage_categories"))
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showAddSheet = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+        .alert(
+            L("settings.delete_category_title"),
+            isPresented: $showDeleteConfirm,
+            presenting: ruleToDelete
+        ) { rule in
+            Button(L("common.cancel"), role: .cancel) {}
+            Button(L("common.delete"), role: .destructive) {
+                modelContext.delete(rule)
+                try? modelContext.save()
+            }
+        } message: { rule in
+            Text(String(format: L("settings.delete_category_message"), rule.category.displayName))
+        }
+        .sheet(isPresented: $showAddSheet) {
+            NavigationStack {
+                List {
+                    if availableCategories.isEmpty {
+                        Text(L("settings.no_category_to_add"))
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(availableCategories) { category in
+                            Button {
+                                let defaultDays = CategoryDefaults.afterOpeningDays[category] ?? 3
+                                modelContext.insert(CategoryRule(category: category, defaultAfterOpeningDays: defaultDays))
+                                try? modelContext.save()
+                                showAddSheet = false
+                            } label: {
+                                HStack {
+                                    Text(category.displayName)
+                                    Spacer()
+                                    Image(systemName: "plus.circle")
+                                }
+                            }
+                        }
+                    }
+                }
+                .navigationTitle(L("settings.add_category"))
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(L("common.done")) {
+                            showAddSheet = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var availableCategories: [ProductCategory] {
+        let existing = Set(rules.map(\.category))
+        return ProductCategory.allCases.filter { !existing.contains($0) }
+    }
+}
+
+private struct CategoryRuleDurationView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \CategoryRule.categoryRawValue) private var rules: [CategoryRule]
+
+    var body: some View {
+        List {
+            ForEach(rules) { rule in
+                HStack {
+                    Text(rule.category.displayName)
+                    Spacer()
+
+                    HStack(spacing: 8) {
+                        Button {
+                            rule.defaultAfterOpeningDays = max(1, rule.defaultAfterOpeningDays - 1)
+                            try? modelContext.save()
+                        } label: {
+                            Image(systemName: "minus")
+                        }
+                        .buttonStyle(.bordered)
+
+                        Text("\(rule.defaultAfterOpeningDays)d")
+                            .font(.subheadline.weight(.semibold))
+                            .monospacedDigit()
+                            .frame(minWidth: 44)
+
+                        Button {
+                            rule.defaultAfterOpeningDays = min(90, rule.defaultAfterOpeningDays + 1)
+                            try? modelContext.save()
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                }
+            }
+        }
+        .navigationTitle(L("settings.manage_category_rules"))
     }
 }

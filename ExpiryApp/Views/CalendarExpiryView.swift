@@ -1,18 +1,6 @@
 import SwiftUI
 import SwiftData
 
-private enum CalendarMode: String, CaseIterable, Identifiable {
-    case day
-    case week
-    case month
-
-    var id: String { rawValue }
-
-    var title: String {
-        L("calendar.mode.\(rawValue)")
-    }
-}
-
 struct CalendarExpiryView: View {
     @Query(sort: [SortDescriptor(\Product.expiryDate), SortDescriptor(\Product.name)])
     private var products: [Product]
@@ -20,132 +8,50 @@ struct CalendarExpiryView: View {
     @Query(sort: \CategoryRule.categoryRawValue)
     private var rules: [CategoryRule]
 
-    @State private var mode: CalendarMode = .day
-    @State private var selectedDay: Date = Calendar.current.startOfDay(for: .now)
-
     private let calendar = Calendar.current
+    let onSelectDayWithItems: (Date) -> Void
+
+    init(onSelectDayWithItems: @escaping (Date) -> Void = { _ in }) {
+        self.onSelectDayWithItems = onSelectDayWithItems
+    }
 
     var body: some View {
         NavigationStack {
             List {
-                Picker("", selection: $mode) {
-                    ForEach(CalendarMode.allCases) { mode in
-                        Text(mode.title).tag(mode)
-                    }
-                }
-                .pickerStyle(.segmented)
+                Section(L("calendar.month_title")) {
+                    let days = nextDays(30)
+                    let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 7)
 
-                switch mode {
-                case .day:
-                    daySection
-                case .week:
-                    weekSection
-                case .month:
-                    monthSection
+                    LazyVGrid(columns: columns, spacing: 8) {
+                        ForEach(days, id: \.self) { day in
+                            let count = itemCountForDay(day)
+                            let daysUntil = ExpiryCalculator.daysUntilExpiry(day)
+                            let hasItems = count > 0
+
+                            Button {
+                                guard hasItems else { return }
+                                onSelectDayWithItems(day)
+                            } label: {
+                                VStack(spacing: 4) {
+                                    Text(day.formatted(.dateTime.day()))
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundStyle(.primary)
+                                    Text("\(count)")
+                                        .font(.caption)
+                                        .foregroundStyle(countTextColor(daysUntil: daysUntil, hasItems: hasItems))
+                                }
+                                .frame(maxWidth: .infinity, minHeight: 48)
+                                .padding(.vertical, 4)
+                                .background(backgroundColor(daysUntil: daysUntil, hasItems: hasItems))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(!hasItems)
+                        }
+                    }
                 }
             }
             .navigationTitle(L("calendar.title"))
-        }
-    }
-
-    private var daySection: some View {
-        Section {
-            let today = calendar.startOfDay(for: .now)
-            let tomorrow = calendar.date(byAdding: .day, value: 1, to: today) ?? today
-            let todayCount = itemCountForDay(today)
-            let tomorrowCount = itemCountForDay(tomorrow)
-
-            HStack {
-                Button(
-                    String(
-                        format: L("calendar.quick_with_count"),
-                        L("calendar.today"),
-                        todayCount
-                    )
-                ) {
-                    selectedDay = today
-                }
-                .buttonStyle(.bordered)
-
-                Button(
-                    String(
-                        format: L("calendar.quick_with_count"),
-                        L("calendar.tomorrow"),
-                        tomorrowCount
-                    )
-                ) {
-                    selectedDay = tomorrow
-                }
-                .buttonStyle(.bordered)
-            }
-
-            Text(selectedDay.formatted(date: .complete, time: .omitted))
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-
-            let dayProducts = productsForDay(selectedDay)
-            if dayProducts.isEmpty {
-                Text(L("calendar.empty_day"))
-                    .foregroundStyle(.secondary)
-            } else {
-                ForEach(dayProducts) { product in
-                    ProductRowView(
-                        product: product,
-                        effectiveExpiry: ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
-                    )
-                }
-            }
-        }
-    }
-
-    private var weekSection: some View {
-        Section(L("calendar.week_title")) {
-            ForEach(nextDays(7), id: \.self) { day in
-                Button {
-                    selectedDay = day
-                    mode = .day
-                } label: {
-                    HStack {
-                        Text(day.formatted(.dateTime.weekday(.abbreviated).day().month()))
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        Text(String(format: L("calendar.count"), itemCountForDay(day)))
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .buttonStyle(.plain)
-            }
-        }
-    }
-
-    private var monthSection: some View {
-        Section(L("calendar.month_title")) {
-            let days = nextDays(30)
-            let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 7)
-
-            LazyVGrid(columns: columns, spacing: 8) {
-                ForEach(days, id: \.self) { day in
-                    let count = itemCountForDay(day)
-                    Button {
-                        selectedDay = day
-                        mode = .day
-                    } label: {
-                        VStack(spacing: 4) {
-                            Text(day.formatted(.dateTime.day()))
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.primary)
-                            Text("\(count)")
-                                .font(.caption)
-                                .foregroundStyle(count > 0 ? .blue : .secondary)
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 48)
-                        .padding(.vertical, 4)
-                        .background(count > 0 ? Color.blue.opacity(0.12) : Color.gray.opacity(0.10))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
         }
     }
 
@@ -166,5 +72,19 @@ struct CalendarExpiryView: View {
 
     private func itemCountForDay(_ day: Date) -> Int {
         productsForDay(day).reduce(0) { $0 + $1.quantity }
+    }
+
+    private func backgroundColor(daysUntil: Int, hasItems: Bool) -> Color {
+        guard hasItems else { return Color.gray.opacity(0.12) }
+        if daysUntil <= 0 { return Color.red.opacity(0.22) }
+        if daysUntil <= 3 { return Color.orange.opacity(0.22) }
+        return Color.green.opacity(0.22)
+    }
+
+    private func countTextColor(daysUntil: Int, hasItems: Bool) -> Color {
+        guard hasItems else { return .secondary }
+        if daysUntil <= 0 { return .red }
+        if daysUntil <= 3 { return .orange }
+        return .green
     }
 }
