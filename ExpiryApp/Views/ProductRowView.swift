@@ -41,7 +41,7 @@ struct ProductRowView: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text(product.name)
+                    Text(localizedProductName(product.name))
                         .font(.headline)
                     Text("x\(product.quantity)")
                         .font(.caption.weight(.semibold))
@@ -75,7 +75,7 @@ struct ProductRowView: View {
                         .foregroundStyle(.orange)
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(NSLocalizedString("product.consume_one", comment: ""))
+                .accessibilityLabel(L("product.consume_one"))
             }
 
             if onToggleOpened != nil {
@@ -87,21 +87,21 @@ struct ProductRowView: View {
                         .foregroundStyle(isOpened ? .green : .blue)
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(NSLocalizedString("product.open", comment: ""))
+                .accessibilityLabel(L("product.open"))
             }
         }
     }
 
     private var daysLabel: String {
         if days < 0 {
-            return NSLocalizedString("status.expired", comment: "")
+            return L("status.expired")
         }
 
         if days == 0 {
-            return NSLocalizedString("status.today", comment: "")
+            return L("status.today")
         }
 
-        let format = NSLocalizedString("status.in_days", comment: "")
+        let format = L("status.in_days")
         return String(format: format, days)
     }
 }

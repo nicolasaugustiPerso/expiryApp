@@ -6,7 +6,8 @@ enum SeedService {
         var settingsDescriptor = FetchDescriptor<UserSettings>()
         settingsDescriptor.fetchLimit = 1
 
-        if (try? context.fetchCount(settingsDescriptor)) == 0 {
+        let settingsCount = (try? context.fetchCount(settingsDescriptor)) ?? 0
+        if settingsCount == 0 {
             context.insert(UserSettings())
         }
 
@@ -18,6 +19,10 @@ enum SeedService {
             context.insert(CategoryRule(category: category, defaultAfterOpeningDays: defaultDays))
         }
 
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            print("SeedService save failed: \(error)")
+        }
     }
 }

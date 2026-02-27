@@ -97,3 +97,17 @@
 "suggestion.chicken" = "Chicken";
 "suggestion.fish" = "Fish";
 "product.category_hint" = "Select a category (default is Other).";
+
+"settings.daily_notifications" = "Daily Notifications";
+"settings.notification_ok" = "Enabled";
+"settings.notification_off" = "Disabled";
+"settings.window" = "Window";
+"settings.init_failed" = "Settings failed to load.";
+"settings.retry" = "Retry";
+
+"common.on" = "On";
+"common.off" = "Off";
+"settings.days_in_notifications" = "Days included in notifications";
+"settings.section.language" = "Language";
+"settings.language" = "App language";
+"settings.language_restart_hint" = "Language updates instantly.";

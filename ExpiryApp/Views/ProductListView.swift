@@ -18,7 +18,7 @@ struct ProductListView: View {
         NavigationStack {
             List {
                 if products.isEmpty {
-                    Text(NSLocalizedString("list.empty", comment: ""))
+                    Text(L("list.empty"))
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(products) { product in
@@ -34,7 +34,7 @@ struct ProductListView: View {
                                 editingProduct = product
                             }
                             .swipeActions {
-                                Button(NSLocalizedString("common.delete", comment: ""), role: .destructive) {
+                                Button(L("common.delete"), role: .destructive) {
                                     modelContext.delete(product)
                                     try? modelContext.save()
                                 }
@@ -42,21 +42,21 @@ struct ProductListView: View {
                     }
                 }
             }
-            .navigationTitle(NSLocalizedString("app.title", comment: ""))
+            .navigationTitle(L("app.title"))
             .sheet(item: $editingProduct) { product in
                 AddEditProductView(product: product)
             }
             .alert(
-                NSLocalizedString("product.unopen_confirm_title", comment: ""),
+                L("product.unopen_confirm_title"),
                 isPresented: $showUnopenConfirmation,
                 presenting: productPendingUnopen
             ) { product in
-                Button(NSLocalizedString("common.cancel", comment: ""), role: .cancel) {}
-                Button(NSLocalizedString("product.unopen_confirm_action", comment: ""), role: .destructive) {
+                Button(L("common.cancel"), role: .cancel) {}
+                Button(L("product.unopen_confirm_action"), role: .destructive) {
                     unopen(product)
                 }
             } message: { _ in
-                Text(NSLocalizedString("product.unopen_confirm_message", comment: ""))
+                Text(L("product.unopen_confirm_message"))
             }
         }
     }

@@ -44,10 +44,10 @@ struct AddEditProductView: View {
                     addWizard
                 }
             }
-            .navigationTitle(isEditing ? NSLocalizedString("product.edit", comment: "") : NSLocalizedString("product.add", comment: ""))
+            .navigationTitle(isEditing ? L("product.edit") : L("product.add"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(NSLocalizedString("common.cancel", comment: "")) {
+                    Button(L("common.cancel")) {
                         dismiss()
                     }
                 }
@@ -76,7 +76,7 @@ struct AddEditProductView: View {
 
             HStack(spacing: 12) {
                 if addStep != .product {
-                    Button(NSLocalizedString("common.back", comment: "")) {
+                    Button(L("common.back")) {
                         moveBack()
                     }
                     .buttonStyle(.bordered)
@@ -112,11 +112,11 @@ struct AddEditProductView: View {
 
     private var productStep: some View {
         VStack(alignment: .leading, spacing: 12) {
-            TextField(NSLocalizedString("product.search_placeholder", comment: ""), text: $searchText)
+            TextField(L("product.search_placeholder"), text: $searchText)
                 .textFieldStyle(.roundedBorder)
 
             if !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                Text("\(NSLocalizedString("product.name", comment: "")): \(name)")
+                Text("\(L("product.name")): \(name)")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -156,7 +156,7 @@ struct AddEditProductView: View {
                             moveToNextStepAfterProductSelection(isSuggestion: false)
                         } label: {
                             HStack {
-                                Text(String(format: NSLocalizedString("product.use_custom", comment: ""), searchText.trimmingCharacters(in: .whitespacesAndNewlines)))
+                                Text(String(format: L("product.use_custom"), searchText.trimmingCharacters(in: .whitespacesAndNewlines)))
                                     .foregroundStyle(.primary)
                                 Spacer()
                                 Image(systemName: "plus.circle")
@@ -177,7 +177,7 @@ struct AddEditProductView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(name)
                 .font(.title3.weight(.semibold))
-            Text(NSLocalizedString("product.category_hint", comment: ""))
+            Text(L("product.category_hint"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
@@ -220,7 +220,7 @@ struct AddEditProductView: View {
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: quantity == 1 ? "checkmark.circle.fill" : "circle")
-                    Text(NSLocalizedString("product.quantity_one", comment: ""))
+                    Text(L("product.quantity_one"))
                 }
                 .font(.headline)
             }
@@ -253,7 +253,7 @@ struct AddEditProductView: View {
                 .buttonStyle(.plain)
             }
 
-            Text(String(format: NSLocalizedString("product.quantity", comment: ""), quantity))
+            Text(String(format: L("product.quantity"), quantity))
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -269,7 +269,7 @@ struct AddEditProductView: View {
                 .font(.title2.weight(.semibold))
 
             DatePicker(
-                NSLocalizedString("product.expiry_date", comment: ""),
+                L("product.expiry_date"),
                 selection: $expiryDate,
                 displayedComponents: .date
             )
@@ -284,37 +284,37 @@ struct AddEditProductView: View {
 
     private var editForm: some View {
         Form {
-            Section(NSLocalizedString("product.section.main", comment: "")) {
-                TextField(NSLocalizedString("product.name", comment: ""), text: $name)
-                Picker(NSLocalizedString("product.category", comment: ""), selection: $category) {
+            Section(L("product.section.main")) {
+                TextField(L("product.name"), text: $name)
+                Picker(L("product.category"), selection: $category) {
                     ForEach(ProductCategory.allCases) { category in
                         Text(category.displayName)
                             .tag(category)
                     }
                 }
                 DatePicker(
-                    NSLocalizedString("product.expiry_date", comment: ""),
+                    L("product.expiry_date"),
                     selection: $expiryDate,
                     displayedComponents: .date
                 )
                 Stepper(value: $quantity, in: 1...999) {
-                    let format = NSLocalizedString("product.quantity", comment: "")
+                    let format = L("product.quantity")
                     Text(String(format: format, quantity))
                 }
             }
 
-            Section(NSLocalizedString("product.section.open_rule", comment: "")) {
-                Toggle(NSLocalizedString("product.custom_rule_enabled", comment: ""), isOn: $hasCustomOpenRule)
+            Section(L("product.section.open_rule")) {
+                Toggle(L("product.custom_rule_enabled"), isOn: $hasCustomOpenRule)
 
                 if hasCustomOpenRule {
                     Stepper(value: $customAfterOpeningDays, in: 1...90) {
-                        let format = NSLocalizedString("product.after_opening_days", comment: "")
+                        let format = L("product.after_opening_days")
                         Text(String(format: format, customAfterOpeningDays))
                     }
                 }
             }
 
-            Button(NSLocalizedString("common.save", comment: "")) {
+            Button(L("common.save")) {
                 save()
             }
             .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -323,16 +323,16 @@ struct AddEditProductView: View {
 
     private var defaultSuggestions: [ProductSuggestion] {
         [
-            ProductSuggestion(id: "milk", name: NSLocalizedString("suggestion.milk", comment: ""), category: .milk),
-            ProductSuggestion(id: "bread", name: NSLocalizedString("suggestion.bread", comment: ""), category: .bread),
-            ProductSuggestion(id: "yogurt", name: NSLocalizedString("suggestion.yogurt", comment: ""), category: .yogurt),
-            ProductSuggestion(id: "cheese", name: NSLocalizedString("suggestion.cheese", comment: ""), category: .cheese),
-            ProductSuggestion(id: "eggs", name: NSLocalizedString("suggestion.eggs", comment: ""), category: .pantry),
-            ProductSuggestion(id: "apples", name: NSLocalizedString("suggestion.apples", comment: ""), category: .fruit),
-            ProductSuggestion(id: "bananas", name: NSLocalizedString("suggestion.bananas", comment: ""), category: .fruit),
-            ProductSuggestion(id: "tomatoes", name: NSLocalizedString("suggestion.tomatoes", comment: ""), category: .vegetable),
-            ProductSuggestion(id: "chicken", name: NSLocalizedString("suggestion.chicken", comment: ""), category: .meat),
-            ProductSuggestion(id: "fish", name: NSLocalizedString("suggestion.fish", comment: ""), category: .fish)
+            ProductSuggestion(id: "milk", name: L("suggestion.milk"), category: .milk),
+            ProductSuggestion(id: "bread", name: L("suggestion.bread"), category: .bread),
+            ProductSuggestion(id: "yogurt", name: L("suggestion.yogurt"), category: .yogurt),
+            ProductSuggestion(id: "cheese", name: L("suggestion.cheese"), category: .cheese),
+            ProductSuggestion(id: "eggs", name: L("suggestion.eggs"), category: .pantry),
+            ProductSuggestion(id: "apples", name: L("suggestion.apples"), category: .fruit),
+            ProductSuggestion(id: "bananas", name: L("suggestion.bananas"), category: .fruit),
+            ProductSuggestion(id: "tomatoes", name: L("suggestion.tomatoes"), category: .vegetable),
+            ProductSuggestion(id: "chicken", name: L("suggestion.chicken"), category: .meat),
+            ProductSuggestion(id: "fish", name: L("suggestion.fish"), category: .fish)
         ]
     }
 
@@ -387,9 +387,9 @@ struct AddEditProductView: View {
     private var primaryTitle: String {
         switch addStep {
         case .product, .category, .quantity:
-            return NSLocalizedString("common.next", comment: "")
+            return L("common.next")
         case .date:
-            return NSLocalizedString("common.save", comment: "")
+            return L("common.save")
         }
     }
 

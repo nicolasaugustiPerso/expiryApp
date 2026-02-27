@@ -59,30 +59,30 @@ struct RecipeSuggestionsView: View {
         NavigationStack {
             List {
                 if soonExpiringProducts.isEmpty {
-                    Text(NSLocalizedString("recipe.empty", comment: ""))
+                    Text(L("recipe.empty"))
                         .foregroundStyle(.secondary)
                 } else {
-                    Section(NSLocalizedString("recipe.expiring_section", comment: "")) {
+                    Section(L("recipe.expiring_section")) {
                         ForEach(soonExpiringProducts) { product in
                             let effective = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
                             ProductRowView(product: product, effectiveExpiry: effective)
                         }
                     }
 
-                    Section(NSLocalizedString("recipe.suggestions_section", comment: "")) {
+                    Section(L("recipe.suggestions_section")) {
                         if recipeSuggestions.isEmpty {
-                            Text(NSLocalizedString("recipe.no_match", comment: ""))
+                            Text(L("recipe.no_match"))
                                 .foregroundStyle(.secondary)
                         } else {
                             ForEach(recipeSuggestions) { suggestion in
                                 VStack(alignment: .leading, spacing: 6) {
-                                    Text(NSLocalizedString(suggestion.template.titleKey, comment: ""))
+                                    Text(L(suggestion.template.titleKey))
                                         .font(.headline)
-                                    Text(NSLocalizedString(suggestion.template.subtitleKey, comment: ""))
+                                    Text(L(suggestion.template.subtitleKey))
                                         .font(.subheadline)
                                         .foregroundStyle(.secondary)
                                     let productsLine = suggestion.matchedProducts.joined(separator: ", ")
-                                    Text(String(format: NSLocalizedString("recipe.use", comment: ""), productsLine))
+                                    Text(String(format: L("recipe.use"), productsLine))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -92,7 +92,7 @@ struct RecipeSuggestionsView: View {
                     }
                 }
             }
-            .navigationTitle(NSLocalizedString("recipe.title", comment: ""))
+            .navigationTitle(L("recipe.title"))
         }
     }
 

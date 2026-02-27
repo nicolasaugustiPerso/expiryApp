@@ -9,7 +9,7 @@ private enum CalendarMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 
     var title: String {
-        NSLocalizedString("calendar.mode.\(rawValue)", comment: "")
+        L("calendar.mode.\(rawValue)")
     }
 }
 
@@ -44,7 +44,7 @@ struct CalendarExpiryView: View {
                     monthSection
                 }
             }
-            .navigationTitle(NSLocalizedString("calendar.title", comment: ""))
+            .navigationTitle(L("calendar.title"))
         }
     }
 
@@ -58,8 +58,8 @@ struct CalendarExpiryView: View {
             HStack {
                 Button(
                     String(
-                        format: NSLocalizedString("calendar.quick_with_count", comment: ""),
-                        NSLocalizedString("calendar.today", comment: ""),
+                        format: L("calendar.quick_with_count"),
+                        L("calendar.today"),
                         todayCount
                     )
                 ) {
@@ -69,8 +69,8 @@ struct CalendarExpiryView: View {
 
                 Button(
                     String(
-                        format: NSLocalizedString("calendar.quick_with_count", comment: ""),
-                        NSLocalizedString("calendar.tomorrow", comment: ""),
+                        format: L("calendar.quick_with_count"),
+                        L("calendar.tomorrow"),
                         tomorrowCount
                     )
                 ) {
@@ -85,7 +85,7 @@ struct CalendarExpiryView: View {
 
             let dayProducts = productsForDay(selectedDay)
             if dayProducts.isEmpty {
-                Text(NSLocalizedString("calendar.empty_day", comment: ""))
+                Text(L("calendar.empty_day"))
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(dayProducts) { product in
@@ -99,7 +99,7 @@ struct CalendarExpiryView: View {
     }
 
     private var weekSection: some View {
-        Section(NSLocalizedString("calendar.week_title", comment: "")) {
+        Section(L("calendar.week_title")) {
             ForEach(nextDays(7), id: \.self) { day in
                 Button {
                     selectedDay = day
@@ -109,7 +109,7 @@ struct CalendarExpiryView: View {
                         Text(day.formatted(.dateTime.weekday(.abbreviated).day().month()))
                             .foregroundStyle(.primary)
                         Spacer()
-                        Text(String(format: NSLocalizedString("calendar.count", comment: ""), itemCountForDay(day)))
+                        Text(String(format: L("calendar.count"), itemCountForDay(day)))
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -119,7 +119,7 @@ struct CalendarExpiryView: View {
     }
 
     private var monthSection: some View {
-        Section(NSLocalizedString("calendar.month_title", comment: "")) {
+        Section(L("calendar.month_title")) {
             let days = nextDays(30)
             let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 7)
 

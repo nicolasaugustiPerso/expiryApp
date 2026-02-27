@@ -50,7 +50,7 @@ struct MainRootView: View {
         }
         .task {
             SeedService.seedIfNeeded(context: modelContext)
-            await NotificationService.requestPermission()
+            _ = await NotificationService.requestPermission()
             await rescheduleDigestIfPossible()
         }
         .onChange(of: productDigestSignature) { _, _ in
@@ -66,6 +66,9 @@ struct MainRootView: View {
             Task { await rescheduleDigestIfPossible() }
         }
         .onChange(of: settings?.dailyDigestMinute) { _, _ in
+            Task { await rescheduleDigestIfPossible() }
+        }
+        .onChange(of: settings?.notificationsEnabled) { _, _ in
             Task { await rescheduleDigestIfPossible() }
         }
     }

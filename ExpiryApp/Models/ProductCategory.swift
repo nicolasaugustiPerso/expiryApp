@@ -16,7 +16,7 @@ enum ProductCategory: String, CaseIterable, Codable, Identifiable {
     var id: String { rawValue }
     
     var displayName: String {
-        let localized = NSLocalizedString("category.\(rawValue)", comment: "")
+        let localized = L("category.\(rawValue)")
         return localized.hasPrefix("category.") ? rawValue.capitalized : localized
     }
 

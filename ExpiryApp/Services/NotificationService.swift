@@ -4,8 +4,20 @@ import UserNotifications
 enum NotificationService {
     static let digestIdentifier = "expiry.daily.digest"
 
-    static func requestPermission() async {
-        _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
+    static func requestPermission() async -> Bool {
+        (try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])) ?? false
+    }
+    
+    static func notificationsAuthorized() async -> Bool {
+        await withCheckedContinuation { continuation in
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                continuation.resume(returning: settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional)
+            }
+        }
+    }
+    
+    static func removeDailyDigest() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [digestIdentifier])
     }
 
     static func scheduleDailyDigest(
@@ -13,8 +25,9 @@ enum NotificationService {
         rules: [CategoryRule],
         settings: UserSettings
     ) async {
+        removeDailyDigest()
+        guard settings.notificationsEnabled else { return }
         let center = UNUserNotificationCenter.current()
-        center.removePendingNotificationRequests(withIdentifiers: [digestIdentifier])
 
         let lookahead = settings.reminderLookaheadDays
         let expiringSoon = products.filter {
@@ -28,14 +41,14 @@ enum NotificationService {
 
         let content = UNMutableNotificationContent()
         let count = expiringSoon.reduce(0) { $0 + $1.quantity }
-        let titleFormat = NSLocalizedString("notification.title", comment: "")
+        let titleFormat = L("notification.title")
         content.title = String(format: titleFormat, count)
 
         let list = expiringSoon
             .prefix(3)
-            .map { "\($0.name) (x\($0.quantity))" }
+            .map { "\(localizedProductName($0.name)) (x\($0.quantity))" }
             .joined(separator: ", ")
-        let bodyFormat = NSLocalizedString("notification.body", comment: "")
+        let bodyFormat = L("notification.body")
         content.body = String(format: bodyFormat, list)
 
         var components = DateComponents()

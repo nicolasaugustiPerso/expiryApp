@@ -97,3 +97,17 @@
 "suggestion.chicken" = "Poulet";
 "suggestion.fish" = "Poisson";
 "product.category_hint" = "Choisissez une catégorie (Autre par défaut).";
+
+"settings.daily_notifications" = "Notifications quotidiennes";
+"settings.notification_ok" = "Activées";
+"settings.notification_off" = "Désactivées";
+"settings.window" = "Fenêtre";
+"settings.init_failed" = "Impossible de charger les réglages.";
+"settings.retry" = "Réessayer";
+
+"common.on" = "Oui";
+"common.off" = "Non";
+"settings.days_in_notifications" = "Jours inclus dans les notifications";
+"settings.section.language" = "Langue";
+"settings.language" = "Langue de l'app";
+"settings.language_restart_hint" = "La langue est mise à jour immédiatement.";
