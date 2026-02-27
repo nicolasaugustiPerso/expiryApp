@@ -22,6 +22,7 @@ struct MainRootView: View {
     @State private var selectedSection: AppSection = .products
     @State private var showAddSheet = false
     @State private var showSettings = false
+    @State private var homeFocusedDate: Date?
 
     private var settings: UserSettings? {
         settingsList.first
@@ -77,9 +78,15 @@ struct MainRootView: View {
     private var currentSectionView: some View {
         switch selectedSection {
         case .products:
-            ProductListView()
+            ProductListView(
+                focusedDate: homeFocusedDate,
+                onFocusedDateConsumed: { homeFocusedDate = nil }
+            )
         case .calendar:
-            CalendarExpiryView()
+            CalendarExpiryView { selectedDay in
+                homeFocusedDate = selectedDay
+                selectedSection = .products
+            }
         case .recipes:
             RecipeSuggestionsView()
         }
