@@ -121,3 +121,6 @@
 "settings.delete_category_message" = "Delete \"%@\" from categories?";
 "settings.add_category" = "Add category";
 "settings.no_category_to_add" = "No category available to add.";
+"calendar.filter.all" = "All";
+"calendar.filter.by_category" = "By category";
+"calendar.filter.category" = "Category";

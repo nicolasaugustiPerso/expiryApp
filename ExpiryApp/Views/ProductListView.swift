@@ -61,6 +61,7 @@ struct ProductListView: View {
                             } header: {
                                 Text(group.date.formatted(date: .complete, time: .omitted))
                                     .textCase(nil)
+                                    .foregroundStyle(.blue)
                             }
                             .id(group.date)
                         }
