@@ -1,3 +1,3 @@
 import Foundation
 
-typealias CategoryRule = AppSchemaV2.CategoryRule
+typealias CategoryRule = AppSchemaV3.CategoryRule

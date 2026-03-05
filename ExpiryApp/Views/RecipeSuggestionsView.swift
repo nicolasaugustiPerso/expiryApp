@@ -1,121 +1,402 @@
 import SwiftUI
 import SwiftData
 
-private struct RecipeTemplate: Identifiable {
-    let id = UUID()
-    let titleKey: String
-    let subtitleKey: String
-    let keywords: [String]
-    let categories: [ProductCategory]
-}
-
-private struct RecipeSuggestion: Identifiable {
-    let id = UUID()
-    let template: RecipeTemplate
-    let matchedProducts: [String]
+private struct ShoppingSuggestion: Identifiable {
+    let id: String
+    let name: String
+    let category: ProductCategory?
+    let count: Int
 }
 
 struct RecipeSuggestionsView: View {
-    @Query(sort: [SortDescriptor(\Product.expiryDate), SortDescriptor(\Product.name)])
-    private var products: [Product]
+    @Environment(\.modelContext) private var modelContext
 
-    @Query(sort: \CategoryRule.categoryRawValue)
-    private var rules: [CategoryRule]
+    @Query(sort: [SortDescriptor(\ShoppingItem.createdAt, order: .reverse)])
+    private var shoppingItems: [ShoppingItem]
 
-    private let templates: [RecipeTemplate] = [
-        RecipeTemplate(
-            titleKey: "recipe.omelet.title",
-            subtitleKey: "recipe.omelet.subtitle",
-            keywords: ["egg", "eggs", "cheese", "milk"],
-            categories: [.cheese, .milk]
-        ),
-        RecipeTemplate(
-            titleKey: "recipe.toast.title",
-            subtitleKey: "recipe.toast.subtitle",
-            keywords: ["bread", "cheese", "tomato"],
-            categories: [.bread, .cheese, .vegetable]
-        ),
-        RecipeTemplate(
-            titleKey: "recipe.soup.title",
-            subtitleKey: "recipe.soup.subtitle",
-            keywords: ["carrot", "potato", "onion", "leek"],
-            categories: [.vegetable]
-        ),
-        RecipeTemplate(
-            titleKey: "recipe.smoothie.title",
-            subtitleKey: "recipe.smoothie.subtitle",
-            keywords: ["banana", "berries", "yogurt", "milk"],
-            categories: [.fruit, .yogurt, .milk]
-        ),
-        RecipeTemplate(
-            titleKey: "recipe.pasta.title",
-            subtitleKey: "recipe.pasta.subtitle",
-            keywords: ["tomato", "cheese", "cream"],
-            categories: [.pantry, .cheese]
-        )
-    ]
+    @Query(sort: [SortDescriptor(\Product.createdAt, order: .reverse)])
+    private var existingProducts: [Product]
+
+    @Query private var settingsList: [UserSettings]
+
+    @State private var showAddSheet = false
+    @State private var shoppingSearchText = ""
+    @State private var captureItem: ShoppingItem?
+
+    private var settings: UserSettings? { settingsList.first }
 
     var body: some View {
         NavigationStack {
             List {
-                if soonExpiringProducts.isEmpty {
-                    Text(L("recipe.empty"))
-                        .foregroundStyle(.secondary)
-                } else {
-                    Section(L("recipe.expiring_section")) {
-                        ForEach(soonExpiringProducts) { product in
-                            let effective = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
-                            ProductRowView(product: product, effectiveExpiry: effective)
+                Button {
+                    shoppingSearchText = ""
+                    showAddSheet = true
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundStyle(.blue)
+                        Text(L("shopping.add_product_banner"))
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                Section(L("shopping.section.to_buy")) {
+                    if toBuyItems.isEmpty {
+                        Text(L("shopping.empty.to_buy"))
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(toBuyItems) { item in
+                            shoppingRow(item)
                         }
                     }
+                }
 
-                    Section(L("recipe.suggestions_section")) {
-                        if recipeSuggestions.isEmpty {
-                            Text(L("recipe.no_match"))
-                                .foregroundStyle(.secondary)
-                        } else {
-                            ForEach(recipeSuggestions) { suggestion in
-                                VStack(alignment: .leading, spacing: 6) {
-                                    Text(L(suggestion.template.titleKey))
-                                        .font(.headline)
-                                    Text(L(suggestion.template.subtitleKey))
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                    let productsLine = suggestion.matchedProducts.joined(separator: ", ")
-                                    Text(String(format: L("recipe.use"), productsLine))
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                .padding(.vertical, 4)
-                            }
+                Section(L("shopping.section.bought")) {
+                    if boughtItems.isEmpty {
+                        Text(L("shopping.empty.bought"))
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(boughtItems) { item in
+                            shoppingRow(item)
                         }
                     }
                 }
             }
-            .navigationTitle(L("recipe.title"))
+            .navigationTitle(L("shopping.title"))
+            .sheet(isPresented: $showAddSheet) {
+                addItemSheet
+            }
+            .sheet(item: $captureItem) { item in
+                BoughtItemCaptureView(
+                    item: item,
+                    onSkip: {
+                        item.needsExpiryCapture = true
+                        item.pendingExpiryDate = item.pendingExpiryDate ?? .now
+                        try? modelContext.save()
+                    },
+                    onSave: { quantity, expiryDate in
+                        item.quantity = max(1, quantity)
+                        item.needsExpiryCapture = false
+                        item.pendingExpiryDate = nil
+
+                        let product = Product(
+                            name: item.name,
+                            category: item.category ?? .other,
+                            expiryDate: expiryDate,
+                            quantity: max(1, quantity)
+                        )
+                        modelContext.insert(product)
+                        try? modelContext.save()
+                    }
+                )
+            }
         }
     }
 
-    private var soonExpiringProducts: [Product] {
-        products.filter {
-            let days = ExpiryCalculator.daysUntilExpiry(
-                ExpiryCalculator.effectiveExpiryDate(product: $0, rules: rules)
+    private var toBuyItems: [ShoppingItem] {
+        shoppingItems.filter { !$0.isBought }
+    }
+
+    private var boughtItems: [ShoppingItem] {
+        shoppingItems.filter { $0.isBought }
+    }
+
+    private var defaultSuggestions: [ShoppingSuggestion] {
+        [
+            ShoppingSuggestion(id: "milk", name: L("suggestion.milk"), category: .milk, count: 0),
+            ShoppingSuggestion(id: "bread", name: L("suggestion.bread"), category: .bread, count: 0),
+            ShoppingSuggestion(id: "yogurt", name: L("suggestion.yogurt"), category: .yogurt, count: 0),
+            ShoppingSuggestion(id: "cheese", name: L("suggestion.cheese"), category: .cheese, count: 0),
+            ShoppingSuggestion(id: "eggs", name: L("suggestion.eggs"), category: .pantry, count: 0),
+            ShoppingSuggestion(id: "apples", name: L("suggestion.apples"), category: .fruit, count: 0),
+            ShoppingSuggestion(id: "bananas", name: L("suggestion.bananas"), category: .fruit, count: 0),
+            ShoppingSuggestion(id: "tomatoes", name: L("suggestion.tomatoes"), category: .vegetable, count: 0),
+            ShoppingSuggestion(id: "chicken", name: L("suggestion.chicken"), category: .meat, count: 0),
+            ShoppingSuggestion(id: "fish", name: L("suggestion.fish"), category: .fish, count: 0)
+        ]
+    }
+
+    private var historySuggestions: [ShoppingSuggestion] {
+        var bucket: [String: (name: String, count: Int, category: ProductCategory?)] = [:]
+
+        for item in shoppingItems {
+            let key = item.name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard !key.isEmpty else { continue }
+            let quantity = max(1, item.quantity)
+
+            if var existing = bucket[key] {
+                existing.count += quantity
+                if existing.category == nil, let category = item.category {
+                    existing.category = category
+                }
+                bucket[key] = existing
+            } else {
+                bucket[key] = (
+                    name: item.name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    count: quantity,
+                    category: item.category
+                )
+            }
+        }
+
+        for product in existingProducts {
+            let key = product.name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard !key.isEmpty else { continue }
+            let quantity = max(1, product.quantity)
+
+            if var existing = bucket[key] {
+                existing.count += quantity
+                if existing.category == nil {
+                    existing.category = product.category
+                }
+                bucket[key] = existing
+            } else {
+                bucket[key] = (
+                    name: product.name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    count: quantity,
+                    category: product.category
+                )
+            }
+        }
+
+        return bucket.map { key, value in
+            ShoppingSuggestion(
+                id: "history-\(key)",
+                name: value.name,
+                category: value.category,
+                count: value.count
             )
-            return days >= 0 && days <= 7
         }
+        .sorted { left, right in
+            if left.count != right.count { return left.count > right.count }
+            return left.name.localizedCaseInsensitiveCompare(right.name) == .orderedAscending
+        }
+        .prefix(12)
+        .map { $0 }
     }
 
-    private var recipeSuggestions: [RecipeSuggestion] {
-        templates.compactMap { template in
-            let matches = soonExpiringProducts.filter { product in
-                let name = product.name.lowercased()
-                let keywordMatch = template.keywords.contains { name.contains($0) }
-                let categoryMatch = template.categories.contains(product.category)
-                return keywordMatch || categoryMatch
+    private var filteredSuggestions: [ShoppingSuggestion] {
+        var merged: [ShoppingSuggestion] = []
+        var seen = Set<String>()
+
+        for suggestion in historySuggestions + defaultSuggestions {
+            let key = suggestion.name.lowercased()
+            if seen.contains(key) { continue }
+            seen.insert(key)
+            merged.append(suggestion)
+        }
+
+        let query = shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !query.isEmpty else { return merged }
+        return merged.filter { $0.name.lowercased().contains(query) }
+    }
+
+    private var canUseCustomName: Bool {
+        let trimmed = shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return false }
+        return !filteredSuggestions.contains { $0.name.caseInsensitiveCompare(trimmed) == .orderedSame }
+    }
+
+    @ViewBuilder
+    private func shoppingRow(_ item: ShoppingItem) -> some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(localizedProductName(item.name))
+                    .font(.headline)
+                if let category = item.category {
+                    Text(category.displayName)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
 
-            guard !matches.isEmpty else { return nil }
-            return RecipeSuggestion(template: template, matchedProducts: matches.map(\.name))
+            Spacer()
+
+            Text("x\(item.quantity)")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.gray.opacity(0.12))
+                .clipShape(Capsule())
+
+            Button {
+                toggleBought(item)
+            } label: {
+                Image(systemName: item.isBought ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(item.isBought ? .green : .blue)
+                    .font(.title3)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var addItemSheet: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 12) {
+                TextField(L("product.search_placeholder"), text: $shoppingSearchText)
+                    .textFieldStyle(.roundedBorder)
+
+                ScrollView {
+                    VStack(spacing: 8) {
+                        ForEach(filteredSuggestions) { suggestion in
+                            Button {
+                                addSuggestion(name: suggestion.name, category: suggestion.category)
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(localizedProductName(suggestion.name))
+                                            .foregroundStyle(.primary)
+                                        if let category = suggestion.category {
+                                            Text(category.displayName)
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
+                                    Spacer()
+                                    Image(systemName: "plus.circle.fill")
+                                        .foregroundStyle(.blue)
+                                }
+                                .padding(12)
+                                .background(Color.gray.opacity(0.08))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            .buttonStyle(.plain)
+                        }
+
+                        if canUseCustomName {
+                            Button {
+                                let customName = shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                                addSuggestion(name: customName, category: .other)
+                            } label: {
+                                HStack {
+                                    Text(String(format: L("product.use_custom"), shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines)))
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    Image(systemName: "plus.circle")
+                                        .foregroundStyle(.blue)
+                                }
+                                .padding(12)
+                                .background(Color.blue.opacity(0.08))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+            }
+            .padding()
+            .navigationTitle(L("shopping.add_item"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(L("common.cancel")) { showAddSheet = false }
+                }
+            }
+        }
+    }
+
+    private func addSuggestion(name: String, category: ProductCategory?) {
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        let item = ShoppingItem(
+            name: trimmedName,
+            category: category,
+            quantity: 1
+        )
+        modelContext.insert(item)
+        try? modelContext.save()
+        showAddSheet = false
+    }
+
+    private func toggleBought(_ item: ShoppingItem) {
+        if item.isBought {
+            item.isBought = false
+            item.boughtAt = nil
+            item.needsExpiryCapture = false
+            item.pendingExpiryDate = nil
+            try? modelContext.save()
+            return
+        }
+
+        item.isBought = true
+        item.boughtAt = .now
+
+        let mode = settings?.shoppingMode ?? .listOnly
+        if mode == .listOnly {
+            item.needsExpiryCapture = false
+            item.pendingExpiryDate = nil
+            try? modelContext.save()
+            return
+        }
+
+        let captureMode = settings?.shoppingCaptureMode ?? .byItem
+        switch captureMode {
+        case .byItem:
+            item.needsExpiryCapture = false
+            item.pendingExpiryDate = nil
+            try? modelContext.save()
+            captureItem = item
+        case .bulk:
+            item.needsExpiryCapture = true
+            item.pendingExpiryDate = item.pendingExpiryDate ?? .now
+            try? modelContext.save()
+        }
+    }
+}
+
+private struct BoughtItemCaptureView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    let item: ShoppingItem
+    let onSkip: () -> Void
+    let onSave: (_ quantity: Int, _ expiryDate: Date) -> Void
+
+    @State private var quantity: Int
+    @State private var expiryDate: Date
+
+    init(item: ShoppingItem, onSkip: @escaping () -> Void, onSave: @escaping (_ quantity: Int, _ expiryDate: Date) -> Void) {
+        self.item = item
+        self.onSkip = onSkip
+        self.onSave = onSave
+        _quantity = State(initialValue: max(1, item.quantity))
+        _expiryDate = State(initialValue: item.pendingExpiryDate ?? .now)
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section(L("shopping.capture_title")) {
+                    Text(localizedProductName(item.name))
+                        .font(.headline)
+                    Stepper(value: $quantity, in: 1...99) {
+                        Text(String(format: L("shopping.quantity"), quantity))
+                    }
+                    DatePicker(
+                        L("product.expiry_date"),
+                        selection: $expiryDate,
+                        displayedComponents: .date
+                    )
+                }
+            }
+            .navigationTitle(L("shopping.capture_nav"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(L("common.skip")) {
+                        onSkip()
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(L("common.save")) {
+                        onSave(quantity, expiryDate)
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 }

@@ -16,22 +16,62 @@ struct ProductListView: View {
     @Query(sort: \CategoryRule.categoryRawValue)
     private var rules: [CategoryRule]
 
+    @Query(sort: [SortDescriptor(\ShoppingItem.createdAt, order: .reverse)])
+    private var shoppingItems: [ShoppingItem]
+
     @State private var editingProduct: Product?
     @State private var productPendingUnopen: Product?
     @State private var showUnopenConfirmation = false
+    @State private var showBulkCaptureSheet = false
 
     let focusedDate: Date?
     let onFocusedDateConsumed: (() -> Void)?
+    let onAddProductTap: (() -> Void)?
 
-    init(focusedDate: Date? = nil, onFocusedDateConsumed: (() -> Void)? = nil) {
+    init(
+        focusedDate: Date? = nil,
+        onFocusedDateConsumed: (() -> Void)? = nil,
+        onAddProductTap: (() -> Void)? = nil
+    ) {
         self.focusedDate = focusedDate
         self.onFocusedDateConsumed = onFocusedDateConsumed
+        self.onAddProductTap = onAddProductTap
     }
 
     var body: some View {
         NavigationStack {
             ScrollViewReader { proxy in
                 List {
+                    Button {
+                        onAddProductTap?()
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundStyle(.blue)
+                            Text(L("home.add_expiry_product"))
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    if !pendingBulkItems.isEmpty {
+                        Button {
+                            showBulkCaptureSheet = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "cart.badge.plus")
+                                    .foregroundStyle(.blue)
+                                Text(String(format: L("shopping.pending_banner"), pendingBulkItemsCount))
+                                    .foregroundStyle(.primary)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+
                     if products.isEmpty {
                         Text(L("list.empty"))
                             .foregroundStyle(.secondary)
@@ -78,6 +118,9 @@ struct ProductListView: View {
             .sheet(item: $editingProduct) { product in
                 AddEditProductView(product: product)
             }
+            .sheet(isPresented: $showBulkCaptureSheet) {
+                BulkExpiryCaptureView(items: pendingBulkItems)
+            }
             .alert(
                 L("product.unopen_confirm_title"),
                 isPresented: $showUnopenConfirmation,
@@ -91,6 +134,14 @@ struct ProductListView: View {
                 Text(L("product.unopen_confirm_message"))
             }
         }
+    }
+
+    private var pendingBulkItems: [ShoppingItem] {
+        shoppingItems.filter { $0.isBought && $0.needsExpiryCapture }
+    }
+
+    private var pendingBulkItemsCount: Int {
+        pendingBulkItems.reduce(0) { $0 + $1.quantity }
     }
 
     private func toggleOpened(_ product: Product) {
@@ -210,5 +261,80 @@ struct ProductListView: View {
             }
             onFocusedDateConsumed?()
         }
+    }
+}
+
+private struct BulkExpiryCaptureView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+
+    let items: [ShoppingItem]
+
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(items) { item in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(localizedProductName(item.name))
+                            .font(.headline)
+
+                        HStack {
+                            Text(L("shopping.quantity_label"))
+                            Spacer()
+                            Stepper(value: Binding(
+                                get: { item.quantity },
+                                set: {
+                                    item.quantity = max(1, $0)
+                                    try? modelContext.save()
+                                }
+                            ), in: 1...99) {
+                                Text("\(item.quantity)")
+                                    .monospacedDigit()
+                            }
+                        }
+
+                        DatePicker(
+                            L("shopping.expiry_date_label"),
+                            selection: Binding(
+                                get: { item.pendingExpiryDate ?? .now },
+                                set: {
+                                    item.pendingExpiryDate = $0
+                                    try? modelContext.save()
+                                }
+                            ),
+                            displayedComponents: .date
+                        )
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+            .navigationTitle(L("shopping.bulk_capture_title"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(L("common.cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(L("shopping.bulk_save_all")) {
+                        saveAll()
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    private func saveAll() {
+        for item in items {
+            let product = Product(
+                name: item.name,
+                category: item.category ?? .other,
+                expiryDate: item.pendingExpiryDate ?? .now,
+                quantity: max(1, item.quantity)
+            )
+            modelContext.insert(product)
+            item.needsExpiryCapture = false
+            item.pendingExpiryDate = nil
+        }
+        try? modelContext.save()
     }
 }

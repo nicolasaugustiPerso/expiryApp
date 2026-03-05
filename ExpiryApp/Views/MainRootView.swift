@@ -4,7 +4,7 @@ import SwiftData
 private enum AppSection {
     case products
     case calendar
-    case recipes
+    case shopping
 }
 
 struct MainRootView: View {
@@ -80,14 +80,15 @@ struct MainRootView: View {
         case .products:
             ProductListView(
                 focusedDate: homeFocusedDate,
-                onFocusedDateConsumed: { homeFocusedDate = nil }
+                onFocusedDateConsumed: { homeFocusedDate = nil },
+                onAddProductTap: { showAddSheet = true }
             )
         case .calendar:
             CalendarExpiryView { selectedDay in
                 homeFocusedDate = selectedDay
                 selectedSection = .products
             }
-        case .recipes:
+        case .shopping:
             RecipeSuggestionsView()
         }
     }
@@ -106,22 +107,8 @@ struct MainRootView: View {
 
             Spacer(minLength: 0)
 
-            Button {
-                showAddSheet = true
-            } label: {
-                Image(systemName: "plus")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(.white)
-                    .frame(width: 56, height: 56)
-                    .background(Color.blue)
-                    .clipShape(Circle())
-                    .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
-            }
-
-            Spacer(minLength: 0)
-
-            navIcon(systemName: "fork.knife", isSelected: selectedSection == .recipes) {
-                selectedSection = .recipes
+            navIcon(systemName: "cart", isSelected: selectedSection == .shopping) {
+                selectedSection = .shopping
             }
 
             Spacer(minLength: 0)

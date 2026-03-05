@@ -7,7 +7,6 @@ struct SettingsView: View {
 
     @Query private var settingsList: [UserSettings]
 
-    @State private var notificationsAuthorized = false
     @State private var settingsInitFailed = false
 
     private let languageOptions: [(code: String, label: String)] = [
@@ -45,7 +44,6 @@ struct SettingsView: View {
             }
             .task {
                 ensureSettingsIfNeeded()
-                notificationsAuthorized = await NotificationService.notificationsAuthorized()
                 if settingsList.first == nil {
                     settingsInitFailed = true
                 }
@@ -137,6 +135,48 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section(L("settings.section.shopping")) {
+                HStack {
+                    Text(L("settings.shopping_mode"))
+                    Spacer()
+                    Menu {
+                        ForEach(ShoppingMode.allCases) { mode in
+                            Button(shoppingModeLabel(mode)) {
+                                settings.shoppingMode = mode
+                                try? modelContext.save()
+                            }
+                        }
+                    } label: {
+                        Text(shoppingModeLabel(settings.shoppingMode))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.15))
+                            .clipShape(Capsule())
+                    }
+                }
+
+                if settings.shoppingMode == .connected {
+                    HStack {
+                        Text(L("settings.shopping_capture_mode"))
+                        Spacer()
+                        Menu {
+                            ForEach(ShoppingCaptureMode.allCases) { mode in
+                                Button(shoppingCaptureModeLabel(mode)) {
+                                    settings.shoppingCaptureMode = mode
+                                    try? modelContext.save()
+                                }
+                            }
+                        } label: {
+                            Text(shoppingCaptureModeLabel(settings.shoppingCaptureMode))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.gray.opacity(0.15))
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
+            }
+
             Section(L("settings.section.categories")) {
                 NavigationLink(L("settings.manage_categories")) {
                     CategoryManagementView()
@@ -155,8 +195,7 @@ struct SettingsView: View {
                 NotificationService.removeDailyDigest()
             } else {
                 let granted = await NotificationService.requestPermission()
-                notificationsAuthorized = await NotificationService.notificationsAuthorized()
-                settings.notificationsEnabled = granted || notificationsAuthorized
+                settings.notificationsEnabled = granted
             }
             try? modelContext.save()
         }
@@ -164,6 +203,20 @@ struct SettingsView: View {
 
     private func languageLabel(for code: String) -> String {
         languageOptions.first(where: { $0.code == code })?.label ?? "🌐 System"
+    }
+    
+    private func shoppingModeLabel(_ mode: ShoppingMode) -> String {
+        switch mode {
+        case .listOnly: return L("settings.shopping_mode_list_only")
+        case .connected: return L("settings.shopping_mode_connected")
+        }
+    }
+
+    private func shoppingCaptureModeLabel(_ mode: ShoppingCaptureMode) -> String {
+        switch mode {
+        case .byItem: return L("settings.shopping_capture_by_item")
+        case .bulk: return L("settings.shopping_capture_bulk")
+        }
     }
 
     private func applyLanguagePreference(code: String) {

@@ -1,5 +1,5 @@
 "app.title" = "Suivi des Dates";
-"list.empty" = "Aucun produit pour le moment. Touchez + pour en ajouter.";
+"list.empty" = "Aucun produit pour le moment. Utilisez la banniere ci-dessus pour en ajouter.";
 
 "common.cancel" = "Annuler";
 "common.save" = "Enregistrer";
@@ -124,3 +124,31 @@
 "calendar.filter.all" = "Tout";
 "calendar.filter.by_category" = "Par catégorie";
 "calendar.filter.category" = "Catégorie";
+"shopping.title" = "Liste de courses";
+"shopping.section.to_buy" = "À acheter";
+"shopping.section.bought" = "Achetés";
+"shopping.empty.to_buy" = "Aucun article à acheter.";
+"shopping.empty.bought" = "Aucun article acheté pour le moment.";
+"shopping.item_name" = "Nom de l'article";
+"shopping.add_item" = "Ajouter un article";
+"shopping.quantity" = "Quantité : %d";
+"shopping.capture_title" = "Ajouter la date d'expiration";
+"shopping.capture_nav" = "Article acheté";
+"shopping.pending_banner" = "%d articles achetés attendent une date d'expiration";
+"shopping.quantity_label" = "Quantité";
+"shopping.expiry_date_label" = "Date d'expiration";
+"shopping.bulk_capture_title" = "Saisie en lot";
+"shopping.bulk_save_all" = "Tout enregistrer";
+"shopping.add_product_banner" = "Nouvel article";
+"shopping.most_bought" = "Les plus achetes";
+
+"settings.section.shopping" = "Liste de courses";
+"settings.shopping_mode" = "Mode courses";
+"settings.shopping_mode_list_only" = "Liste seulement";
+"settings.shopping_mode_connected" = "Connecté à Expiry";
+"settings.shopping_capture_mode" = "Mode de saisie";
+"settings.shopping_capture_by_item" = "Par article";
+"settings.shopping_capture_bulk" = "Saisie en lot";
+
+"common.skip" = "Passer";
+"home.add_expiry_product" = "Nouvel article";

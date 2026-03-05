@@ -1,5 +1,5 @@
 "app.title" = "Expiry Tracker";
-"list.empty" = "No products yet. Tap + to add one.";
+"list.empty" = "No products yet. Use the banner above to add one.";
 
 "common.cancel" = "Cancel";
 "common.save" = "Save";
@@ -124,3 +124,31 @@
 "calendar.filter.all" = "All";
 "calendar.filter.by_category" = "By category";
 "calendar.filter.category" = "Category";
+"shopping.title" = "Shopping List";
+"shopping.section.to_buy" = "To Buy";
+"shopping.section.bought" = "Bought";
+"shopping.empty.to_buy" = "No items to buy.";
+"shopping.empty.bought" = "No bought items yet.";
+"shopping.item_name" = "Item name";
+"shopping.add_item" = "Add Shopping Item";
+"shopping.quantity" = "Quantity: %d";
+"shopping.capture_title" = "Add expiry for this item";
+"shopping.capture_nav" = "Bought Item";
+"shopping.pending_banner" = "%d bought items need expiry dates";
+"shopping.quantity_label" = "Quantity";
+"shopping.expiry_date_label" = "Expiry date";
+"shopping.bulk_capture_title" = "Bulk Expiry Capture";
+"shopping.bulk_save_all" = "Save all";
+"shopping.add_product_banner" = "New item";
+"shopping.most_bought" = "Most bought";
+
+"settings.section.shopping" = "Shopping";
+"settings.shopping_mode" = "Shopping mode";
+"settings.shopping_mode_list_only" = "List only";
+"settings.shopping_mode_connected" = "Connected to Expiry";
+"settings.shopping_capture_mode" = "Capture mode";
+"settings.shopping_capture_by_item" = "By item";
+"settings.shopping_capture_bulk" = "Bulk capture";
+
+"common.skip" = "Skip";
+"home.add_expiry_product" = "New item";
