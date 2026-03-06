@@ -5,6 +5,7 @@
 "common.save" = "Save";
 "common.done" = "Done";
 "common.delete" = "Delete";
+"common.add" = "Add";
 
 "product.add" = "Add Product";
 "product.edit" = "Edit Product";
@@ -139,6 +140,9 @@
 "shopping.expiry_date_label" = "Expiry date";
 "shopping.bulk_capture_title" = "Bulk Expiry Capture";
 "shopping.bulk_save_all" = "Save all";
+"shopping.item_details" = "Item details";
+"shopping.mark_bought" = "Mark as bought";
+"shopping.mark_to_buy" = "Move to to-buy";
 "shopping.add_product_banner" = "New item";
 "shopping.most_bought" = "Most bought";
 

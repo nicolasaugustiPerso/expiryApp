@@ -5,6 +5,7 @@
 "common.save" = "Enregistrer";
 "common.done" = "OK";
 "common.delete" = "Supprimer";
+"common.add" = "Ajouter";
 
 "product.add" = "Ajouter un produit";
 "product.edit" = "Modifier le produit";
@@ -139,6 +140,9 @@
 "shopping.expiry_date_label" = "Date d'expiration";
 "shopping.bulk_capture_title" = "Saisie en lot";
 "shopping.bulk_save_all" = "Tout enregistrer";
+"shopping.item_details" = "Details de l'article";
+"shopping.mark_bought" = "Marquer comme achete";
+"shopping.mark_to_buy" = "Remettre a acheter";
 "shopping.add_product_banner" = "Nouvel article";
 "shopping.most_bought" = "Les plus achetes";
 

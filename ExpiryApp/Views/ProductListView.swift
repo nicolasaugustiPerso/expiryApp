@@ -269,30 +269,76 @@ private struct BulkExpiryCaptureView: View {
     @Environment(\.modelContext) private var modelContext
 
     let items: [ShoppingItem]
+    @State private var datePickerItemID: UUID?
+    @State private var locallyProcessedIDs: Set<UUID> = []
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(items) { item in
-                    VStack(alignment: .leading, spacing: 8) {
+                ForEach(visibleItems) { item in
+                    HStack(spacing: 14) {
                         Text(localizedProductName(item.name))
-                            .font(.headline)
+                            .font(.headline.weight(.semibold))
+                            .lineLimit(1)
 
-                        HStack {
-                            Text(L("shopping.quantity_label"))
-                            Spacer()
-                            Stepper(value: Binding(
-                                get: { item.quantity },
-                                set: {
-                                    item.quantity = max(1, $0)
+                        Spacer(minLength: 8)
+
+                        Menu {
+                            ForEach(1...99, id: \.self) { value in
+                                Button("\(value)") {
+                                    item.quantity = value
                                     try? modelContext.save()
                                 }
-                            ), in: 1...99) {
-                                Text("\(item.quantity)")
-                                    .monospacedDigit()
                             }
+                        } label: {
+                            Text("\(item.quantity)")
+                                .font(.title3.weight(.semibold))
+                                .frame(width: 42, height: 42)
+                                .background(Color.gray.opacity(0.12))
+                                .clipShape(Circle())
                         }
 
+                        Button {
+                            datePickerItemID = item.id
+                        } label: {
+                            VStack(spacing: 2) {
+                                Image(systemName: "calendar")
+                                    .font(.title3.weight(.semibold))
+                                Text(shortDate(item.pendingExpiryDate ?? .now))
+                                    .font(.caption2.weight(.medium))
+                            }
+                            .foregroundStyle(.primary)
+                            .frame(width: 54)
+                        }
+                        .buttonStyle(.plain)
+
+                        Button(L("common.add")) {
+                            addSingle(item)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.small)
+                    }
+                    .padding(.vertical, 10)
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 18)
+                            .fill(Color.gray.opacity(0.08))
+                            .padding(.vertical, 4)
+                    )
+                }
+
+                if visibleItems.isEmpty {
+                    Text(L("shopping.empty.bought"))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .listStyle(.plain)
+            .navigationTitle(L("shopping.bulk_capture_title"))
+            .sheet(item: Binding(
+                get: { dateItemForSheet },
+                set: { _ in datePickerItemID = nil }
+            )) { item in
+                NavigationStack {
+                    Form {
                         DatePicker(
                             L("shopping.expiry_date_label"),
                             selection: Binding(
@@ -304,11 +350,23 @@ private struct BulkExpiryCaptureView: View {
                             ),
                             displayedComponents: .date
                         )
+                        .datePickerStyle(.graphical)
+
+                        HStack {
+                            Text(localizedProductName(item.name))
+                            Spacer()
+                            Text(shortDate(item.pendingExpiryDate ?? .now))
+                                .foregroundStyle(.secondary)
+                        }
                     }
-                    .padding(.vertical, 4)
+                    .navigationTitle(L("shopping.expiry_date_label"))
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button(L("common.done")) { datePickerItemID = nil }
+                        }
+                    }
                 }
             }
-            .navigationTitle(L("shopping.bulk_capture_title"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L("common.cancel")) { dismiss() }
@@ -318,13 +376,37 @@ private struct BulkExpiryCaptureView: View {
                         saveAll()
                         dismiss()
                     }
+                    .disabled(visibleItems.isEmpty)
                 }
             }
         }
     }
 
+    private var visibleItems: [ShoppingItem] {
+        items.filter { $0.needsExpiryCapture && !locallyProcessedIDs.contains($0.id) }
+    }
+
+    private var dateItemForSheet: ShoppingItem? {
+        guard let datePickerItemID else { return nil }
+        return visibleItems.first(where: { $0.id == datePickerItemID })
+    }
+
+    private func addSingle(_ item: ShoppingItem) {
+        let product = Product(
+            name: item.name,
+            category: item.category ?? .other,
+            expiryDate: item.pendingExpiryDate ?? .now,
+            quantity: max(1, item.quantity)
+        )
+        modelContext.insert(product)
+        item.needsExpiryCapture = false
+        item.pendingExpiryDate = nil
+        locallyProcessedIDs.insert(item.id)
+        try? modelContext.save()
+    }
+
     private func saveAll() {
-        for item in items {
+        for item in visibleItems {
             let product = Product(
                 name: item.name,
                 category: item.category ?? .other,
@@ -336,5 +418,18 @@ private struct BulkExpiryCaptureView: View {
             item.pendingExpiryDate = nil
         }
         try? modelContext.save()
+    }
+
+    private func shortDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = appLocale()
+        formatter.setLocalizedDateFormatFromTemplate("dMMM")
+        return formatter.string(from: date)
+    }
+
+    private func appLocale() -> Locale {
+        let code = UserDefaults.standard.string(forKey: "app.preferred_language_code") ?? "system"
+        if code == "system" { return .current }
+        return Locale(identifier: code)
     }
 }

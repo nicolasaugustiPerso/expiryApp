@@ -22,6 +22,7 @@ struct RecipeSuggestionsView: View {
     @State private var showAddSheet = false
     @State private var shoppingSearchText = ""
     @State private var captureItem: ShoppingItem?
+    @State private var editingItem: ShoppingItem?
 
     private var settings: UserSettings? { settingsList.first }
 
@@ -90,6 +91,18 @@ struct RecipeSuggestionsView: View {
                         )
                         modelContext.insert(product)
                         try? modelContext.save()
+                    }
+                )
+            }
+            .sheet(item: $editingItem) { item in
+                ShoppingItemEditView(
+                    item: item,
+                    onDelete: {
+                        modelContext.delete(item)
+                        try? modelContext.save()
+                    },
+                    onToggleBought: {
+                        toggleBought(item)
                     }
                 )
             }
@@ -232,6 +245,10 @@ struct RecipeSuggestionsView: View {
             }
             .buttonStyle(.plain)
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            editingItem = item
+        }
     }
 
     private var addItemSheet: some View {
@@ -344,6 +361,68 @@ struct RecipeSuggestionsView: View {
             item.needsExpiryCapture = true
             item.pendingExpiryDate = item.pendingExpiryDate ?? .now
             try? modelContext.save()
+        }
+    }
+}
+
+private struct ShoppingItemEditView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+
+    let item: ShoppingItem
+    let onDelete: () -> Void
+    let onToggleBought: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Text(localizedProductName(item.name))
+                        .font(.headline)
+
+                    Stepper(value: Binding(
+                        get: { item.quantity },
+                        set: { newValue in
+                            item.quantity = max(1, newValue)
+                            try? modelContext.save()
+                        }
+                    ), in: 1...999) {
+                        Text(String(format: L("shopping.quantity"), item.quantity))
+                    }
+
+                    Picker(L("product.category"), selection: Binding(
+                        get: { item.category ?? .other },
+                        set: { newCategory in
+                            item.category = newCategory
+                            try? modelContext.save()
+                        }
+                    )) {
+                        ForEach(ProductCategory.allCases) { category in
+                            Text(category.displayName).tag(category)
+                        }
+                    }
+                }
+
+                Section {
+                    Button(item.isBought ? L("shopping.mark_to_buy") : L("shopping.mark_bought")) {
+                        onToggleBought()
+                        dismiss()
+                    }
+
+                    Button(L("common.delete"), role: .destructive) {
+                        onDelete()
+                        dismiss()
+                    }
+                }
+            }
+            .navigationTitle(L("shopping.item_details"))
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(L("common.done")) {
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 }
