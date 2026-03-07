@@ -73,7 +73,11 @@ struct MainRootView: View {
     private var currentSectionView: some View {
         switch selectedSection {
         case .shopping:
-            RecipeSuggestionsView()
+            if FeatureFlags.useCoreDataShopping {
+                CoreDataShoppingView()
+            } else {
+                RecipeSuggestionsView()
+            }
         case .products:
             ProductListView(onAddProductTap: { showAddSheet = true })
         case .insights:

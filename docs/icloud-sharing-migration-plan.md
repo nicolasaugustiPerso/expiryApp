@@ -9,7 +9,7 @@ Move from SwiftData-only storage to Core Data + CloudKit sharing so a list can b
 - [x] `CKSharingSupported` added to app plist.
 - [x] Core Data + CloudKit stack scaffold added.
 - [x] Initial Core Data schema scaffold added.
-- [ ] Core Data entities wired to app UI.
+- [ ] Core Data entities fully wired to app UI.
 - [ ] SwiftData -> Core Data data migration routine.
 - [ ] Share list creation and invite flow.
 - [ ] Join/accept shared list flow.
@@ -22,6 +22,11 @@ Move from SwiftData-only storage to Core Data + CloudKit sharing so a list can b
 3. Switch Expiration list and Insights to Core Data.
 4. Add list-scoped sharing (`CKShare`) and member management UI.
 5. Remove SwiftData dependency once migration is stable.
+
+## Progress update
+- Added `CoreDataShoppingRepository` with CRUD for list-scoped shopping items.
+- Added `CoreDataShoppingView` and `CoreDataShoppingViewModel`.
+- Wired shopping tab switch through `FeatureFlags.useCoreDataShopping`.
 
 ## Notes
 - Sharing is iCloud-based. Users need Apple ID + iCloud enabled.
