@@ -46,6 +46,9 @@ struct MainRootView: View {
         }
         .task {
             SeedService.seedIfNeeded(context: modelContext)
+            if FeatureFlags.isAnyCoreDataFeatureEnabled {
+                SwiftDataToCoreDataMigrator.migrateIfNeeded(modelContext: modelContext)
+            }
             _ = await NotificationService.requestPermission()
             await rescheduleDigestIfPossible()
         }
@@ -79,9 +82,17 @@ struct MainRootView: View {
                 RecipeSuggestionsView()
             }
         case .products:
-            ProductListView(onAddProductTap: { showAddSheet = true })
+            if FeatureFlags.useCoreDataExpiration {
+                CoreDataExpirationView()
+            } else {
+                ProductListView(onAddProductTap: { showAddSheet = true })
+            }
         case .insights:
-            CalendarExpiryView()
+            if FeatureFlags.useCoreDataInsights {
+                CoreDataInsightsView()
+            } else {
+                CalendarExpiryView()
+            }
         case .settings:
             SettingsView()
         }

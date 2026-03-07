@@ -27,6 +27,9 @@ Move from SwiftData-only storage to Core Data + CloudKit sharing so a list can b
 - Added `CoreDataShoppingRepository` with CRUD for list-scoped shopping items.
 - Added `CoreDataShoppingView` and `CoreDataShoppingViewModel`.
 - Wired shopping tab switch through `FeatureFlags.useCoreDataShopping`.
+- Added one-time SwiftData -> Core Data migration service (`SwiftDataToCoreDataMigrator`).
+- Added Core Data expiration repository/view (`CoreDataExpirationRepository`, `CoreDataExpirationView`).
+- Added Core Data insights view based on migrated consumption events (`CoreDataInsightsView`).
 
 ## Notes
 - Sharing is iCloud-based. Users need Apple ID + iCloud enabled.
