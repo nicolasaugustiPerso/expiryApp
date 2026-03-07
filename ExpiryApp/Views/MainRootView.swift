@@ -2,9 +2,10 @@ import SwiftUI
 import SwiftData
 
 private enum AppSection {
+    case shopping
     case products
     case insights
-    case shopping
+    case settings
 }
 
 struct MainRootView: View {
@@ -19,9 +20,8 @@ struct MainRootView: View {
     @Query
     private var settingsList: [UserSettings]
 
-    @State private var selectedSection: AppSection = .products
+    @State private var selectedSection: AppSection = .shopping
     @State private var showAddSheet = false
-    @State private var showSettings = false
     private var settings: UserSettings? {
         settingsList.first
     }
@@ -43,9 +43,6 @@ struct MainRootView: View {
         }
         .sheet(isPresented: $showAddSheet) {
             AddEditProductView(product: nil)
-        }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
         }
         .task {
             SeedService.seedIfNeeded(context: modelContext)
@@ -75,37 +72,39 @@ struct MainRootView: View {
     @ViewBuilder
     private var currentSectionView: some View {
         switch selectedSection {
+        case .shopping:
+            RecipeSuggestionsView()
         case .products:
             ProductListView(onAddProductTap: { showAddSheet = true })
         case .insights:
             CalendarExpiryView()
-        case .shopping:
-            RecipeSuggestionsView()
+        case .settings:
+            SettingsView()
         }
     }
 
     private var bottomBar: some View {
         HStack {
-            navIcon(systemName: "house", isSelected: selectedSection == .products) {
-                selectedSection = .products
-            }
-
-            Spacer(minLength: 0)
-
-            navIcon(systemName: "chart.bar", isSelected: selectedSection == .insights) {
-                selectedSection = .insights
-            }
-
-            Spacer(minLength: 0)
-
-            navIcon(systemName: "cart", isSelected: selectedSection == .shopping) {
+            navItem(systemName: "cart", label: L("tab.list"), isSelected: selectedSection == .shopping) {
                 selectedSection = .shopping
             }
 
             Spacer(minLength: 0)
 
-            navIcon(systemName: "gearshape", isSelected: false) {
-                showSettings = true
+            navItem(systemName: "calendar", label: L("tab.expiration"), isSelected: selectedSection == .products) {
+                selectedSection = .products
+            }
+
+            Spacer(minLength: 0)
+
+            navItem(systemName: "chart.bar", label: L("tab.stats"), isSelected: selectedSection == .insights) {
+                selectedSection = .insights
+            }
+
+            Spacer(minLength: 0)
+
+            navItem(systemName: "gearshape", label: L("tab.settings"), isSelected: selectedSection == .settings) {
+                selectedSection = .settings
             }
         }
         .padding(.horizontal, 20)
@@ -114,12 +113,17 @@ struct MainRootView: View {
         .clipShape(Capsule())
     }
 
-    private func navIcon(systemName: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    private func navItem(systemName: String, label: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Image(systemName: systemName)
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundStyle(isSelected ? .blue : .primary)
-                .frame(width: 28, height: 28)
+            VStack(spacing: 4) {
+                Image(systemName: systemName)
+                    .font(.system(size: 18, weight: .semibold))
+                Text(label)
+                    .font(.caption2.weight(.semibold))
+                    .lineLimit(1)
+            }
+            .foregroundStyle(isSelected ? .blue : .primary)
+            .frame(minWidth: 56)
         }
     }
 

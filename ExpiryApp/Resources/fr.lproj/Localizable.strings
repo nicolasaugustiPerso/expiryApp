@@ -175,3 +175,7 @@
 "home.urgent_today" = "%d aujourd'hui";
 "home.urgent_tomorrow" = "%d demain";
 "shopping.pending_no_dates" = "%d articles sans date";
+"tab.list" = "Liste";
+"tab.expiration" = "Expiration";
+"tab.stats" = "Stats";
+"tab.settings" = "Réglages";

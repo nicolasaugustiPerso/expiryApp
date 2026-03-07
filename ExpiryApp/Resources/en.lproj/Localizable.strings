@@ -157,6 +157,10 @@
 "insights.reco_high" = "Recommendation: buy smaller quantities for this item.";
 "insights.reco_medium" = "Recommendation: prioritize this item in upcoming meals.";
 "insights.reco_low" = "Recommendation: current buying pattern looks good.";
+"tab.list" = "List";
+"tab.expiration" = "Expiration";
+"tab.stats" = "Stats";
+"tab.settings" = "Settings";
 "shopping.add_product_banner" = "New item";
 "shopping.most_bought" = "Most bought";
 

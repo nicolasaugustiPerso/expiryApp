@@ -8,6 +8,13 @@ private struct ShoppingSuggestion: Identifiable {
     let count: Int
 }
 
+private struct ShoppingCategoryGroup: Identifiable {
+    let category: ProductCategory
+    let items: [ShoppingItem]
+
+    var id: String { category.rawValue }
+}
+
 struct RecipeSuggestionsView: View {
     @Environment(\.modelContext) private var modelContext
 
@@ -52,24 +59,32 @@ struct RecipeSuggestionsView: View {
                         .padding(.vertical, 2)
                 )
 
-                Section(L("shopping.section.to_buy")) {
-                    if toBuyItems.isEmpty {
+                if toBuyItems.isEmpty {
+                    Section(L("shopping.section.to_buy")) {
                         Text(L("shopping.empty.to_buy"))
                             .foregroundStyle(.secondary)
-                    } else {
-                        ForEach(toBuyItems) { item in
-                            shoppingRow(item)
+                    }
+                } else {
+                    ForEach(groupByCategory(toBuyItems)) { group in
+                        Section("\(L("shopping.section.to_buy")) · \(group.category.displayName)") {
+                            ForEach(group.items) { item in
+                                shoppingRow(item)
+                            }
                         }
                     }
                 }
 
-                Section(L("shopping.section.bought")) {
-                    if boughtItems.isEmpty {
+                if boughtItems.isEmpty {
+                    Section(L("shopping.section.bought")) {
                         Text(L("shopping.empty.bought"))
                             .foregroundStyle(.secondary)
-                    } else {
-                        ForEach(boughtItems) { item in
-                            shoppingRow(item)
+                    }
+                } else {
+                    ForEach(groupByCategory(boughtItems)) { group in
+                        Section("\(L("shopping.section.bought")) · \(group.category.displayName)") {
+                            ForEach(group.items) { item in
+                                shoppingRow(item)
+                            }
                         }
                     }
                 }
@@ -219,6 +234,20 @@ struct RecipeSuggestionsView: View {
         let trimmed = shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return false }
         return !filteredSuggestions.contains { $0.name.caseInsensitiveCompare(trimmed) == .orderedSame }
+    }
+
+    private func groupByCategory(_ items: [ShoppingItem]) -> [ShoppingCategoryGroup] {
+        let grouped = Dictionary(grouping: items) { $0.category ?? .other }
+        return grouped
+            .map { category, items in
+                let sortedItems = items.sorted {
+                    $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+                }
+                return ShoppingCategoryGroup(category: category, items: sortedItems)
+            }
+            .sorted {
+                $0.category.displayName.localizedCaseInsensitiveCompare($1.category.displayName) == .orderedAscending
+            }
     }
 
     @ViewBuilder
