@@ -5,7 +5,7 @@ import SwiftData
 struct ExpiryAppApp: App {
     @AppStorage("app.preferred_language_code") private var preferredLanguageCode = "system"
     private let sharedModelContainer: ModelContainer = {
-        let schema = Schema(versionedSchema: AppSchemaV3.self)
+        let schema = Schema(versionedSchema: AppSchemaV4.self)
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {

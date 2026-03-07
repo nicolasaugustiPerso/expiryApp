@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,7 +28,7 @@
 
 /* Begin PBXFileReference section */
 		0B3D368A1930C24FEDA6FBD6 /* CalendarExpiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExpiryView.swift; sourceTree = "<group>"; };
-		19EEB8D7976ACECECA94F47D /* ExpiryApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ExpiryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19EEB8D7976ACECECA94F47D /* ExpiryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpiryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25DF6507A7A411307753AAE7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryCalculator.swift; sourceTree = "<group>"; };
 		31529E060EA89CAB31B3F79F /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -164,7 +164,6 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					98B78C2B2D059508F1AA4145 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -180,7 +179,6 @@
 			);
 			mainGroup = A73D76558C358A4E9C96D75C;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -246,7 +244,7 @@
 				CODE_SIGN_ENTITLEMENTS = ExpiryApp/App/ExpiryApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7D7BD9XMS6;
 				ENABLE_USER_NOTIFICATIONS = YES;
 				INFOPLIST_FILE = ExpiryApp/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -267,7 +265,7 @@
 				CODE_SIGN_ENTITLEMENTS = ExpiryApp/App/ExpiryApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7D7BD9XMS6;
 				ENABLE_USER_NOTIFICATIONS = YES;
 				INFOPLIST_FILE = ExpiryApp/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

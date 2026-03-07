@@ -35,14 +35,22 @@ struct RecipeSuggestionsView: View {
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
+                            .font(.title2)
                             .foregroundStyle(.blue)
                         Text(L("shopping.add_product_banner"))
-                            .foregroundStyle(.primary)
+                            .font(.headline.weight(.bold))
+                            .foregroundStyle(.black)
                         Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.secondary)
+                        Text(L("common.add"))
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.blue)
                     }
                 }
+                .listRowBackground(
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(Color.blue.opacity(0.08))
+                        .padding(.vertical, 2)
+                )
 
                 Section(L("shopping.section.to_buy")) {
                     if toBuyItems.isEmpty {

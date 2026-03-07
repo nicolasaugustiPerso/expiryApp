@@ -143,6 +143,20 @@
 "shopping.item_details" = "Item details";
 "shopping.mark_bought" = "Mark as bought";
 "shopping.mark_to_buy" = "Move to to-buy";
+
+"insights.title" = "Insights";
+"insights.waste_score" = "ANTI-WASTE SCORE";
+"insights.this_month" = "This month:";
+"insights.delta_up" = "+%d%% vs last month";
+"insights.delta_down" = "-%d%% vs last month";
+"insights.delta_equal" = "No change vs last month";
+"insights.trend_6m" = "TREND (6 MONTHS)";
+"insights.often_wasted" = "OFTEN WASTED";
+"insights.no_waste_items" = "No frequently wasted items yet.";
+"insights.expired_over_total" = "%d/%d expired";
+"insights.reco_high" = "Recommendation: buy smaller quantities for this item.";
+"insights.reco_medium" = "Recommendation: prioritize this item in upcoming meals.";
+"insights.reco_low" = "Recommendation: current buying pattern looks good.";
 "shopping.add_product_banner" = "New item";
 "shopping.most_bought" = "Most bought";
 
@@ -156,3 +170,8 @@
 
 "common.skip" = "Skip";
 "home.add_expiry_product" = "New item";
+"home.urgent_title" = "%d products to use quickly";
+"home.urgent_expired" = "%d expired";
+"home.urgent_today" = "%d today";
+"home.urgent_tomorrow" = "%d tomorrow";
+"shopping.pending_no_dates" = "%d items without dates";

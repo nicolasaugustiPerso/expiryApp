@@ -42,34 +42,75 @@ struct ProductListView: View {
         NavigationStack {
             ScrollViewReader { proxy in
                 List {
+                    if urgentTotalCount > 0 {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 10) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundStyle(.orange)
+                                Text(String(format: L("home.urgent_title"), urgentTotalCount))
+                                    .font(.headline.weight(.bold))
+                                    .foregroundStyle(.red)
+                            }
+                            Text(urgentSubtitle)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.vertical, 6)
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.red.opacity(0.22), lineWidth: 1)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(Color.red.opacity(0.06))
+                                )
+                                .padding(.vertical, 4)
+                        )
+                    }
+
                     Button {
                         onAddProductTap?()
                     } label: {
                         HStack {
                             Image(systemName: "plus.circle.fill")
+                                .font(.title2)
                                 .foregroundStyle(.blue)
                             Text(L("home.add_expiry_product"))
-                                .foregroundStyle(.primary)
+                                .font(.headline.weight(.bold))
+                                .foregroundStyle(.black)
                             Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.secondary)
+                            Text(L("common.add"))
+                                .font(.headline.weight(.semibold))
+                                .foregroundStyle(.blue)
                         }
                     }
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(Color.blue.opacity(0.08))
+                            .padding(.vertical, 2)
+                    )
 
                     if !pendingBulkItems.isEmpty {
-                        Button {
-                            showBulkCaptureSheet = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "cart.badge.plus")
+                        HStack {
+                            HStack(spacing: 10) {
+                                Image(systemName: "cart.fill")
                                     .foregroundStyle(.blue)
-                                Text(String(format: L("shopping.pending_banner"), pendingBulkItemsCount))
-                                    .foregroundStyle(.primary)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundStyle(.secondary)
+                                Text(String(format: L("shopping.pending_no_dates"), pendingBulkItemsCount))
+                                    .font(.headline.weight(.bold))
+                                    .foregroundStyle(.black)
                             }
+                            Spacer()
+                            Button(L("common.add")) {
+                                showBulkCaptureSheet = true
+                            }
+                            .buttonStyle(.plain)
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(.blue)
                         }
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(Color.green.opacity(0.2))
+                                .padding(.vertical, 2)
+                        )
                     }
 
                     if products.isEmpty {
@@ -99,7 +140,7 @@ struct ProductListView: View {
                                     }
                                 }
                             } header: {
-                                Text(group.date.formatted(date: .complete, time: .omitted))
+                                Text(capitalizedDateHeader(group.date))
                                     .textCase(nil)
                                     .foregroundStyle(.blue)
                             }
@@ -107,6 +148,7 @@ struct ProductListView: View {
                         }
                     }
                 }
+                .listSectionSpacing(8)
                 .onAppear {
                     scrollToFocusedDateIfNeeded(proxy: proxy)
                 }
@@ -142,6 +184,35 @@ struct ProductListView: View {
 
     private var pendingBulkItemsCount: Int {
         pendingBulkItems.reduce(0) { $0 + $1.quantity }
+    }
+
+    private var urgentBuckets: (expired: Int, today: Int, tomorrow: Int) {
+        var expired = 0
+        var today = 0
+        var tomorrow = 0
+        for product in products {
+            let effective = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
+            let days = ExpiryCalculator.daysUntilExpiry(effective)
+            if days < 0 {
+                expired += product.quantity
+            } else if days == 0 {
+                today += product.quantity
+            } else if days == 1 {
+                tomorrow += product.quantity
+            }
+        }
+        return (expired, today, tomorrow)
+    }
+
+    private var urgentTotalCount: Int {
+        urgentBuckets.expired + urgentBuckets.today + urgentBuckets.tomorrow
+    }
+
+    private var urgentSubtitle: String {
+        let expiredText = String(format: L("home.urgent_expired"), urgentBuckets.expired)
+        let todayText = String(format: L("home.urgent_today"), urgentBuckets.today)
+        let tomorrowText = String(format: L("home.urgent_tomorrow"), urgentBuckets.tomorrow)
+        return "\(expiredText) · \(todayText) · \(tomorrowText)"
     }
 
     private func toggleOpened(_ product: Product) {
@@ -197,12 +268,28 @@ struct ProductListView: View {
     }
 
     private func consumeOne(_ product: Product) {
+        let effectiveExpiry = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
+        recordConsumption(product: product, effectiveExpiry: effectiveExpiry, quantity: 1)
+
         if product.quantity > 1 {
             product.quantity -= 1
         } else {
             modelContext.delete(product)
         }
         try? modelContext.save()
+    }
+
+    private func recordConsumption(product: Product, effectiveExpiry: Date, quantity: Int = 1) {
+        let consumedAt = Date()
+        let event = ConsumptionEvent(
+            productName: product.name,
+            categoryRawValue: product.categoryRawValue,
+            quantity: max(1, quantity),
+            consumedAt: consumedAt,
+            effectiveExpiryDate: effectiveExpiry,
+            consumedBeforeExpiry: consumedAt <= effectiveExpiry
+        )
+        modelContext.insert(event)
     }
 
     private func matchingOpenedProduct(for product: Product, excluding id: UUID) -> Product? {
@@ -261,6 +348,12 @@ struct ProductListView: View {
             }
             onFocusedDateConsumed?()
         }
+    }
+
+    private func capitalizedDateHeader(_ date: Date) -> String {
+        let formatted = date.formatted(date: .complete, time: .omitted)
+        guard let first = formatted.first else { return formatted }
+        return String(first).uppercased() + formatted.dropFirst()
     }
 }
 

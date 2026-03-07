@@ -143,6 +143,20 @@
 "shopping.item_details" = "Details de l'article";
 "shopping.mark_bought" = "Marquer comme achete";
 "shopping.mark_to_buy" = "Remettre a acheter";
+
+"insights.title" = "Insights";
+"insights.waste_score" = "SCORE ANTI-GASPI";
+"insights.this_month" = "Ce mois:";
+"insights.delta_up" = "+%d%% vs mois dernier";
+"insights.delta_down" = "-%d%% vs mois dernier";
+"insights.delta_equal" = "Stable vs mois dernier";
+"insights.trend_6m" = "TENDANCE (6 MOIS)";
+"insights.often_wasted" = "SOUVENT GASPILLES";
+"insights.no_waste_items" = "Aucun produit souvent gaspille pour le moment.";
+"insights.expired_over_total" = "%d/%d expires";
+"insights.reco_high" = "Recommendation: acheter en plus petite quantite.";
+"insights.reco_medium" = "Recommendation: prioriser ce produit dans les prochains repas.";
+"insights.reco_low" = "Recommendation: le rythme actuel semble bon.";
 "shopping.add_product_banner" = "Nouvel article";
 "shopping.most_bought" = "Les plus achetes";
 
@@ -156,3 +170,8 @@
 
 "common.skip" = "Passer";
 "home.add_expiry_product" = "Nouvel article";
+"home.urgent_title" = "%d produits à utiliser vite";
+"home.urgent_expired" = "%d expirés";
+"home.urgent_today" = "%d aujourd'hui";
+"home.urgent_tomorrow" = "%d demain";
+"shopping.pending_no_dates" = "%d articles sans date";

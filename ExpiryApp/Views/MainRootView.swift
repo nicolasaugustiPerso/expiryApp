@@ -3,7 +3,7 @@ import SwiftData
 
 private enum AppSection {
     case products
-    case calendar
+    case insights
     case shopping
 }
 
@@ -22,8 +22,6 @@ struct MainRootView: View {
     @State private var selectedSection: AppSection = .products
     @State private var showAddSheet = false
     @State private var showSettings = false
-    @State private var homeFocusedDate: Date?
-
     private var settings: UserSettings? {
         settingsList.first
     }
@@ -78,16 +76,9 @@ struct MainRootView: View {
     private var currentSectionView: some View {
         switch selectedSection {
         case .products:
-            ProductListView(
-                focusedDate: homeFocusedDate,
-                onFocusedDateConsumed: { homeFocusedDate = nil },
-                onAddProductTap: { showAddSheet = true }
-            )
-        case .calendar:
-            CalendarExpiryView { selectedDay in
-                homeFocusedDate = selectedDay
-                selectedSection = .products
-            }
+            ProductListView(onAddProductTap: { showAddSheet = true })
+        case .insights:
+            CalendarExpiryView()
         case .shopping:
             RecipeSuggestionsView()
         }
@@ -101,8 +92,8 @@ struct MainRootView: View {
 
             Spacer(minLength: 0)
 
-            navIcon(systemName: "calendar", isSelected: selectedSection == .calendar) {
-                selectedSection = .calendar
+            navIcon(systemName: "chart.bar", isSelected: selectedSection == .insights) {
+                selectedSection = .insights
             }
 
             Spacer(minLength: 0)

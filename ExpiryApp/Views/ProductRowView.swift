@@ -93,9 +93,9 @@ struct ProductRowView: View {
                 Button {
                     onConsumeOne?()
                 } label: {
-                    Image(systemName: "minus.circle")
+                    Image(systemName: "fork.knife.circle")
                         .font(.title3)
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(.green)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(L("product.consume_one"))
