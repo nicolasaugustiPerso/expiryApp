@@ -6,9 +6,9 @@ enum ExpiryCalculator {
             return product.expiryDate
         }
 
-        let fallbackDays = CategoryDefaults.afterOpeningDays[product.category] ?? 3
+        let fallbackDays = CategoryDefaults.defaultAfterOpeningDaysByKey[product.categoryRawValue] ?? 3
         let ruleDays = product.customAfterOpeningDays
-            ?? rules.first(where: { $0.category == product.category })?.defaultAfterOpeningDays
+            ?? rules.first(where: { $0.categoryRawValue == product.categoryRawValue })?.defaultAfterOpeningDays
             ?? fallbackDays
 
         let openedExpiry = Calendar.current.date(byAdding: .day, value: ruleDays, to: openedAt) ?? product.expiryDate

@@ -11,12 +11,31 @@ enum SeedService {
             context.insert(UserSettings())
         }
 
-        let existingRules = (try? context.fetch(FetchDescriptor<CategoryRule>())) ?? []
-        if existingRules.isEmpty {
-            for category in ProductCategory.allCases {
-                let defaultDays = CategoryDefaults.afterOpeningDays[category] ?? 3
-                context.insert(CategoryRule(category: category, defaultAfterOpeningDays: defaultDays))
+        let existingCategories = (try? context.fetch(FetchDescriptor<Category>())) ?? []
+        if existingCategories.isEmpty {
+            for seed in CategoryDefaults.systemSeeds {
+                context.insert(Category(
+                    key: seed.key,
+                    name: seed.name,
+                    symbolName: seed.symbolName,
+                    tintColorHex: seed.tintColorHex,
+                    isSystem: seed.isSystem
+                ))
             }
+        }
+
+        let categories = (try? context.fetch(FetchDescriptor<Category>())) ?? []
+        let existingRules = (try? context.fetch(FetchDescriptor<CategoryRule>())) ?? []
+        let existingRuleKeys = Set(existingRules.map(\.categoryRawValue))
+        for category in categories {
+            guard !existingRuleKeys.contains(category.key) else { continue }
+            let defaultDays = CategoryDefaults.defaultAfterOpeningDaysByKey[category.key] ?? 3
+            let trackingEnabled = CategoryDefaults.defaultIsExpiryTrackingEnabledByKey[category.key] ?? true
+            context.insert(CategoryRule(
+                categoryKey: category.key,
+                defaultAfterOpeningDays: defaultDays,
+                isExpiryTrackingEnabled: trackingEnabled
+            ))
         }
 
         do {

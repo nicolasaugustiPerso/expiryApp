@@ -9,11 +9,11 @@ Move from SwiftData-only storage to Core Data + CloudKit sharing so a list can b
 - [x] `CKSharingSupported` added to app plist.
 - [x] Core Data + CloudKit stack scaffold added.
 - [x] Initial Core Data schema scaffold added.
-- [ ] Core Data entities fully wired to app UI.
-- [ ] SwiftData -> Core Data data migration routine.
-- [ ] Share list creation and invite flow.
-- [ ] Join/accept shared list flow.
-- [ ] Multi-list selection UI.
+- [x] Core Data entities fully wired to app UI.
+- [x] SwiftData -> Core Data data migration routine.
+- [x] Share list creation and invite flow.
+- [x] Join/accept shared list flow.
+- [x] Multi-list selection UI.
 - [ ] Conflict/merge rules + QA matrix.
 
 ## Incremental rollout

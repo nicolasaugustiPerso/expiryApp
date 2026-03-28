@@ -12,14 +12,12 @@ struct CoreDataProduct: Identifiable {
     var customAfterOpeningDays: Int?
     var createdAt: Date
 
-    var category: ProductCategory {
-        ProductCategory(rawValue: categoryRawValue) ?? .other
-    }
 }
 
 struct CoreDataCategoryRule {
     let categoryRawValue: String
     let defaultAfterOpeningDays: Int
+    let isExpiryTrackingEnabled: Bool
 }
 
 struct CoreDataConsumptionEvent {
@@ -35,13 +33,15 @@ struct CoreDataConsumptionEvent {
 
 final class CoreDataExpirationRepository {
     private let context: NSManagedObjectContext
+    private let listRepository: CoreDataListRepository
 
     init(context: NSManagedObjectContext = CoreDataStack.shared.viewContext) {
         self.context = context
+        self.listRepository = CoreDataListRepository(context: context)
     }
 
     func fetchProducts() throws -> [CoreDataProduct] {
-        let listID = try ensureDefaultListID()
+        let listID = try activeList().id
         let request = NSFetchRequest<NSManagedObject>(entityName: "CDProduct")
         request.predicate = NSPredicate(format: "listID == %@", listID as CVarArg)
         request.sortDescriptors = [
@@ -53,13 +53,43 @@ final class CoreDataExpirationRepository {
     }
 
     func fetchCategoryRules() throws -> [CoreDataCategoryRule] {
-        let listID = try ensureDefaultListID()
+        let active = try activeList()
+        let listID = active.id
         let request = NSFetchRequest<NSManagedObject>(entityName: "CDCategoryRule")
         request.predicate = NSPredicate(format: "listID == %@", listID as CVarArg)
         let objects = try context.fetch(request)
 
+        let existingKeys = Set(objects.compactMap { $0.value(forKey: "categoryRawValue") as? String })
+        let categories = (try? CoreDataCategoryRepository(context: context).fetchCategories()) ?? []
+        var didInsert = false
+        for category in categories where !existingKeys.contains(category.key) {
+            let object = NSEntityDescription.insertNewObject(forEntityName: "CDCategoryRule", into: context)
+            object.setValue(UUID(), forKey: "id")
+            object.setValue(active.id, forKey: "listID")
+            object.setValue(category.key, forKey: "categoryRawValue")
+            let days = CategoryDefaults.defaultAfterOpeningDaysByKey[category.key] ?? 3
+            object.setValue(Int64(days), forKey: "defaultAfterOpeningDays")
+            object.setValue(CategoryDefaults.defaultIsExpiryTrackingEnabledByKey[category.key] ?? true, forKey: "isExpiryTrackingEnabled")
+            if let listObject = try? context.existingObject(with: active.objectID) {
+                object.setValue(listObject, forKey: "list")
+                if let store = listObject.objectID.persistentStore {
+                    context.assign(object, to: store)
+                }
+            }
+            didInsert = true
+        }
+
+        if didInsert {
+            try saveIfNeeded()
+            return try fetchCategoryRules()
+        }
+
         if objects.isEmpty {
-            try seedDefaultCategoryRules(listID: listID)
+            try seedDefaultCategoryRules(for: active)
+            return try fetchCategoryRules()
+        }
+
+        if try applyTrackingDefaultsMigrationIfNeeded(listID: listID, objects: objects) {
             return try fetchCategoryRules()
         }
 
@@ -70,15 +100,17 @@ final class CoreDataExpirationRepository {
                 return nil
             }
             let days = Int((object.value(forKey: "defaultAfterOpeningDays") as? Int64) ?? 3)
+            let trackingEnabled = (object.value(forKey: "isExpiryTrackingEnabled") as? Bool) ?? true
             return CoreDataCategoryRule(
-                categoryRawValue: categoryRawValue,
-                defaultAfterOpeningDays: max(1, days)
+                categoryRawValue: CategoryDefaults.canonicalCategoryKey(categoryRawValue),
+                defaultAfterOpeningDays: max(1, days),
+                isExpiryTrackingEnabled: trackingEnabled
             )
         }
     }
 
     func fetchConsumptionEvents() throws -> [CoreDataConsumptionEvent] {
-        let listID = try ensureDefaultListID()
+        let listID = try activeList().id
         let request = NSFetchRequest<NSManagedObject>(entityName: "CDConsumptionEvent")
         request.predicate = NSPredicate(format: "listID == %@", listID as CVarArg)
         request.sortDescriptors = [NSSortDescriptor(key: "consumedAt", ascending: false)]
@@ -115,6 +147,57 @@ final class CoreDataExpirationRepository {
         try saveIfNeeded()
     }
 
+    func addProduct(
+        name: String,
+        categoryRawValue: String?,
+        quantity: Int,
+        expiryDate: Date,
+        customAfterOpeningDays: Int? = nil
+    ) throws {
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        let currentList = try activeList()
+        let product = NSEntityDescription.insertNewObject(forEntityName: "CDProduct", into: context)
+        product.setValue(UUID(), forKey: "id")
+        product.setValue(currentList.id, forKey: "listID")
+        product.setValue(trimmedName, forKey: "name")
+        product.setValue(normalizeCategoryKey(categoryRawValue), forKey: "categoryRawValue")
+        product.setValue(expiryDate, forKey: "expiryDate")
+        product.setValue(nil, forKey: "openedAt")
+        product.setValue(Int64(max(1, quantity)), forKey: "quantity")
+        product.setValue(customAfterOpeningDays.map { Int64($0) }, forKey: "customAfterOpeningDays")
+        product.setValue(Date(), forKey: "createdAt")
+        if let listObject = try? context.existingObject(with: currentList.objectID) {
+            product.setValue(listObject, forKey: "list")
+            if let store = listObject.objectID.persistentStore {
+                context.assign(product, to: store)
+            }
+        }
+
+        try saveIfNeeded()
+    }
+
+    func updateProduct(
+        id: UUID,
+        name: String,
+        categoryRawValue: String?,
+        quantity: Int,
+        expiryDate: Date,
+        customAfterOpeningDays: Int?
+    ) throws {
+        guard let object = try fetchProductObject(id: id) else { return }
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        object.setValue(trimmedName, forKey: "name")
+        object.setValue(normalizeCategoryKey(categoryRawValue), forKey: "categoryRawValue")
+        object.setValue(Int64(max(1, quantity)), forKey: "quantity")
+        object.setValue(expiryDate, forKey: "expiryDate")
+        object.setValue(customAfterOpeningDays.map { Int64(max(1, $0)) }, forKey: "customAfterOpeningDays")
+        try saveIfNeeded()
+    }
+
     func toggleOpened(id: UUID) throws {
         guard let object = try fetchProductObject(id: id) else { return }
         let openedAt = object.value(forKey: "openedAt") as? Date
@@ -123,6 +206,7 @@ final class CoreDataExpirationRepository {
     }
 
     func consumeOne(id: UUID, effectiveExpiryDate: Date) throws {
+        let currentList = try activeList()
         guard let object = try fetchProductObject(id: id),
               let listID = object.value(forKey: "listID") as? UUID,
               let name = object.value(forKey: "name") as? String,
@@ -140,6 +224,12 @@ final class CoreDataExpirationRepository {
         event.setValue(consumedAt, forKey: "consumedAt")
         event.setValue(effectiveExpiryDate, forKey: "effectiveExpiryDate")
         event.setValue(consumedAt <= effectiveExpiryDate, forKey: "consumedBeforeExpiry")
+        if let listObject = try? context.existingObject(with: currentList.objectID) {
+            event.setValue(listObject, forKey: "list")
+            if let store = listObject.objectID.persistentStore {
+                context.assign(event, to: store)
+            }
+        }
 
         if quantity > 1 {
             object.setValue(Int64(quantity - 1), forKey: "quantity")
@@ -151,8 +241,9 @@ final class CoreDataExpirationRepository {
     }
 
     private func fetchProductObject(id: UUID) throws -> NSManagedObject? {
+        let listID = try activeList().id
         let request = NSFetchRequest<NSManagedObject>(entityName: "CDProduct")
-        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.predicate = NSPredicate(format: "id == %@ AND listID == %@", id as CVarArg, listID as CVarArg)
         request.fetchLimit = 1
         return try context.fetch(request).first
     }
@@ -182,35 +273,61 @@ final class CoreDataExpirationRepository {
         )
     }
 
-    private func seedDefaultCategoryRules(listID: UUID) throws {
-        for category in ProductCategory.allCases {
+    private func seedDefaultCategoryRules(for list: CoreDataListInfo) throws {
+        for seed in CategoryDefaults.systemSeeds {
             let object = NSEntityDescription.insertNewObject(forEntityName: "CDCategoryRule", into: context)
             object.setValue(UUID(), forKey: "id")
-            object.setValue(listID, forKey: "listID")
-            object.setValue(category.rawValue, forKey: "categoryRawValue")
-            object.setValue(Int64(CategoryDefaults.afterOpeningDays[category] ?? 3), forKey: "defaultAfterOpeningDays")
+            object.setValue(list.id, forKey: "listID")
+            object.setValue(seed.key, forKey: "categoryRawValue")
+            object.setValue(Int64(seed.defaultAfterOpeningDays), forKey: "defaultAfterOpeningDays")
+            object.setValue(CategoryDefaults.defaultIsExpiryTrackingEnabledByKey[seed.key] ?? true, forKey: "isExpiryTrackingEnabled")
+            if let listObject = try? context.existingObject(with: list.objectID) {
+                object.setValue(listObject, forKey: "list")
+                if let store = listObject.objectID.persistentStore {
+                    context.assign(object, to: store)
+                }
+            }
         }
         try saveIfNeeded()
     }
 
-    private func ensureDefaultListID() throws -> UUID {
-        let request = NSFetchRequest<NSManagedObject>(entityName: "CDSharedList")
-        request.predicate = NSPredicate(format: "isDefault == YES")
-        request.fetchLimit = 1
+    private func activeList() throws -> CoreDataListInfo {
+        if let list = try listRepository.currentList() {
+            return list
+        }
+        return try listRepository.ensureDefaultList()
+    }
 
-        if let existing = try context.fetch(request).first,
-           let id = existing.value(forKey: "id") as? UUID {
-            return id
+    private func normalizeCategoryKey(_ raw: String?) -> String {
+        CategoryDefaults.canonicalCategoryKey(raw)
+    }
+
+    private func applyTrackingDefaultsMigrationIfNeeded(
+        listID: UUID,
+        objects: [NSManagedObject]
+    ) throws -> Bool {
+        let migrationKey = "migration.category_tracking_defaults.v1.\(listID.uuidString.lowercased())"
+        if UserDefaults.standard.bool(forKey: migrationKey) {
+            return false
         }
 
-        let object = NSEntityDescription.insertNewObject(forEntityName: "CDSharedList", into: context)
-        let id = UUID()
-        object.setValue(id, forKey: "id")
-        object.setValue("My List", forKey: "name")
-        object.setValue(true, forKey: "isDefault")
-        object.setValue(Date(), forKey: "createdAt")
-        try saveIfNeeded()
-        return id
+        var didChange = false
+        for object in objects {
+            guard let raw = object.value(forKey: "categoryRawValue") as? String else { continue }
+            let key = CategoryDefaults.canonicalCategoryKey(raw)
+            guard CategoryDefaults.nonExpiryTrackingCategoryKeys.contains(key) else { continue }
+            let current = (object.value(forKey: "isExpiryTrackingEnabled") as? Bool) ?? true
+            if current {
+                object.setValue(false, forKey: "isExpiryTrackingEnabled")
+                didChange = true
+            }
+        }
+
+        UserDefaults.standard.set(true, forKey: migrationKey)
+        if didChange {
+            try saveIfNeeded()
+        }
+        return didChange
     }
 
     private func saveIfNeeded() throws {

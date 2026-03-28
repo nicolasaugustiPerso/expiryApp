@@ -16,6 +16,9 @@ struct ProductListView: View {
     @Query(sort: \CategoryRule.categoryRawValue)
     private var rules: [CategoryRule]
 
+    @Query(sort: \Category.createdAt)
+    private var categories: [Category]
+
     @Query(sort: [SortDescriptor(\ShoppingItem.createdAt, order: .reverse)])
     private var shoppingItems: [ShoppingItem]
 
@@ -36,6 +39,15 @@ struct ProductListView: View {
         self.focusedDate = focusedDate
         self.onFocusedDateConsumed = onFocusedDateConsumed
         self.onAddProductTap = onAddProductTap
+    }
+
+    private var categoryLookup: [String: Category] {
+        Dictionary(uniqueKeysWithValues: categories.map { ($0.key, $0) })
+    }
+
+    private func categoryForKey(_ key: String?) -> Category? {
+        guard let key else { return categoryLookup["other"] }
+        return categoryLookup[key] ?? categoryLookup["other"]
     }
 
     var body: some View {
@@ -123,6 +135,7 @@ struct ProductListView: View {
                                     let effectiveExpiry = ExpiryCalculator.effectiveExpiryDate(product: product, rules: rules)
                                     ProductRowView(
                                         product: product,
+                                        categorySymbolName: categoryForKey(product.categoryRawValue)?.symbolName ?? "shippingbox",
                                         effectiveExpiry: effectiveExpiry,
                                         subtitleStyle: .openedStatus,
                                         onToggleOpened: { toggleOpened(product) },
@@ -179,7 +192,7 @@ struct ProductListView: View {
     }
 
     private var pendingBulkItems: [ShoppingItem] {
-        shoppingItems.filter { $0.isBought && $0.needsExpiryCapture }
+        shoppingItems.filter { $0.isBought && $0.needsExpiryCapture && isExpiryTrackingEnabled(for: $0) }
     }
 
     private var pendingBulkItemsCount: Int {
@@ -245,7 +258,7 @@ struct ProductListView: View {
         } else {
             let openedCopy = Product(
                 name: product.name,
-                category: product.category,
+                categoryKey: product.categoryRawValue,
                 expiryDate: product.expiryDate,
                 openedAt: .now,
                 quantity: 1,
@@ -312,6 +325,14 @@ struct ProductListView: View {
             Calendar.current.isDate($0.expiryDate, inSameDayAs: product.expiryDate) &&
             $0.customAfterOpeningDays == product.customAfterOpeningDays
         }
+    }
+
+    private func isExpiryTrackingEnabled(for item: ShoppingItem) -> Bool {
+        guard let key = item.categoryRawValue else { return true }
+        if let rule = rules.first(where: { $0.categoryRawValue == key }) {
+            return rule.isExpiryTrackingEnabled
+        }
+        return true
     }
 
     private var dateGroups: [ProductDateGroup] {
@@ -417,6 +438,13 @@ private struct BulkExpiryCaptureView: View {
                             .fill(Color.gray.opacity(0.08))
                             .padding(.vertical, 4)
                     )
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            skipItem(item)
+                        } label: {
+                            Text(L("common.skip"))
+                        }
+                    }
                 }
 
                 if visibleItems.isEmpty {
@@ -487,7 +515,7 @@ private struct BulkExpiryCaptureView: View {
     private func addSingle(_ item: ShoppingItem) {
         let product = Product(
             name: item.name,
-            category: item.category ?? .other,
+            categoryKey: item.categoryRawValue ?? "other",
             expiryDate: item.pendingExpiryDate ?? .now,
             quantity: max(1, item.quantity)
         )
@@ -498,11 +526,18 @@ private struct BulkExpiryCaptureView: View {
         try? modelContext.save()
     }
 
+    private func skipItem(_ item: ShoppingItem) {
+        item.needsExpiryCapture = false
+        item.pendingExpiryDate = nil
+        locallyProcessedIDs.insert(item.id)
+        try? modelContext.save()
+    }
+
     private func saveAll() {
         for item in visibleItems {
             let product = Product(
                 name: item.name,
-                category: item.category ?? .other,
+                categoryKey: item.categoryRawValue ?? "other",
                 expiryDate: item.pendingExpiryDate ?? .now,
                 quantity: max(1, item.quantity)
             )

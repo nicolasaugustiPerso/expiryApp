@@ -1,29 +1,37 @@
 import SwiftUI
-import SwiftData
+import CloudKit
+import UIKit
 
 @main
 struct ExpiryAppApp: App {
+    @UIApplicationDelegateAdaptor(CloudKitShareAppDelegate.self) private var appDelegate
     @AppStorage("app.preferred_language_code") private var preferredLanguageCode = "system"
-    private let sharedModelContainer: ModelContainer = {
-        let schema = Schema(versionedSchema: AppSchemaV4.self)
-        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(
-                for: schema,
-                migrationPlan: AppMigrationPlan.self,
-                configurations: [configuration]
-            )
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
 
     var body: some Scene {
         WindowGroup {
             MainRootView()
                 .id(preferredLanguageCode)
-                .modelContainer(sharedModelContainer)
+        }
+    }
+}
+
+final class CloudKitShareAppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata
+    ) {
+        Task { @MainActor in
+            guard let sharedStore = CoreDataStack.shared.sharedStore else { return }
+            do {
+                try await CoreDataSharingService.accept(
+                    metadata: cloudKitShareMetadata,
+                    in: CoreDataStack.shared.container,
+                    sharedStore: sharedStore
+                )
+                NotificationCenter.default.post(name: .coreDataActiveListDidChange, object: nil)
+            } catch {
+                print("CloudKit share accept failed: \(error)")
+            }
         }
     }
 }
@@ -41,6 +49,10 @@ func L(_ key: String) -> String {
 }
 
 func localizedProductName(_ rawName: String) -> String {
+    if let catalogName = ProductCatalogService.localizedName(for: rawName) {
+        return catalogName
+    }
+
     let trimmed = rawName.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else { return rawName }
 

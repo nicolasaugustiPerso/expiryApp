@@ -11,7 +11,7 @@ private enum AddStep: Int {
 private struct ProductSuggestion: Identifiable {
     let id: String
     let name: String
-    let category: ProductCategory
+    let categoryKey: String?
 }
 
 struct AddEditProductView: View {
@@ -21,10 +21,13 @@ struct AddEditProductView: View {
     @Query(sort: [SortDescriptor(\Product.createdAt, order: .reverse)])
     private var existingProducts: [Product]
 
+    @Query(sort: \Category.createdAt)
+    private var categories: [Category]
+
     let product: Product?
 
     @State private var name: String = ""
-    @State private var category: ProductCategory = .other
+    @State private var categoryKey: String = "other"
     @State private var expiryDate: Date = .now
     @State private var quantity: Int = 1
     @State private var hasCustomOpenRule: Bool = false
@@ -34,6 +37,18 @@ struct AddEditProductView: View {
     @State private var searchText: String = ""
 
     private var isEditing: Bool { product != nil }
+    private var categoryLookup: [String: Category] {
+        Dictionary(uniqueKeysWithValues: categories.map { ($0.key, $0) })
+    }
+
+    private var fallbackCategoryKey: String {
+        categoryLookup["other"]?.key ?? "other"
+    }
+
+    private func categoryDisplayName(for key: String?) -> String {
+        guard let key else { return L("category.other") }
+        return categoryLookup[key]?.displayName ?? key.capitalized
+    }
 
     var body: some View {
         NavigationStack {
@@ -126,7 +141,7 @@ struct AddEditProductView: View {
                     ForEach(filteredSuggestions) { suggestion in
                         Button {
                             name = suggestion.name
-                            category = suggestion.category
+                            categoryKey = suggestion.categoryKey ?? fallbackCategoryKey
                             searchText = suggestion.name
                             moveToNextStepAfterProductSelection(isSuggestion: true)
                         } label: {
@@ -134,7 +149,7 @@ struct AddEditProductView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(suggestion.name)
                                         .foregroundStyle(.primary)
-                                    Text(suggestion.category.displayName)
+                                    Text(categoryDisplayName(for: suggestion.categoryKey))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -152,7 +167,7 @@ struct AddEditProductView: View {
                     if canUseCustomName {
                         Button {
                             name = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-                            category = .other
+                            categoryKey = fallbackCategoryKey
                             moveToNextStepAfterProductSelection(isSuggestion: false)
                         } label: {
                             HStack {
@@ -183,18 +198,20 @@ struct AddEditProductView: View {
 
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(ProductCategory.allCases) { current in
+                    ForEach(categories) { current in
                         Button {
-                            category = current
+                            categoryKey = current.key
                         } label: {
                             HStack(spacing: 12) {
-                                Image(systemName: current.symbolName)
-                                    .foregroundStyle(category == current ? .blue : .secondary)
-                                    .frame(width: 20)
+                                CategorySymbolView(
+                                    symbolName: current.symbolName,
+                                    tint: categoryKey == current.key ? .blue : .secondary,
+                                    width: 20
+                                )
                                 Text(current.displayName)
                                     .foregroundStyle(.primary)
                                 Spacer()
-                                if category == current {
+                                if categoryKey == current.key {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundStyle(.blue)
                                 }
@@ -286,10 +303,10 @@ struct AddEditProductView: View {
         Form {
             Section(L("product.section.main")) {
                 TextField(L("product.name"), text: $name)
-                Picker(L("product.category"), selection: $category) {
-                    ForEach(ProductCategory.allCases) { category in
+                Picker(L("product.category"), selection: $categoryKey) {
+                    ForEach(categories) { category in
                         Text(category.displayName)
-                            .tag(category)
+                            .tag(category.key)
                     }
                 }
                 DatePicker(
@@ -322,18 +339,13 @@ struct AddEditProductView: View {
     }
 
     private var defaultSuggestions: [ProductSuggestion] {
-        [
-            ProductSuggestion(id: "milk", name: L("suggestion.milk"), category: .milk),
-            ProductSuggestion(id: "bread", name: L("suggestion.bread"), category: .bread),
-            ProductSuggestion(id: "yogurt", name: L("suggestion.yogurt"), category: .yogurt),
-            ProductSuggestion(id: "cheese", name: L("suggestion.cheese"), category: .cheese),
-            ProductSuggestion(id: "eggs", name: L("suggestion.eggs"), category: .pantry),
-            ProductSuggestion(id: "apples", name: L("suggestion.apples"), category: .fruit),
-            ProductSuggestion(id: "bananas", name: L("suggestion.bananas"), category: .fruit),
-            ProductSuggestion(id: "tomatoes", name: L("suggestion.tomatoes"), category: .vegetable),
-            ProductSuggestion(id: "chicken", name: L("suggestion.chicken"), category: .meat),
-            ProductSuggestion(id: "fish", name: L("suggestion.fish"), category: .fish)
-        ]
+        ProductCatalogService.suggestions().map { suggestion in
+            ProductSuggestion(
+                id: suggestion.id,
+                name: suggestion.name,
+                categoryKey: suggestion.categoryKey
+            )
+        }
     }
 
     private var filteredSuggestions: [ProductSuggestion] {
@@ -366,7 +378,7 @@ struct AddEditProductView: View {
                 suggestion: ProductSuggestion(
                     id: "history-\(key)",
                     name: representative.name,
-                    category: representative.category
+                    categoryKey: representative.categoryRawValue
                 )
             ))
         }
@@ -443,7 +455,7 @@ struct AddEditProductView: View {
     private func hydrate() {
         guard let product else { return }
         name = product.name
-        category = product.category
+        categoryKey = categoryLookup[product.categoryRawValue]?.key ?? product.categoryRawValue
         expiryDate = product.expiryDate
         quantity = product.quantity
         if let custom = product.customAfterOpeningDays {
@@ -455,14 +467,14 @@ struct AddEditProductView: View {
     private func save() {
         if let product {
             product.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            product.category = category
+            product.categoryRawValue = categoryKey
             product.expiryDate = expiryDate
             product.quantity = max(1, quantity)
             product.customAfterOpeningDays = hasCustomOpenRule ? customAfterOpeningDays : nil
         } else {
             let newProduct = Product(
                 name: name.trimmingCharacters(in: .whitespacesAndNewlines),
-                category: category,
+                categoryKey: categoryKey,
                 expiryDate: expiryDate,
                 quantity: max(1, quantity),
                 customAfterOpeningDays: hasCustomOpenRule ? customAfterOpeningDays : nil

@@ -1,0 +1,1602 @@
+{
+  "version": 1,
+  "generated_at": "2026-02-27",
+  "scope": "generic_products_no_brands",
+  "categories": [
+    "fruit",
+    "vegetable",
+    "bakery",
+    "dairy",
+    "fromage",
+    "meat",
+    "charcuterie",
+    "fish",
+    "frozen",
+    "pantry",
+    "prepared",
+    "hygiene",
+    "cleaning",
+    "paper",
+    "laundry",
+    "other"
+  ],
+  "products": [
+    {
+      "id": "prod_apple",
+      "name_fr": "Pomme",
+      "name_en": "Apple",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "pommes",
+        "apple",
+        "apples"
+      ],
+      "default_expiry_days": 10,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_banana",
+      "name_fr": "Banane",
+      "name_en": "Banana",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "bananes",
+        "banana",
+        "bananas"
+      ],
+      "default_expiry_days": 6,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_orange",
+      "name_fr": "Orange",
+      "name_en": "Orange",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "oranges"
+      ],
+      "default_expiry_days": 12,
+      "default_after_opening_days": 4
+    },
+    {
+      "id": "prod_pear",
+      "name_fr": "Poire",
+      "name_en": "Pear",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "poires",
+        "pear",
+        "pears"
+      ],
+      "default_expiry_days": 8,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_strawberry",
+      "name_fr": "Fraise",
+      "name_en": "Strawberry",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "fraises",
+        "strawberry",
+        "strawberries"
+      ],
+      "default_expiry_days": 4,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_blueberry",
+      "name_fr": "Myrtille",
+      "name_en": "Blueberry",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "myrtilles",
+        "blueberry",
+        "blueberries"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_grape",
+      "name_fr": "Raisin",
+      "name_en": "Grape",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "raisins",
+        "grape",
+        "grapes"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_lemon",
+      "name_fr": "Citron",
+      "name_en": "Lemon",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "citrons",
+        "lemon",
+        "lemons"
+      ],
+      "default_expiry_days": 14,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_tomato",
+      "name_fr": "Tomate",
+      "name_en": "Tomato",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "tomates",
+        "tomato",
+        "tomatoes"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_carrot",
+      "name_fr": "Carotte",
+      "name_en": "Carrot",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "carottes",
+        "carrot",
+        "carrots"
+      ],
+      "default_expiry_days": 12,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_potato",
+      "name_fr": "Pomme de terre",
+      "name_en": "Potato",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "pommes de terre",
+        "patate",
+        "potato",
+        "potatoes"
+      ],
+      "default_expiry_days": 20,
+      "default_after_opening_days": 7
+    },
+    {
+      "id": "prod_onion",
+      "name_fr": "Oignon",
+      "name_en": "Onion",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "oignons",
+        "onion",
+        "onions"
+      ],
+      "default_expiry_days": 20,
+      "default_after_opening_days": 7
+    },
+    {
+      "id": "prod_garlic",
+      "name_fr": "Ail",
+      "name_en": "Garlic",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "gousse d ail",
+        "garlic"
+      ],
+      "default_expiry_days": 25,
+      "default_after_opening_days": 10
+    },
+    {
+      "id": "prod_zucchini",
+      "name_fr": "Courgette",
+      "name_en": "Zucchini",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "courgettes",
+        "zucchini",
+        "courgette"
+      ],
+      "default_expiry_days": 6,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_broccoli",
+      "name_fr": "Brocoli",
+      "name_en": "Broccoli",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "broccolis",
+        "broccoli"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_spinach",
+      "name_fr": "Epinards",
+      "name_en": "Spinach",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "epinard",
+        "spinach"
+      ],
+      "default_expiry_days": 4,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_mushroom",
+      "name_fr": "Champignon",
+      "name_en": "Mushroom",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "champignons",
+        "mushroom",
+        "mushrooms"
+      ],
+      "default_expiry_days": 4,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_baguette",
+      "name_fr": "Baguette",
+      "name_en": "Baguette",
+      "category": "bakery",
+      "logo_key": "cat_bakery",
+      "aliases": [
+        "pain baguette"
+      ],
+      "default_expiry_days": 2,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_sandwich_bread",
+      "name_fr": "Pain de mie",
+      "name_en": "Sandwich bread",
+      "category": "bakery",
+      "logo_key": "cat_bakery",
+      "aliases": [
+        "pain tranche",
+        "toast bread"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_burger_bun",
+      "name_fr": "Pain burger",
+      "name_en": "Burger bun",
+      "category": "bakery",
+      "logo_key": "cat_bakery",
+      "aliases": [
+        "burger bun",
+        "buns"
+      ],
+      "default_expiry_days": 4,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_tortilla",
+      "name_fr": "Tortilla",
+      "name_en": "Tortilla",
+      "category": "bakery",
+      "logo_key": "cat_bakery",
+      "aliases": [
+        "wrap",
+        "wraps"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 4
+    },
+    {
+      "id": "prod_milk",
+      "name_fr": "Lait",
+      "name_en": "Milk",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "milk"
+      ],
+      "default_expiry_days": 10,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_almond_milk",
+      "name_fr": "Lait d amande",
+      "name_en": "Almond milk",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "almond milk"
+      ],
+      "default_expiry_days": 30,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_cream",
+      "name_fr": "Creme",
+      "name_en": "Cream",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "creme liquide",
+        "heavy cream"
+      ],
+      "default_expiry_days": 12,
+      "default_after_opening_days": 4
+    },
+    {
+      "id": "prod_butter",
+      "name_fr": "Beurre",
+      "name_en": "Butter",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "butter"
+      ],
+      "default_expiry_days": 30,
+      "default_after_opening_days": 14
+    },
+    {
+      "id": "prod_camembert",
+      "name_fr": "Camembert",
+      "name_en": "Camembert",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "fromage camembert"
+      ],
+      "default_expiry_days": 15,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_mozzarella",
+      "name_fr": "Mozzarella",
+      "name_en": "Mozzarella",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "mozza"
+      ],
+      "default_expiry_days": 10,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_grated_cheese",
+      "name_fr": "Fromage rape",
+      "name_en": "Grated cheese",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "grated cheese",
+        "fromage emmental"
+      ],
+      "default_expiry_days": 20,
+      "default_after_opening_days": 7
+    },
+    {
+      "id": "prod_goat_cheese",
+      "name_fr": "Fromage de chevre",
+      "name_en": "Goat cheese",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "goat cheese",
+        "chevre"
+      ],
+      "default_expiry_days": 14,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_plain_yogurt",
+      "name_fr": "Yaourt nature",
+      "name_en": "Plain yogurt",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "yogurt",
+        "yaourt"
+      ],
+      "default_expiry_days": 14,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_fruit_yogurt",
+      "name_fr": "Yaourt aux fruits",
+      "name_en": "Fruit yogurt",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "fruit yogurt",
+        "yaourt fruit"
+      ],
+      "default_expiry_days": 14,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_skyr",
+      "name_fr": "Skyr",
+      "name_en": "Skyr",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "skyr"
+      ],
+      "default_expiry_days": 12,
+      "default_after_opening_days": 4
+    },
+    {
+      "id": "prod_chicken_breast",
+      "name_fr": "Blanc de poulet",
+      "name_en": "Chicken breast",
+      "category": "meat",
+      "logo_key": "cat_meat",
+      "aliases": [
+        "poulet",
+        "chicken breast"
+      ],
+      "default_expiry_days": 3,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_ground_beef",
+      "name_fr": "Steak hache",
+      "name_en": "Ground beef",
+      "category": "meat",
+      "logo_key": "cat_meat",
+      "aliases": [
+        "boeuf hache",
+        "ground beef"
+      ],
+      "default_expiry_days": 2,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_ham",
+      "name_fr": "Jambon",
+      "name_en": "Ham",
+      "category": "charcuterie",
+      "logo_key": "cat_charcuterie",
+      "aliases": [
+        "ham",
+        "tranche jambon"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_bacon",
+      "name_fr": "Lardons",
+      "name_en": "Bacon",
+      "category": "charcuterie",
+      "logo_key": "cat_charcuterie",
+      "aliases": [
+        "lardon",
+        "bacon"
+      ],
+      "default_expiry_days": 8,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_sausage",
+      "name_fr": "Saucisse",
+      "name_en": "Sausage",
+      "category": "charcuterie",
+      "logo_key": "cat_charcuterie",
+      "aliases": [
+        "sausages",
+        "chipolata"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_salmon",
+      "name_fr": "Saumon",
+      "name_en": "Salmon",
+      "category": "fish",
+      "logo_key": "cat_fish",
+      "aliases": [
+        "salmon"
+      ],
+      "default_expiry_days": 2,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_tuna",
+      "name_fr": "Thon",
+      "name_en": "Tuna",
+      "category": "fish",
+      "logo_key": "cat_fish",
+      "aliases": [
+        "tuna"
+      ],
+      "default_expiry_days": 3,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_cod",
+      "name_fr": "Cabillaud",
+      "name_en": "Cod",
+      "category": "fish",
+      "logo_key": "cat_fish",
+      "aliases": [
+        "cod",
+        "filet poisson blanc"
+      ],
+      "default_expiry_days": 2,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_smoked_salmon",
+      "name_fr": "Saumon fumé",
+      "name_en": "Smoked salmon",
+      "category": "fish",
+      "logo_key": "cat_fish",
+      "aliases": [
+        "smoked salmon"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_nuggets",
+      "name_fr": "Nuggets",
+      "name_en": "Nuggets",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "chicken nuggets",
+        "nuggets poulet"
+      ],
+      "default_expiry_days": 180,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_cordon_bleu",
+      "name_fr": "Cordon bleu",
+      "name_en": "Cordon bleu",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "cordons bleus"
+      ],
+      "default_expiry_days": 180,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_frozen_pizza",
+      "name_fr": "Pizza surgelée",
+      "name_en": "Frozen pizza",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "pizza surgele",
+        "frozen pizza"
+      ],
+      "default_expiry_days": 240,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_french_fries",
+      "name_fr": "Frites surgelées",
+      "name_en": "Frozen fries",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "frites",
+        "frozen fries"
+      ],
+      "default_expiry_days": 240,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_frozen_vegetables",
+      "name_fr": "Legumes surgeles",
+      "name_en": "Frozen vegetables",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "poelee surgele",
+        "frozen vegetables"
+      ],
+      "default_expiry_days": 240,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_frozen_fish",
+      "name_fr": "Poisson surgelé",
+      "name_en": "Frozen fish",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "frozen fish"
+      ],
+      "default_expiry_days": 240,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_frozen_spinash",
+      "name_fr": "Epinards surgelés",
+      "name_en": "Frozen spinash",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "frozen spinash"
+      ],
+      "default_expiry_days": 240,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_rice",
+      "name_fr": "Riz",
+      "name_en": "Rice",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "rice"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_pasta",
+      "name_fr": "Pates",
+      "name_en": "Pasta",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "pasta",
+        "spaghetti",
+        "penne"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_lentils",
+      "name_fr": "Lentilles",
+      "name_en": "Lentils",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "lentil",
+        "lentils"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 120
+    },
+    {
+      "id": "prod_chickpeas",
+      "name_fr": "Pois chiches",
+      "name_en": "Chickpeas",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "chickpea",
+        "chickpeas"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 120
+    },
+    {
+      "id": "prod_flour",
+      "name_fr": "Farine",
+      "name_en": "Flour",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "flour"
+      ],
+      "default_expiry_days": 300,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_sugar",
+      "name_fr": "Sucre",
+      "name_en": "Sugar",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "sugar"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_salt",
+      "name_fr": "Sel",
+      "name_en": "Salt",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "salt"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_olive_oil",
+      "name_fr": "Huile d olive",
+      "name_en": "Olive oil",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "olive oil",
+        "huile olive"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_tomato_sauce",
+      "name_fr": "Sauce tomate",
+      "name_en": "Tomato sauce",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "tomato sauce",
+        "coulis tomate"
+      ],
+      "default_expiry_days": 180,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_tuna_can",
+      "name_fr": "Thon en boite",
+      "name_en": "Canned tuna",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "tuna can",
+        "boite thon"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_egg",
+      "name_fr": "Oeufs",
+      "name_en": "Eggs",
+      "category": "other",
+      "logo_key": "cat_other",
+      "aliases": [
+        "egg",
+        "eggs",
+        "oeuf",
+        "oeufs",
+        "oeufs frais"
+      ],
+      "default_expiry_days": 20,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_hummus",
+      "name_fr": "Houmous",
+      "name_en": "Hummus",
+      "category": "other",
+      "logo_key": "cat_other",
+      "aliases": [
+        "hummus",
+        "houmos"
+      ],
+      "default_expiry_days": 10,
+      "default_after_opening_days": 4
+    },
+    {
+      "id": "prod_ready_salad",
+      "name_fr": "Salade composee",
+      "name_en": "Ready salad",
+      "category": "other",
+      "logo_key": "cat_other",
+      "aliases": [
+        "salade prete",
+        "ready salad"
+      ],
+      "default_expiry_days": 3,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_soup",
+      "name_fr": "Soupe",
+      "name_en": "Soup",
+      "category": "other",
+      "logo_key": "cat_other",
+      "aliases": [
+        "soupe legume",
+        "soup"
+      ],
+      "default_expiry_days": 10,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_shampoo",
+      "name_fr": "Shampoing",
+      "name_en": "Shampoo",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "shampoo",
+        "shampoing"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_conditioner",
+      "name_fr": "Apres shampoing",
+      "name_en": "Conditioner",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "conditioner",
+        "apres shampoing"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_body_wash",
+      "name_fr": "Gel douche",
+      "name_en": "Body wash",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "gel douche",
+        "body wash",
+        "shower gel"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_soap",
+      "name_fr": "Savon",
+      "name_en": "Soap",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "savon",
+        "soap"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_deodorant",
+      "name_fr": "Deodorant",
+      "name_en": "Deodorant",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "deodorant",
+        "deo"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_toothpaste",
+      "name_fr": "Dentifrice",
+      "name_en": "Toothpaste",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "dentifrice",
+        "toothpaste"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_toothbrush",
+      "name_fr": "Brosse a dents",
+      "name_en": "Toothbrush",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "brosse dent",
+        "toothbrush"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_razor",
+      "name_fr": "Rasoir",
+      "name_en": "Razor",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "rasoir",
+        "razor"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_shaving_foam",
+      "name_fr": "Mousse a raser",
+      "name_en": "Shaving foam",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "mousse raser",
+        "shaving foam"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_hand_cream",
+      "name_fr": "Creme mains",
+      "name_en": "Hand cream",
+      "category": "hygiene",
+      "logo_key": "cat_hygiene",
+      "aliases": [
+        "creme main",
+        "hand cream"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_dish_soap",
+      "name_fr": "Liquide vaisselle",
+      "name_en": "Dish soap",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "produit vaisselle",
+        "dish soap"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_sponge",
+      "name_fr": "Eponge",
+      "name_en": "Sponge",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "eponge",
+        "sponge"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 14
+    },
+    {
+      "id": "prod_multi_surface_cleaner",
+      "name_fr": "Nettoyant multi surfaces",
+      "name_en": "Multi surface cleaner",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "nettoyant",
+        "multi surface cleaner"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_glass_cleaner",
+      "name_fr": "Nettoyant vitres",
+      "name_en": "Glass cleaner",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "produit vitre",
+        "glass cleaner"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_bleach",
+      "name_fr": "Eau de javel",
+      "name_en": "Bleach",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "javel",
+        "bleach"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_floor_cleaner",
+      "name_fr": "Nettoyant sol",
+      "name_en": "Floor cleaner",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "produit sol",
+        "floor cleaner"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_toilet_cleaner",
+      "name_fr": "Nettoyant toilettes",
+      "name_en": "Toilet cleaner",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "produit wc",
+        "toilet cleaner"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_trash_bag",
+      "name_fr": "Sac poubelle",
+      "name_en": "Trash bag",
+      "category": "cleaning",
+      "logo_key": "cat_cleaning",
+      "aliases": [
+        "sac poubelle",
+        "trash bags"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 3650
+    },
+    {
+      "id": "prod_toilet_paper",
+      "name_fr": "Papier toilette",
+      "name_en": "Toilet paper",
+      "category": "paper",
+      "logo_key": "cat_paper",
+      "aliases": [
+        "pq",
+        "toilet paper"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 3650
+    },
+    {
+      "id": "prod_paper_towel",
+      "name_fr": "Essuie tout",
+      "name_en": "Paper towel",
+      "category": "paper",
+      "logo_key": "cat_paper",
+      "aliases": [
+        "essuie tout",
+        "paper towel"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 3650
+    },
+    {
+      "id": "prod_tissues",
+      "name_fr": "Mouchoirs",
+      "name_en": "Tissues",
+      "category": "paper",
+      "logo_key": "cat_paper",
+      "aliases": [
+        "mouchoirs",
+        "tissues"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 3650
+    },
+    {
+      "id": "prod_napkins",
+      "name_fr": "Serviettes papier",
+      "name_en": "Napkins",
+      "category": "paper",
+      "logo_key": "cat_paper",
+      "aliases": [
+        "serviettes",
+        "napkins"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 3650
+    },
+    {
+      "id": "prod_laundry_detergent",
+      "name_fr": "Lessive",
+      "name_en": "Laundry detergent",
+      "category": "laundry",
+      "logo_key": "cat_laundry",
+      "aliases": [
+        "lessive liquide",
+        "detergent"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_fabric_softener",
+      "name_fr": "Adoucissant",
+      "name_en": "Fabric softener",
+      "category": "laundry",
+      "logo_key": "cat_laundry",
+      "aliases": [
+        "adoucissant",
+        "softener"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_stain_remover",
+      "name_fr": "Detachant",
+      "name_en": "Stain remover",
+      "category": "laundry",
+      "logo_key": "cat_laundry",
+      "aliases": [
+        "detachant",
+        "stain remover"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_laundry_pods",
+      "name_fr": "Capsules lessive",
+      "name_en": "Laundry pods",
+      "category": "laundry",
+      "logo_key": "cat_laundry",
+      "aliases": [
+        "pods",
+        "capsules lessive"
+      ],
+      "default_expiry_days": 730,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_cucumber",
+      "name_fr": "Concombre",
+      "name_en": "Cucumber",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "concombres",
+        "cucumber"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_lettuce",
+      "name_fr": "Laitue",
+      "name_en": "Lettuce",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "salade verte",
+        "lettuce"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_bell_pepper",
+      "name_fr": "Poivron",
+      "name_en": "Bell pepper",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "poivrons",
+        "pepper"
+      ],
+      "default_expiry_days": 7,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_eggplant",
+      "name_fr": "Aubergine",
+      "name_en": "Eggplant",
+      "category": "vegetable",
+      "logo_key": "cat_vegetable",
+      "aliases": [
+        "aubergines",
+        "eggplant"
+      ],
+      "default_expiry_days": 6,
+      "default_after_opening_days": 3
+    },
+    {
+      "id": "prod_avocado",
+      "name_fr": "Avocat",
+      "name_en": "Avocado",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "avocats",
+        "avocado"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_peach",
+      "name_fr": "Peche",
+      "name_en": "Peach",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "peches",
+        "peach"
+      ],
+      "default_expiry_days": 5,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_mango",
+      "name_fr": "Mangue",
+      "name_en": "Mango",
+      "category": "fruit",
+      "logo_key": "cat_fruit",
+      "aliases": [
+        "mangues",
+        "mango"
+      ],
+      "default_expiry_days": 6,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_cheddar",
+      "name_fr": "Cheddar",
+      "name_en": "Cheddar",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "cheddar cheese"
+      ],
+      "default_expiry_days": 20,
+      "default_after_opening_days": 7
+    },
+    {
+      "id": "prod_parmesan",
+      "name_fr": "Parmesan",
+      "name_en": "Parmesan",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "parmigiano"
+      ],
+      "default_expiry_days": 30,
+      "default_after_opening_days": 14
+    },
+    {
+      "id": "prod_cream_cheese",
+      "name_fr": "Fromage frais",
+      "name_en": "Cream cheese",
+      "category": "fromage",
+      "logo_key": "cat_fromage",
+      "aliases": [
+        "philadelphia",
+        "cream cheese"
+      ],
+      "default_expiry_days": 14,
+      "default_after_opening_days": 7
+    },
+    {
+      "id": "prod_oat_milk",
+      "name_fr": "Lait d avoine",
+      "name_en": "Oat milk",
+      "category": "dairy",
+      "logo_key": "cat_dairy",
+      "aliases": [
+        "oat milk"
+      ],
+      "default_expiry_days": 30,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_steak",
+      "name_fr": "Steak",
+      "name_en": "Steak",
+      "category": "meat",
+      "logo_key": "cat_meat",
+      "aliases": [
+        "boeuf steak"
+      ],
+      "default_expiry_days": 3,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_turkey",
+      "name_fr": "Dinde",
+      "name_en": "Turkey",
+      "category": "meat",
+      "logo_key": "cat_meat",
+      "aliases": [
+        "turkey"
+      ],
+      "default_expiry_days": 3,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_shrimp",
+      "name_fr": "Crevettes",
+      "name_en": "Shrimp",
+      "category": "fish",
+      "logo_key": "cat_fish",
+      "aliases": [
+        "shrimp"
+      ],
+      "default_expiry_days": 2,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_bagel",
+      "name_fr": "Bagel",
+      "name_en": "Bagel",
+      "category": "bakery",
+      "logo_key": "cat_bakery",
+      "aliases": [
+        "bagels"
+      ],
+      "default_expiry_days": 4,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_croissant",
+      "name_fr": "Croissant",
+      "name_en": "Croissant",
+      "category": "bakery",
+      "logo_key": "cat_bakery",
+      "aliases": [
+        "croissants"
+      ],
+      "default_expiry_days": 2,
+      "default_after_opening_days": 1
+    },
+    {
+      "id": "prod_cereal",
+      "name_fr": "Cereales",
+      "name_en": "Cereal",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "cereal",
+        "cornflakes"
+      ],
+      "default_expiry_days": 180,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_oats",
+      "name_fr": "Flocons d avoine",
+      "name_en": "Oats",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "oatmeal",
+        "oats"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_ketchup",
+      "name_fr": "Ketchup",
+      "name_en": "Ketchup",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "ketchup"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_mustard",
+      "name_fr": "Moutarde",
+      "name_en": "Mustard",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "mustard"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_mayonnaise",
+      "name_fr": "Mayonnaise",
+      "name_en": "Mayonnaise",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "mayo"
+      ],
+      "default_expiry_days": 180,
+      "default_after_opening_days": 60
+    },
+    {
+      "id": "prod_soy_sauce",
+      "name_fr": "Sauce soja",
+      "name_en": "Soy sauce",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "soy sauce"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_vinegar",
+      "name_fr": "Vinaigre",
+      "name_en": "Vinegar",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "vinegar"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 365
+    },
+    {
+      "id": "prod_peanut_butter",
+      "name_fr": "Beurre de cacahuete",
+      "name_en": "Peanut butter",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "peanut butter"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_jam",
+      "name_fr": "Confiture",
+      "name_en": "Jam",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "jam"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_honey",
+      "name_fr": "Miel",
+      "name_en": "Honey",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "honey"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 3650
+    },
+    {
+      "id": "prod_chocolate",
+      "name_fr": "Chocolat",
+      "name_en": "Chocolate",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "chocolate"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_biscuits",
+      "name_fr": "Biscuits",
+      "name_en": "Cookies",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "cookies",
+        "biscuits"
+      ],
+      "default_expiry_days": 180,
+      "default_after_opening_days": 30
+    },
+    {
+      "id": "prod_chips",
+      "name_fr": "Chips",
+      "name_en": "Chips",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "crisps",
+        "chips"
+      ],
+      "default_expiry_days": 120,
+      "default_after_opening_days": 7
+    },
+    {
+      "id": "prod_coffee",
+      "name_fr": "Café",
+      "name_en": "Coffee",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "coffee"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_coffee",
+      "name_fr": "Café filtre",
+      "name_en": "Filter coffee",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "coffee"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 90
+    },
+    {
+      "id": "prod_tea",
+      "name_fr": "The",
+      "name_en": "Tea",
+      "category": "pantry",
+      "logo_key": "cat_pantry",
+      "aliases": [
+        "tea"
+      ],
+      "default_expiry_days": 365,
+      "default_after_opening_days": 180
+    },
+    {
+      "id": "prod_water",
+      "name_fr": "Eau",
+      "name_en": "Water",
+      "category": "other",
+      "logo_key": "cat_other",
+      "aliases": [
+        "water"
+      ],
+      "default_expiry_days": 3650,
+      "default_after_opening_days": 2
+    },
+    {
+      "id": "prod_orange_juice",
+      "name_fr": "Jus d'orange",
+      "name_en": "Orange juice",
+      "category": "other",
+      "logo_key": "cat_other",
+      "aliases": [
+        "orange juice"
+      ],
+      "default_expiry_days": 10,
+      "default_after_opening_days": 5
+    },
+    {
+      "id": "prod_ice_cream",
+      "name_fr": "Glace",
+      "name_en": "Ice cream",
+      "category": "frozen",
+      "logo_key": "cat_frozen",
+      "aliases": [
+        "ice cream"
+      ],
+      "default_expiry_days": 240,
+      "default_after_opening_days": 30
+    }
+  ]
+}

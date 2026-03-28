@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftData
 
 private enum AppSection {
     case shopping
@@ -9,28 +8,7 @@ private enum AppSection {
 }
 
 struct MainRootView: View {
-    @Environment(\.modelContext) private var modelContext
-
-    @Query(sort: [SortDescriptor(\Product.expiryDate), SortDescriptor(\Product.name)])
-    private var products: [Product]
-
-    @Query(sort: \CategoryRule.categoryRawValue)
-    private var rules: [CategoryRule]
-
-    @Query
-    private var settingsList: [UserSettings]
-
     @State private var selectedSection: AppSection = .shopping
-    @State private var showAddSheet = false
-    private var settings: UserSettings? {
-        settingsList.first
-    }
-
-    private var productDigestSignature: [String] {
-        products.map {
-            "\($0.id.uuidString)-\($0.expiryDate.timeIntervalSince1970)-\($0.openedAt?.timeIntervalSince1970 ?? -1)-\($0.customAfterOpeningDays ?? -1)-\($0.quantity)"
-        }
-    }
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -41,58 +19,18 @@ struct MainRootView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 12)
         }
-        .sheet(isPresented: $showAddSheet) {
-            AddEditProductView(product: nil)
-        }
-        .task {
-            SeedService.seedIfNeeded(context: modelContext)
-            if FeatureFlags.isAnyCoreDataFeatureEnabled {
-                SwiftDataToCoreDataMigrator.migrateIfNeeded(modelContext: modelContext)
-            }
-            _ = await NotificationService.requestPermission()
-            await rescheduleDigestIfPossible()
-        }
-        .onChange(of: productDigestSignature) { _, _ in
-            Task { await rescheduleDigestIfPossible() }
-        }
-        .onChange(of: rules.map(\.defaultAfterOpeningDays)) { _, _ in
-            Task { await rescheduleDigestIfPossible() }
-        }
-        .onChange(of: settings?.reminderLookaheadDays) { _, _ in
-            Task { await rescheduleDigestIfPossible() }
-        }
-        .onChange(of: settings?.dailyDigestHour) { _, _ in
-            Task { await rescheduleDigestIfPossible() }
-        }
-        .onChange(of: settings?.dailyDigestMinute) { _, _ in
-            Task { await rescheduleDigestIfPossible() }
-        }
-        .onChange(of: settings?.notificationsEnabled) { _, _ in
-            Task { await rescheduleDigestIfPossible() }
-        }
+        .task { _ = await NotificationService.requestPermission() }
     }
 
     @ViewBuilder
     private var currentSectionView: some View {
         switch selectedSection {
         case .shopping:
-            if FeatureFlags.useCoreDataShopping {
-                CoreDataShoppingView()
-            } else {
-                RecipeSuggestionsView()
-            }
+            CoreDataShoppingView()
         case .products:
-            if FeatureFlags.useCoreDataExpiration {
-                CoreDataExpirationView()
-            } else {
-                ProductListView(onAddProductTap: { showAddSheet = true })
-            }
+            CoreDataExpirationView()
         case .insights:
-            if FeatureFlags.useCoreDataInsights {
-                CoreDataInsightsView()
-            } else {
-                CalendarExpiryView()
-            }
+            CoreDataInsightsView()
         case .settings:
             SettingsView()
         }
@@ -140,10 +78,5 @@ struct MainRootView: View {
             .foregroundStyle(isSelected ? .blue : .primary)
             .frame(minWidth: 56)
         }
-    }
-
-    private func rescheduleDigestIfPossible() async {
-        guard let settings else { return }
-        await NotificationService.scheduleDailyDigest(products: products, rules: rules, settings: settings)
     }
 }

@@ -4,15 +4,15 @@ import SwiftData
 private struct ShoppingSuggestion: Identifiable {
     let id: String
     let name: String
-    let category: ProductCategory?
+    let categoryKey: String?
     let count: Int
 }
 
 private struct ShoppingCategoryGroup: Identifiable {
-    let category: ProductCategory
+    let category: Category
     let items: [ShoppingItem]
 
-    var id: String { category.rawValue }
+    var id: String { category.key }
 }
 
 struct RecipeSuggestionsView: View {
@@ -24,6 +24,12 @@ struct RecipeSuggestionsView: View {
     @Query(sort: [SortDescriptor(\Product.createdAt, order: .reverse)])
     private var existingProducts: [Product]
 
+    @Query(sort: \CategoryRule.categoryRawValue)
+    private var rules: [CategoryRule]
+
+    @Query(sort: \Category.createdAt)
+    private var categories: [Category]
+
     @Query private var settingsList: [UserSettings]
 
     @State private var showAddSheet = false
@@ -32,6 +38,25 @@ struct RecipeSuggestionsView: View {
     @State private var editingItem: ShoppingItem?
 
     private var settings: UserSettings? { settingsList.first }
+
+    private var categoryLookup: [String: Category] {
+        Dictionary(uniqueKeysWithValues: categories.map { ($0.key, $0) })
+    }
+
+    private func categoryForKey(_ key: String?) -> Category {
+        guard let key else { return categoryLookup["other"] ?? fallbackCategory }
+        return categoryLookup[key] ?? categoryLookup["other"] ?? fallbackCategory
+    }
+
+    private var fallbackCategory: Category {
+        Category(
+            key: "other",
+            name: "category.other",
+            symbolName: "shippingbox",
+            tintColorHex: "#8E8E93",
+            isSystem: true
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -59,36 +84,53 @@ struct RecipeSuggestionsView: View {
                         .padding(.vertical, 2)
                 )
 
-                if toBuyItems.isEmpty {
-                    Section(L("shopping.section.to_buy")) {
+                HStack(spacing: 10) {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.blue)
+                    Text(shoppingLinkInfoText)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 6)
+                .listRowBackground(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.blue.opacity(0.06))
+                        .padding(.vertical, 4)
+                )
+
+                Section {
+                    if toBuyItems.isEmpty {
                         Text(L("shopping.empty.to_buy"))
                             .foregroundStyle(.secondary)
-                    }
-                } else {
-                    ForEach(groupByCategory(toBuyItems)) { group in
-                        Section("\(L("shopping.section.to_buy")) · \(group.category.displayName)") {
+                    } else {
+                        ForEach(groupByCategory(toBuyItems)) { group in
+                            categoryHeader(group.category)
                             ForEach(group.items) { item in
                                 shoppingRow(item)
                             }
                         }
                     }
+                } header: {
+                    headerRow(L("shopping.section.to_buy"))
                 }
 
-                if boughtItems.isEmpty {
-                    Section(L("shopping.section.bought")) {
+                Section {
+                    if boughtItems.isEmpty {
                         Text(L("shopping.empty.bought"))
                             .foregroundStyle(.secondary)
-                    }
-                } else {
-                    ForEach(groupByCategory(boughtItems)) { group in
-                        Section("\(L("shopping.section.bought")) · \(group.category.displayName)") {
-                            ForEach(group.items) { item in
-                                shoppingRow(item)
-                            }
+                    } else {
+                        ForEach(boughtItems) { item in
+                            shoppingRow(item)
                         }
                     }
+                } header: {
+                    headerRow(L("shopping.section.bought"))
                 }
             }
+            .listStyle(.plain)
+            .listSectionSpacing(6)
+            .listSectionSeparator(.hidden)
+            .environment(\.defaultMinListRowHeight, 40)
             .navigationTitle(L("shopping.title"))
             .sheet(isPresented: $showAddSheet) {
                 addItemSheet
@@ -108,7 +150,7 @@ struct RecipeSuggestionsView: View {
 
                         let product = Product(
                             name: item.name,
-                            category: item.category ?? .other,
+                            categoryKey: item.categoryRawValue ?? "other",
                             expiryDate: expiryDate,
                             quantity: max(1, quantity)
                         )
@@ -141,22 +183,18 @@ struct RecipeSuggestionsView: View {
     }
 
     private var defaultSuggestions: [ShoppingSuggestion] {
-        [
-            ShoppingSuggestion(id: "milk", name: L("suggestion.milk"), category: .milk, count: 0),
-            ShoppingSuggestion(id: "bread", name: L("suggestion.bread"), category: .bread, count: 0),
-            ShoppingSuggestion(id: "yogurt", name: L("suggestion.yogurt"), category: .yogurt, count: 0),
-            ShoppingSuggestion(id: "cheese", name: L("suggestion.cheese"), category: .cheese, count: 0),
-            ShoppingSuggestion(id: "eggs", name: L("suggestion.eggs"), category: .pantry, count: 0),
-            ShoppingSuggestion(id: "apples", name: L("suggestion.apples"), category: .fruit, count: 0),
-            ShoppingSuggestion(id: "bananas", name: L("suggestion.bananas"), category: .fruit, count: 0),
-            ShoppingSuggestion(id: "tomatoes", name: L("suggestion.tomatoes"), category: .vegetable, count: 0),
-            ShoppingSuggestion(id: "chicken", name: L("suggestion.chicken"), category: .meat, count: 0),
-            ShoppingSuggestion(id: "fish", name: L("suggestion.fish"), category: .fish, count: 0)
-        ]
+        ProductCatalogService.suggestions().map { suggestion in
+            ShoppingSuggestion(
+                id: suggestion.id,
+                name: suggestion.name,
+                categoryKey: suggestion.categoryKey,
+                count: 0
+            )
+        }
     }
 
     private var historySuggestions: [ShoppingSuggestion] {
-        var bucket: [String: (name: String, count: Int, category: ProductCategory?)] = [:]
+        var bucket: [String: (name: String, count: Int, categoryKey: String?)] = [:]
 
         for item in shoppingItems {
             let key = item.name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -165,15 +203,15 @@ struct RecipeSuggestionsView: View {
 
             if var existing = bucket[key] {
                 existing.count += quantity
-                if existing.category == nil, let category = item.category {
-                    existing.category = category
+                if existing.categoryKey == nil, let categoryKey = item.categoryRawValue {
+                    existing.categoryKey = categoryKey
                 }
                 bucket[key] = existing
             } else {
                 bucket[key] = (
                     name: item.name.trimmingCharacters(in: .whitespacesAndNewlines),
                     count: quantity,
-                    category: item.category
+                    categoryKey: item.categoryRawValue
                 )
             }
         }
@@ -185,15 +223,15 @@ struct RecipeSuggestionsView: View {
 
             if var existing = bucket[key] {
                 existing.count += quantity
-                if existing.category == nil {
-                    existing.category = product.category
+                if existing.categoryKey == nil {
+                    existing.categoryKey = product.categoryRawValue
                 }
                 bucket[key] = existing
             } else {
                 bucket[key] = (
                     name: product.name.trimmingCharacters(in: .whitespacesAndNewlines),
                     count: quantity,
-                    category: product.category
+                    categoryKey: product.categoryRawValue
                 )
             }
         }
@@ -202,7 +240,7 @@ struct RecipeSuggestionsView: View {
             ShoppingSuggestion(
                 id: "history-\(key)",
                 name: value.name,
-                category: value.category,
+                categoryKey: value.categoryKey,
                 count: value.count
             )
         }
@@ -237,39 +275,50 @@ struct RecipeSuggestionsView: View {
     }
 
     private func groupByCategory(_ items: [ShoppingItem]) -> [ShoppingCategoryGroup] {
-        let grouped = Dictionary(grouping: items) { $0.category ?? .other }
+        let grouped = Dictionary(grouping: items) { normalizedCategoryKey($0.categoryRawValue) }
         return grouped
-            .map { category, items in
+            .map { key, items in
                 let sortedItems = items.sorted {
                     $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
                 }
-                return ShoppingCategoryGroup(category: category, items: sortedItems)
+                return ShoppingCategoryGroup(category: categoryForKey(key), items: sortedItems)
             }
             .sorted {
                 $0.category.displayName.localizedCaseInsensitiveCompare($1.category.displayName) == .orderedAscending
             }
     }
 
+    private var shoppingLinkInfoText: String {
+        let mode = settings?.shoppingMode ?? .listOnly
+        switch mode {
+        case .listOnly:
+            return L("shopping.linked_info_list_only")
+        case .connected:
+            let captureMode = settings?.shoppingCaptureMode ?? .byItem
+            switch captureMode {
+            case .byItem:
+                return L("shopping.linked_info_connected_by_item")
+            case .bulk:
+                return L("shopping.linked_info_connected_bulk")
+            }
+        }
+    }
+
     @ViewBuilder
     private func shoppingRow(_ item: ShoppingItem) -> some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(localizedProductName(item.name))
-                    .font(.headline)
-                if let category = item.category {
-                    Text(category.displayName)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                    .font(.body)
             }
 
             Spacer()
 
             Text("x\(item.quantity)")
-                .font(.caption.weight(.semibold))
+                .font(.caption2.weight(.semibold))
                 .foregroundStyle(.secondary)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
+                .padding(.horizontal, 7)
+                .padding(.vertical, 2)
                 .background(Color.gray.opacity(0.12))
                 .clipShape(Capsule())
 
@@ -282,10 +331,53 @@ struct RecipeSuggestionsView: View {
             }
             .buttonStyle(.plain)
         }
+        .padding(.vertical, 0)
+        .listRowInsets(EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16))
         .contentShape(Rectangle())
         .onTapGesture {
             editingItem = item
         }
+    }
+
+    @ViewBuilder
+    private func categoryHeader(_ category: Category) -> some View {
+        HStack(spacing: 2) {
+            CategorySymbolView(
+                symbolName: category.symbolName,
+                tint: category.tintColor
+            )
+            Text(category.displayName)
+                .font(.headline.weight(.semibold))
+                .foregroundStyle(category.tintColor)
+        }
+        .padding(.vertical, 2)
+        .padding(.horizontal, 6)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.gray.opacity(0.16))
+        )
+        .padding(.top, 1)
+        .listRowInsets(EdgeInsets(top: 4, leading: 8, bottom: 0, trailing: 0))
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
+    }
+
+    @ViewBuilder
+    private func headerRow(_ title: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.title2.weight(.bold))
+                .foregroundStyle(.blue)
+            Rectangle()
+                .fill(Color.blue)
+                .frame(maxWidth: .infinity, maxHeight: 3)
+        }
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
+        .listRowInsets(EdgeInsets(top: 2, leading: 16, bottom: 8, trailing: 16))
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
     }
 
     private var addItemSheet: some View {
@@ -298,14 +390,14 @@ struct RecipeSuggestionsView: View {
                     VStack(spacing: 8) {
                         ForEach(filteredSuggestions) { suggestion in
                             Button {
-                                addSuggestion(name: suggestion.name, category: suggestion.category)
+                                addSuggestion(name: suggestion.name, categoryKey: suggestion.categoryKey)
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(localizedProductName(suggestion.name))
                                             .foregroundStyle(.primary)
-                                        if let category = suggestion.category {
-                                            Text(category.displayName)
+                                        if let key = suggestion.categoryKey {
+                                            Text(categoryForKey(key).displayName)
                                                 .font(.caption)
                                                 .foregroundStyle(.secondary)
                                         }
@@ -324,7 +416,7 @@ struct RecipeSuggestionsView: View {
                         if canUseCustomName {
                             Button {
                                 let customName = shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
-                                addSuggestion(name: customName, category: .other)
+                                addSuggestion(name: customName, categoryKey: "other")
                             } label: {
                                 HStack {
                                     Text(String(format: L("product.use_custom"), shoppingSearchText.trimmingCharacters(in: .whitespacesAndNewlines)))
@@ -352,18 +444,68 @@ struct RecipeSuggestionsView: View {
         }
     }
 
-    private func addSuggestion(name: String, category: ProductCategory?) {
+    private func addSuggestion(name: String, categoryKey: String?) {
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedName.isEmpty else { return }
+        let normalizedNameValue = normalizedName(trimmedName)
+        let normalizedCategoryValue = normalizedCategoryKey(categoryKey)
+
+        let matches = toBuyItems.filter { existing in
+            normalizedName(existing.name) == normalizedNameValue
+        }
+        if let existing = matches.first(where: {
+            normalizedCategoryKey($0.categoryRawValue) == normalizedCategoryValue
+        }) {
+            existing.quantity += 1
+            try? modelContext.save()
+            showAddSheet = false
+            return
+        }
+        if matches.count == 1, let existing = matches.first {
+            existing.quantity += 1
+            if existing.categoryRawValue == nil {
+                existing.categoryRawValue = normalizedCategoryValue
+            }
+            try? modelContext.save()
+            showAddSheet = false
+            return
+        }
 
         let item = ShoppingItem(
             name: trimmedName,
-            category: category,
+            categoryKey: normalizedCategoryValue,
             quantity: 1
         )
         modelContext.insert(item)
         try? modelContext.save()
         showAddSheet = false
+    }
+
+    private func normalizedCategoryKey(_ raw: String?) -> String {
+        let trimmed = (raw ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .lowercased()
+
+        if trimmed.isEmpty { return "other" }
+        if trimmed == "other" || trimmed == "autre" { return "other" }
+        if trimmed == "category.other" { return "other" }
+        if trimmed.hasPrefix("category.") {
+            return String(trimmed.dropFirst("category.".count))
+        }
+        return trimmed
+    }
+
+    private func normalizedName(_ raw: String) -> String {
+        let cleaned = raw
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .lowercased()
+        return cleaned.replacingOccurrences(
+            of: "\\s+",
+            with: " ",
+            options: .regularExpression
+        )
     }
 
     private func toggleBought(_ item: ShoppingItem) {
@@ -378,6 +520,13 @@ struct RecipeSuggestionsView: View {
 
         item.isBought = true
         item.boughtAt = .now
+
+        if !isExpiryTrackingEnabled(for: item) {
+            item.needsExpiryCapture = false
+            item.pendingExpiryDate = nil
+            try? modelContext.save()
+            return
+        }
 
         let mode = settings?.shoppingMode ?? .listOnly
         if mode == .listOnly {
@@ -400,11 +549,21 @@ struct RecipeSuggestionsView: View {
             try? modelContext.save()
         }
     }
+
+    private func isExpiryTrackingEnabled(for item: ShoppingItem) -> Bool {
+        guard let key = item.categoryRawValue else { return true }
+        if let rule = rules.first(where: { $0.categoryRawValue == key }) {
+            return rule.isExpiryTrackingEnabled
+        }
+        return true
+    }
 }
 
 private struct ShoppingItemEditView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \CategoryRule.categoryRawValue) private var rules: [CategoryRule]
+    @Query(sort: \Category.createdAt) private var categories: [Category]
 
     let item: ShoppingItem
     let onDelete: () -> Void
@@ -428,14 +587,18 @@ private struct ShoppingItemEditView: View {
                     }
 
                     Picker(L("product.category"), selection: Binding(
-                        get: { item.category ?? .other },
-                        set: { newCategory in
-                            item.category = newCategory
+                        get: { item.categoryRawValue ?? "other" },
+                        set: { newKey in
+                            item.categoryRawValue = newKey
+                            if item.isBought && !isExpiryTrackingEnabled(for: item) {
+                                item.needsExpiryCapture = false
+                                item.pendingExpiryDate = nil
+                            }
                             try? modelContext.save()
                         }
                     )) {
-                        ForEach(ProductCategory.allCases) { category in
-                            Text(category.displayName).tag(category)
+                        ForEach(categories) { category in
+                            Text(category.displayName).tag(category.key)
                         }
                     }
                 }
@@ -461,6 +624,14 @@ private struct ShoppingItemEditView: View {
                 }
             }
         }
+    }
+
+    private func isExpiryTrackingEnabled(for item: ShoppingItem) -> Bool {
+        guard let key = item.categoryRawValue else { return true }
+        if let rule = rules.first(where: { $0.categoryRawValue == key }) {
+            return rule.isExpiryTrackingEnabled
+        }
+        return true
     }
 }
 

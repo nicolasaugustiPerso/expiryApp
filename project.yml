@@ -15,21 +15,24 @@ targets:
     platform: iOS
     sources:
       - path: ExpiryApp
-        excludes:
-          - Resources/*.xcassets
     resources:
-      - path: ExpiryApp/Resources
+      - path: ExpiryApp/Resources/Assets.xcassets
+      - path: ExpiryApp/Resources/en.lproj
+      - path: ExpiryApp/Resources/fr.lproj
+      - path: ExpiryApp/Resources/products.json
     entitlements:
       path: ExpiryApp/App/ExpiryApp.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.nicolasaugusti.expiryapp
         INFOPLIST_FILE: ExpiryApp/App/Info.plist
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: 7D7BD9XMS6
         CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: ExpiryApp/App/ExpiryApp.entitlements
         TARGETED_DEVICE_FAMILY: 1
         ENABLE_USER_NOTIFICATIONS: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_CFBundleIconName: AppIcon
         SWIFT_EMIT_LOC_STRINGS: YES
     scheme:
       testTargets: []

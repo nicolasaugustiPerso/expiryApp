@@ -8,17 +8,38 @@
 
 /* Begin PBXBuildFile section */
 		019BA8485B7B2341B5693C93 /* ProductCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1A55F4E39F3FD285DFC0D8 /* ProductCategory.swift */; };
+		01FE639832C407AFF4E43B87 /* CoreDataCategoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205F0B851DDE1B6D87F6831F /* CoreDataCategoryRepository.swift */; };
 		03F48070D712620842F1DB42 /* ProductRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE81B521B9D0FFE881AFA26 /* ProductRowView.swift */; };
 		0DB38B60A2E8D1FD0C0B9739 /* RecipeSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCF3B4676DE73BB28FD9B8B /* RecipeSuggestionsView.swift */; };
+		26976F326A4117A187B16245 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173AF322702BCC3A75F6A6FC /* CoreDataStack.swift */; };
 		279E2BC6DD3B0A046104AA03 /* SeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70A2FCB24E7226A83D4BFD /* SeedService.swift */; };
+		3432B94E343043EB54F00400 /* ProductCatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BA7809B644F2728B0FB816 /* ProductCatalogService.swift */; };
 		34CD976AE1234B2E943CE9C4 /* ExpiryAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E791885DDBF5686E9133424C /* ExpiryAppApp.swift */; };
 		35CE7809A1FE6D45EB2B5D68 /* CategoryRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD8EBE85FAEF26F80B8B2AC /* CategoryRule.swift */; };
 		49C917E641E8723EFB5E035F /* AddEditProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8938BE2F4FCD3E39ABE88E /* AddEditProductView.swift */; };
+		55330B28F8A162C13214B4D7 /* CoreDataInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDC6B3BD4A0E310C44BC820 /* CoreDataInsightsView.swift */; };
+		59418CD93B4577E15A24982B /* ProductCategory+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D400AB42A3B8D6156EFE9 /* ProductCategory+UI.swift */; };
+		5C13C7D7340E174D826964DE /* CoreDataListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C08A6274EA6C9A748DA0F7C /* CoreDataListRepository.swift */; };
+		60817B22D5315A0628DF0BF5 /* CoreDataShoppingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0659F83E8AA3711604D90C /* CoreDataShoppingView.swift */; };
+		75E5AAAFBA4AC59AD5ACC357 /* SwiftDataToCoreDataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD2A2F3D682E48F044CE782 /* SwiftDataToCoreDataMigrator.swift */; };
+		769022D81FF98745DB4B0C7C /* CoreDataSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A966FE9625554029E9856DD /* CoreDataSchema.swift */; };
+		778CA05AD89AE79C48FFB84B /* CoreDataCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DDA6C17D78A3BC2B648ADF /* CoreDataCategoryViewModel.swift */; };
 		78235271976A6C4738321188 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DF6507A7A411307753AAE7 /* SettingsView.swift */; };
+		7AB646C692380DC4B6C33633 /* CoreDataListNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AB553BFA8ECB6D193DC310 /* CoreDataListNotifications.swift */; };
+		8058C6A857D1E7C216ABC436 /* CoreDataExpirationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FF01D816A0FEB45FA5F26 /* CoreDataExpirationRepository.swift */; };
+		8D30B79EC387C6F44E4877D6 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228DA229833D265A7EEDAA7 /* FeatureFlags.swift */; };
 		9340718A8180CC14C000F210 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF18D5768263AC030ECA5EE /* ProductListView.swift */; };
 		95890366D120FF9FA1AFFC67 /* CategoryDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A723BC781686CDF7B006C359 /* CategoryDefaults.swift */; };
+		9AD10C1EA548E126D28F84DB /* CoreDataCategoryRuleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB87B46F232B541046F288D /* CoreDataCategoryRuleRepository.swift */; };
+		9F4D16C6AB1339E1232D2520 /* ConsumptionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6763EBB773996BE0CEB99274 /* ConsumptionTracker.swift */; };
 		A51DE61A2EF1DE9EDB45C16B /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB541A8EB5D7ADBC5A41E0A3 /* Product.swift */; };
 		A968B942E6C0A915490F9350 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31529E060EA89CAB31B3F79F /* UserSettings.swift */; };
+		AD030DD9C130B538309DCC7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA1AD08EE766A10B80BCEC7B /* Assets.xcassets */; };
+		AD4D38E9B27489528260705A /* CoreDataExpirationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3260C9AB92BF66A7883FB656 /* CoreDataExpirationView.swift */; };
+		AF45030FB5EEE73F17326E08 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B54491611F2F55ED9C81E30 /* products.json */; };
+		BE09F8F150B024C5B7373B5A /* CoreDataShoppingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9000C80CFB13CDAA7010C9E6 /* CoreDataShoppingRepository.swift */; };
+		C0CCC45A134F85EAEB5598E4 /* CoreDataSharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DDEFC641EB263D42596D49 /* CoreDataSharingService.swift */; };
+		C9A5FFE22631AD2490E2E1EC /* Category+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11D0F2671F4EF11FB7837B0 /* Category+UI.swift */; };
 		DAA5C21423FB131FC4D7791B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F2B45D5E00D73989AA01E9E /* Localizable.strings */; };
 		F1B6E81DA8A3F9F986C15767 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BEA603CF7EA21EE0EB063D /* NotificationService.swift */; };
 		F3E79FDC9DCF499A9B93F9F0 /* ExpiryCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */; };
@@ -28,19 +49,40 @@
 
 /* Begin PBXFileReference section */
 		0B3D368A1930C24FEDA6FBD6 /* CalendarExpiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExpiryView.swift; sourceTree = "<group>"; };
+		12BCEE2419CEE02D0F8D90B9 /* ExpiryApp.debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExpiryApp.debug.entitlements; sourceTree = "<group>"; };
+		173AF322702BCC3A75F6A6FC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		19EEB8D7976ACECECA94F47D /* ExpiryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpiryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A966FE9625554029E9856DD /* CoreDataSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSchema.swift; sourceTree = "<group>"; };
+		205F0B851DDE1B6D87F6831F /* CoreDataCategoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCategoryRepository.swift; sourceTree = "<group>"; };
+		23BA7809B644F2728B0FB816 /* ProductCatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCatalogService.swift; sourceTree = "<group>"; };
 		25DF6507A7A411307753AAE7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryCalculator.swift; sourceTree = "<group>"; };
+		2FDC6B3BD4A0E310C44BC820 /* CoreDataInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataInsightsView.swift; sourceTree = "<group>"; };
 		31529E060EA89CAB31B3F79F /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		3260C9AB92BF66A7883FB656 /* CoreDataExpirationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExpirationView.swift; sourceTree = "<group>"; };
 		3E8938BE2F4FCD3E39ABE88E /* AddEditProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditProductView.swift; sourceTree = "<group>"; };
+		4228DA229833D265A7EEDAA7 /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		47BEA603CF7EA21EE0EB063D /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		5C08A6274EA6C9A748DA0F7C /* CoreDataListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataListRepository.swift; sourceTree = "<group>"; };
 		60BEA3F5AD01D5F7ED8392BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6763EBB773996BE0CEB99274 /* ConsumptionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumptionTracker.swift; sourceTree = "<group>"; };
+		71DDA6C17D78A3BC2B648ADF /* CoreDataCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCategoryViewModel.swift; sourceTree = "<group>"; };
 		7BCF3B4676DE73BB28FD9B8B /* RecipeSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSuggestionsView.swift; sourceTree = "<group>"; };
+		868FF01D816A0FEB45FA5F26 /* CoreDataExpirationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataExpirationRepository.swift; sourceTree = "<group>"; };
 		8C70A2FCB24E7226A83D4BFD /* SeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedService.swift; sourceTree = "<group>"; };
+		9000C80CFB13CDAA7010C9E6 /* CoreDataShoppingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataShoppingRepository.swift; sourceTree = "<group>"; };
+		99DDEFC641EB263D42596D49 /* CoreDataSharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSharingService.swift; sourceTree = "<group>"; };
+		9B54491611F2F55ED9C81E30 /* products.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		A723BC781686CDF7B006C359 /* CategoryDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDefaults.swift; sourceTree = "<group>"; };
+		B11D0F2671F4EF11FB7837B0 /* Category+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+UI.swift"; sourceTree = "<group>"; };
 		B2618E41674B95512E2F0280 /* ExpiryApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExpiryApp.entitlements; sourceTree = "<group>"; };
 		B4DE5660B0F66001B2DD76F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BF0659F83E8AA3711604D90C /* CoreDataShoppingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataShoppingView.swift; sourceTree = "<group>"; };
 		BFE81B521B9D0FFE881AFA26 /* ProductRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRowView.swift; sourceTree = "<group>"; };
+		C22D400AB42A3B8D6156EFE9 /* ProductCategory+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductCategory+UI.swift"; sourceTree = "<group>"; };
+		C8AB553BFA8ECB6D193DC310 /* CoreDataListNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataListNotifications.swift; sourceTree = "<group>"; };
+		CBB87B46F232B541046F288D /* CoreDataCategoryRuleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCategoryRuleRepository.swift; sourceTree = "<group>"; };
+		DA1AD08EE766A10B80BCEC7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDD8EBE85FAEF26F80B8B2AC /* CategoryRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRule.swift; sourceTree = "<group>"; };
 		E6B60D12306A380EEFD22D45 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E791885DDBF5686E9133424C /* ExpiryAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryAppApp.swift; sourceTree = "<group>"; };
@@ -48,12 +90,14 @@
 		ED1A55F4E39F3FD285DFC0D8 /* ProductCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCategory.swift; sourceTree = "<group>"; };
 		F8F029F14402B183CCF09670 /* MainRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRootView.swift; sourceTree = "<group>"; };
 		FB541A8EB5D7ADBC5A41E0A3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		FCD2A2F3D682E48F044CE782 /* SwiftDataToCoreDataMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataToCoreDataMigrator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		022BDE83E6F4DA4FC1872CB6 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				12BCEE2419CEE02D0F8D90B9 /* ExpiryApp.debug.entitlements */,
 				B2618E41674B95512E2F0280 /* ExpiryApp.entitlements */,
 				E791885DDBF5686E9133424C /* ExpiryAppApp.swift */,
 				60BEA3F5AD01D5F7ED8392BD /* Info.plist */,
@@ -66,6 +110,9 @@
 			children = (
 				3E8938BE2F4FCD3E39ABE88E /* AddEditProductView.swift */,
 				0B3D368A1930C24FEDA6FBD6 /* CalendarExpiryView.swift */,
+				3260C9AB92BF66A7883FB656 /* CoreDataExpirationView.swift */,
+				2FDC6B3BD4A0E310C44BC820 /* CoreDataInsightsView.swift */,
+				BF0659F83E8AA3711604D90C /* CoreDataShoppingView.swift */,
 				F8F029F14402B183CCF09670 /* MainRootView.swift */,
 				EBF18D5768263AC030ECA5EE /* ProductListView.swift */,
 				BFE81B521B9D0FFE881AFA26 /* ProductRowView.swift */,
@@ -83,6 +130,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8E6FDCE2D52F219A1792A6C2 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				205F0B851DDE1B6D87F6831F /* CoreDataCategoryRepository.swift */,
+				CBB87B46F232B541046F288D /* CoreDataCategoryRuleRepository.swift */,
+				868FF01D816A0FEB45FA5F26 /* CoreDataExpirationRepository.swift */,
+				5C08A6274EA6C9A748DA0F7C /* CoreDataListRepository.swift */,
+				1A966FE9625554029E9856DD /* CoreDataSchema.swift */,
+				9000C80CFB13CDAA7010C9E6 /* CoreDataShoppingRepository.swift */,
+				173AF322702BCC3A75F6A6FC /* CoreDataStack.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		A73D76558C358A4E9C96D75C = {
 			isa = PBXGroup;
 			children = (
@@ -94,7 +155,9 @@
 		BDBCC76C3CAFC17E8D9E3391 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DA1AD08EE766A10B80BCEC7B /* Assets.xcassets */,
 				9F2B45D5E00D73989AA01E9E /* Localizable.strings */,
+				9B54491611F2F55ED9C81E30 /* products.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -104,6 +167,7 @@
 			children = (
 				022BDE83E6F4DA4FC1872CB6 /* App */,
 				DA2922C63986A586F0874F8E /* Models */,
+				8E6FDCE2D52F219A1792A6C2 /* Persistence */,
 				BDBCC76C3CAFC17E8D9E3391 /* Resources */,
 				D3CC0A1291B4EAB6B4BEC0A6 /* Services */,
 				0D23163DB0E0E1CFC0C1A7E1 /* Views */,
@@ -115,9 +179,16 @@
 			isa = PBXGroup;
 			children = (
 				A723BC781686CDF7B006C359 /* CategoryDefaults.swift */,
+				6763EBB773996BE0CEB99274 /* ConsumptionTracker.swift */,
+				71DDA6C17D78A3BC2B648ADF /* CoreDataCategoryViewModel.swift */,
+				C8AB553BFA8ECB6D193DC310 /* CoreDataListNotifications.swift */,
+				99DDEFC641EB263D42596D49 /* CoreDataSharingService.swift */,
 				2B8571CEF97BD6618AB05B9B /* ExpiryCalculator.swift */,
+				4228DA229833D265A7EEDAA7 /* FeatureFlags.swift */,
 				47BEA603CF7EA21EE0EB063D /* NotificationService.swift */,
+				23BA7809B644F2728B0FB816 /* ProductCatalogService.swift */,
 				8C70A2FCB24E7226A83D4BFD /* SeedService.swift */,
+				FCD2A2F3D682E48F044CE782 /* SwiftDataToCoreDataMigrator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -125,9 +196,11 @@
 		DA2922C63986A586F0874F8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B11D0F2671F4EF11FB7837B0 /* Category+UI.swift */,
 				DDD8EBE85FAEF26F80B8B2AC /* CategoryRule.swift */,
 				FB541A8EB5D7ADBC5A41E0A3 /* Product.swift */,
 				ED1A55F4E39F3FD285DFC0D8 /* ProductCategory.swift */,
+				C22D400AB42A3B8D6156EFE9 /* ProductCategory+UI.swift */,
 				31529E060EA89CAB31B3F79F /* UserSettings.swift */,
 			);
 			path = Models;
@@ -164,6 +237,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					98B78C2B2D059508F1AA4145 = {
+						DevelopmentTeam = 7D7BD9XMS6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -192,7 +266,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD030DD9C130B538309DCC7B /* Assets.xcassets in Resources */,
 				DAA5C21423FB131FC4D7791B /* Localizable.strings in Resources */,
+				AF45030FB5EEE73F17326E08 /* products.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,19 +281,38 @@
 			files = (
 				49C917E641E8723EFB5E035F /* AddEditProductView.swift in Sources */,
 				F81B5D91B9280A94DA227F6A /* CalendarExpiryView.swift in Sources */,
+				C9A5FFE22631AD2490E2E1EC /* Category+UI.swift in Sources */,
 				95890366D120FF9FA1AFFC67 /* CategoryDefaults.swift in Sources */,
 				35CE7809A1FE6D45EB2B5D68 /* CategoryRule.swift in Sources */,
+				9F4D16C6AB1339E1232D2520 /* ConsumptionTracker.swift in Sources */,
+				01FE639832C407AFF4E43B87 /* CoreDataCategoryRepository.swift in Sources */,
+				9AD10C1EA548E126D28F84DB /* CoreDataCategoryRuleRepository.swift in Sources */,
+				778CA05AD89AE79C48FFB84B /* CoreDataCategoryViewModel.swift in Sources */,
+				8058C6A857D1E7C216ABC436 /* CoreDataExpirationRepository.swift in Sources */,
+				AD4D38E9B27489528260705A /* CoreDataExpirationView.swift in Sources */,
+				55330B28F8A162C13214B4D7 /* CoreDataInsightsView.swift in Sources */,
+				7AB646C692380DC4B6C33633 /* CoreDataListNotifications.swift in Sources */,
+				5C13C7D7340E174D826964DE /* CoreDataListRepository.swift in Sources */,
+				769022D81FF98745DB4B0C7C /* CoreDataSchema.swift in Sources */,
+				C0CCC45A134F85EAEB5598E4 /* CoreDataSharingService.swift in Sources */,
+				BE09F8F150B024C5B7373B5A /* CoreDataShoppingRepository.swift in Sources */,
+				60817B22D5315A0628DF0BF5 /* CoreDataShoppingView.swift in Sources */,
+				26976F326A4117A187B16245 /* CoreDataStack.swift in Sources */,
 				34CD976AE1234B2E943CE9C4 /* ExpiryAppApp.swift in Sources */,
 				F3E79FDC9DCF499A9B93F9F0 /* ExpiryCalculator.swift in Sources */,
+				8D30B79EC387C6F44E4877D6 /* FeatureFlags.swift in Sources */,
 				FED31015D009FA0F0D068C6C /* MainRootView.swift in Sources */,
 				F1B6E81DA8A3F9F986C15767 /* NotificationService.swift in Sources */,
 				A51DE61A2EF1DE9EDB45C16B /* Product.swift in Sources */,
+				3432B94E343043EB54F00400 /* ProductCatalogService.swift in Sources */,
+				59418CD93B4577E15A24982B /* ProductCategory+UI.swift in Sources */,
 				019BA8485B7B2341B5693C93 /* ProductCategory.swift in Sources */,
 				9340718A8180CC14C000F210 /* ProductListView.swift in Sources */,
 				03F48070D712620842F1DB42 /* ProductRowView.swift in Sources */,
 				0DB38B60A2E8D1FD0C0B9739 /* RecipeSuggestionsView.swift in Sources */,
 				279E2BC6DD3B0A046104AA03 /* SeedService.swift in Sources */,
 				78235271976A6C4738321188 /* SettingsView.swift in Sources */,
+				75E5AAAFBA4AC59AD5ACC357 /* SwiftDataToCoreDataMigrator.swift in Sources */,
 				A968B942E6C0A915490F9350 /* UserSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,13 +339,16 @@
 				CODE_SIGN_ENTITLEMENTS = ExpiryApp/App/ExpiryApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 7D7BD9XMS6;
 				ENABLE_USER_NOTIFICATIONS = YES;
 				INFOPLIST_FILE = ExpiryApp/App/Info.plist;
+				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nicolasaugusti.expiryapp;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -265,13 +363,16 @@
 				CODE_SIGN_ENTITLEMENTS = ExpiryApp/App/ExpiryApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 7D7BD9XMS6;
 				ENABLE_USER_NOTIFICATIONS = YES;
 				INFOPLIST_FILE = ExpiryApp/App/Info.plist;
+				INFOPLIST_KEY_CFBundleIconName = AppIcon;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nicolasaugusti.expiryapp;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;

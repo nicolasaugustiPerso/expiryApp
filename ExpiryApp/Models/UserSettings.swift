@@ -14,7 +14,7 @@ enum ShoppingCaptureMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-typealias UserSettings = AppSchemaV4.UserSettings
+typealias UserSettings = AppSchemaV6.UserSettings
 
 extension UserSettings {
     var shoppingMode: ShoppingMode {

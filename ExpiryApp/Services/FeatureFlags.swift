@@ -1,17 +1,16 @@
 import Foundation
 
 enum FeatureFlags {
-    // Keep disabled by default until Core Data shopping is validated.
     static var useCoreDataShopping: Bool {
-        UserDefaults.standard.bool(forKey: "feature.coredata_shopping_enabled")
+        true
     }
 
     static var useCoreDataExpiration: Bool {
-        UserDefaults.standard.bool(forKey: "feature.coredata_expiration_enabled")
+        true
     }
 
     static var useCoreDataInsights: Bool {
-        UserDefaults.standard.bool(forKey: "feature.coredata_insights_enabled")
+        true
     }
 
     static var isAnyCoreDataFeatureEnabled: Bool {

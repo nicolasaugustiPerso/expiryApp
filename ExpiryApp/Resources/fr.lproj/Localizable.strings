@@ -17,6 +17,7 @@
 "product.section.open_rule" = "Après ouverture";
 "product.custom_rule_enabled" = "Règle personnalisée après ouverture";
 "product.after_opening_days" = "%d jour(s) après ouverture";
+"product.after_opening_days_label" = "Jours après ouverture";
 
 "settings.title" = "Réglages";
 "settings.section.reminders" = "Rappels";
@@ -33,14 +34,23 @@
 
 "category.fruit" = "Fruit";
 "category.vegetable" = "Légume";
+"category.bakery" = "Boulangerie";
+"category.dairy" = "Produits laitiers";
+"category.fromage" = "Fromage";
 "category.bread" = "Pain";
 "category.milk" = "Lait";
 "category.cheese" = "Fromage";
 "category.yogurt" = "Yaourt";
 "category.meat" = "Viande";
+"category.charcuterie" = "Charcuterie";
 "category.fish" = "Poisson";
 "category.frozen" = "Surgelé";
 "category.pantry" = "Épicerie";
+"category.prepared" = "Plats préparés";
+"category.hygiene" = "Hygiène";
+"category.cleaning" = "Entretien";
+"category.paper" = "Papier";
+"category.laundry" = "Lessive";
 "category.other" = "Autre";
 
 "calendar.title" = "Calendrier";
@@ -121,6 +131,12 @@
 "settings.delete_category_title" = "Supprimer la catégorie ?";
 "settings.delete_category_message" = "Supprimer \"%@\" des catégories ?";
 "settings.add_category" = "Ajouter une catégorie";
+"settings.edit_category" = "Modifier la catégorie";
+"settings.category_details" = "Détails de la catégorie";
+"settings.category_color" = "Couleur";
+"settings.expiry_enabled" = "Liée";
+"settings.expiry_disabled" = "Non liée";
+"settings.category_link_info" = "Liée = utilisée pour rappels et règles d’ouverture.";
 "settings.no_category_to_add" = "Aucune catégorie disponible à ajouter.";
 "calendar.filter.all" = "Tout";
 "calendar.filter.by_category" = "Par catégorie";
@@ -130,6 +146,10 @@
 "shopping.section.bought" = "Achetés";
 "shopping.empty.to_buy" = "Aucun article à acheter.";
 "shopping.empty.bought" = "Aucun article acheté pour le moment.";
+"shopping.linked_info" = "Catégories liées = suivi des dates d’expiration.";
+"shopping.linked_info_list_only" = "Mode liste uniquement : pas de suivi d’expiration à l’achat.";
+"shopping.linked_info_connected_by_item" = "Mode connecté (par article) : date d’expiration demandée à l’achat.";
+"shopping.linked_info_connected_bulk" = "Mode connecté (saisie en lot) : les achats liés sont ajoutés à la saisie groupée.";
 "shopping.item_name" = "Nom de l'article";
 "shopping.add_item" = "Ajouter un article";
 "shopping.quantity" = "Quantité : %d";
@@ -144,19 +164,37 @@
 "shopping.mark_bought" = "Marquer comme achete";
 "shopping.mark_to_buy" = "Remettre a acheter";
 
-"insights.title" = "Insights";
+"insights.title" = "Statistiques";
 "insights.waste_score" = "SCORE ANTI-GASPI";
 "insights.this_month" = "Ce mois:";
+"insights.period" = "Période";
+"insights.period_month_short" = "%dM";
+"insights.this_period" = "%d derniers mois :";
 "insights.delta_up" = "+%d%% vs mois dernier";
 "insights.delta_down" = "-%d%% vs mois dernier";
 "insights.delta_equal" = "Stable vs mois dernier";
+"insights.delta_up_period" = "+%d%% vs période précédente (%dM)";
+"insights.delta_down_period" = "-%d%% vs période précédente (%dM)";
+"insights.delta_equal_period" = "Stable vs période précédente";
 "insights.trend_6m" = "TENDANCE (6 MOIS)";
+"insights.trend_n_months" = "TENDANCE (%d MOIS)";
 "insights.often_wasted" = "SOUVENT GASPILLES";
 "insights.no_waste_items" = "Aucun produit souvent gaspille pour le moment.";
 "insights.expired_over_total" = "%d/%d expires";
 "insights.reco_high" = "Recommendation: acheter en plus petite quantite.";
 "insights.reco_medium" = "Recommendation: prioriser ce produit dans les prochains repas.";
 "insights.reco_low" = "Recommendation: le rythme actuel semble bon.";
+"insights.top_products" = "TOP PRODUITS";
+"insights.top_col_product" = "Produit";
+"insights.top_col_qty" = "Qté";
+"insights.top_col_score" = "Score";
+"insights.no_top_products" = "Pas encore assez de données pour le top produits.";
+"insights.top_see_more" = "Voir plus";
+"insights.top_see_less" = "Voir moins";
+"insights.top_count" = "%d consommés";
+"insights.category_distribution" = "RÉPARTITION PAR CATÉGORIE";
+"insights.no_category_distribution" = "Aucune consommation enregistrée par catégorie.";
+"insights.total" = "Total";
 "shopping.add_product_banner" = "Nouvel article";
 "shopping.most_bought" = "Les plus achetes";
 
@@ -171,6 +209,7 @@
 "common.skip" = "Passer";
 "home.add_expiry_product" = "Nouvel article";
 "home.urgent_title" = "%d produits à utiliser vite";
+"home.urgent_one_line" = "%d produits à utiliser dans les %d prochains jours";
 "home.urgent_expired" = "%d expirés";
 "home.urgent_today" = "%d aujourd'hui";
 "home.urgent_tomorrow" = "%d demain";
@@ -179,3 +218,11 @@
 "tab.expiration" = "Expiration";
 "tab.stats" = "Stats";
 "tab.settings" = "Réglages";
+"settings.section.shared_lists" = "Listes partagees";
+"settings.current_list" = "Liste active";
+"settings.share_current_list" = "Partager la liste active";
+"settings.join_by_link_hint" = "Pour rejoindre une liste, ouvrez un lien de partage iCloud sur cet appareil.";
+"settings.shared_badge" = "Partagee";
+"settings.no_list" = "Aucune liste";
+"settings.cannot_share_shared_list" = "Seules vos listes privees peuvent etre partagees depuis ce compte.";
+"settings.expiry_link" = "Suivi expiration";

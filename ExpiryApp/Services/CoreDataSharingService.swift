@@ -3,17 +3,59 @@ import CoreData
 import CloudKit
 
 enum CoreDataSharingService {
-    // Placeholder for the upcoming share/join implementation.
-    // The concrete CKShare flow will be added once the UI layer is switched to Core Data.
+    static func share(
+        managedObjects: [NSManagedObject],
+        in container: NSPersistentCloudKitContainer
+    ) async throws -> (CKShare, CKContainer) {
+        typealias ShareResult = (CKShare, CKContainer)
+        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<ShareResult, Error>) in
+            container.share(managedObjects, to: nil) { _, share, cloudKitContainer, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                guard let share, let cloudKitContainer else {
+                    continuation.resume(throwing: NSError(
+                        domain: "CoreDataSharingService",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Missing CKShare/container."]
+                    ))
+                    return
+                }
+                continuation.resume(returning: (share, cloudKitContainer))
+            }
+        }
+    }
+
+    static func fetchShare(
+        for objectID: NSManagedObjectID,
+        in container: NSPersistentCloudKitContainer
+    ) throws -> CKShare? {
+        try container.fetchShares(matching: [objectID])[objectID]
+    }
+
+    static func accept(
+        metadata: CKShare.Metadata,
+        in container: NSPersistentCloudKitContainer,
+        sharedStore: NSPersistentStore
+    ) async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            container.acceptShareInvitations(from: [metadata], into: sharedStore) { _, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
     static func share(
         listObjectID: NSManagedObjectID,
         in container: NSPersistentCloudKitContainer
     ) async throws -> (CKShare, CKContainer) {
-        _ = (listObjectID, container)
-        throw NSError(
-            domain: "CoreDataSharingService",
-            code: -1,
-            userInfo: [NSLocalizedDescriptionKey: "Sharing not yet wired to the Core Data UI layer."]
-        )
+        let context = container.viewContext
+        let object = try context.existingObject(with: listObjectID)
+        return try await share(managedObjects: [object], in: container)
     }
 }

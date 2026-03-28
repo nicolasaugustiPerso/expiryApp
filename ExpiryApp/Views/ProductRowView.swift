@@ -7,6 +7,7 @@ enum ProductRowSubtitleStyle {
 
 struct ProductRowView: View {
     let product: Product
+    let categorySymbolName: String
     let effectiveExpiry: Date
     let subtitleStyle: ProductRowSubtitleStyle
     let onToggleOpened: (() -> Void)?
@@ -14,12 +15,14 @@ struct ProductRowView: View {
 
     init(
         product: Product,
+        categorySymbolName: String,
         effectiveExpiry: Date,
         subtitleStyle: ProductRowSubtitleStyle = .expiryDate,
         onToggleOpened: (() -> Void)? = nil,
         onConsumeOne: (() -> Void)? = nil
     ) {
         self.product = product
+        self.categorySymbolName = categorySymbolName
         self.effectiveExpiry = effectiveExpiry
         self.subtitleStyle = subtitleStyle
         self.onToggleOpened = onToggleOpened
@@ -42,10 +45,12 @@ struct ProductRowView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: product.category.symbolName)
-                .font(.title3)
-                .foregroundStyle(stateColor)
-                .frame(width: 28)
+            CategorySymbolView(
+                symbolName: categorySymbolName,
+                tint: stateColor,
+                font: .title3,
+                width: 28
+            )
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
